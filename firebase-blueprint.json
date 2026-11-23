@@ -1,0 +1,283 @@
+{
+  "entities": {
+    "Achievement": {
+      "title": "Achievement",
+      "description": "Verified award, competition milestone, certification, or academic distinction displayed on the portfolio.",
+      "type": "object",
+      "properties": {
+        "titleEn": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "description": "Achievement title in English"
+        },
+        "titleId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "description": "Achievement title in Indonesian"
+        },
+        "issuer": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 120,
+          "description": "Issuing institution or competition organizer"
+        },
+        "year": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 16,
+          "pattern": "^[0-9]{4}(-[0-9]{4})?$",
+          "description": "Year or year span of the achievement"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Competition", "Academic", "Certification", "Organization"],
+          "description": "Achievement classification"
+        },
+        "summaryEn": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 420,
+          "description": "Concise achievement summary in English"
+        },
+        "summaryId": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 420,
+          "description": "Concise achievement summary in Indonesian"
+        },
+        "proofUrl": {
+          "type": "string",
+          "maxLength": 300,
+          "pattern": "^(|https://[^\\s]+)$",
+          "description": "Optional HTTPS link to certificate or official announcement"
+        },
+        "sortOrder": {
+          "type": "integer",
+          "description": "Display ordering index (0 to 999)"
+        },
+        "isPublished": {
+          "type": "boolean",
+          "description": "Controls public visibility on the portfolio"
+        },
+        "authorUid": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 128,
+          "description": "Firebase Auth UID of the verified owner admin"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when last updated"
+        }
+      },
+      "required": [
+        "titleEn",
+        "titleId",
+        "issuer",
+        "year",
+        "category",
+        "summaryEn",
+        "summaryId",
+        "proofUrl",
+        "sortOrder",
+        "isPublished",
+        "authorUid",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CustomSection": {
+      "title": "CustomSection",
+      "description": "Admin-authored dynamic portfolio chapter rendered seamlessly with the editorial layout.",
+      "type": "object",
+      "properties": {
+        "eyebrowEn": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60,
+          "description": "Uppercase technical tag in English"
+        },
+        "eyebrowId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60,
+          "description": "Uppercase technical tag in Indonesian"
+        },
+        "titleEn": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Section title in English"
+        },
+        "titleId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Section title in Indonesian"
+        },
+        "summaryEn": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 420,
+          "description": "Lead paragraph in English"
+        },
+        "summaryId": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 420,
+          "description": "Lead paragraph in Indonesian"
+        },
+        "layout": {
+          "type": "string",
+          "enum": ["editorial-cards", "timeline-list", "highlight-grid"],
+          "description": "Visual presentation layout matching portfolio design system"
+        },
+        "placement": {
+          "type": "string",
+          "enum": [
+            "after-about",
+            "after-projects",
+            "after-experience",
+            "after-capabilities"
+          ],
+          "description": "Anchor placement within the public portfolio flow"
+        },
+        "items": {
+          "type": "array",
+          "description": "Bounded list (1 to 8) of structured section entry maps"
+        },
+        "sortOrder": {
+          "type": "integer",
+          "description": "Display ordering index (0 to 999)"
+        },
+        "isPublished": {
+          "type": "boolean",
+          "description": "Controls public visibility on the portfolio"
+        },
+        "authorUid": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 128,
+          "description": "Firebase Auth UID of the verified owner admin"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when last updated"
+        }
+      },
+      "required": [
+        "eyebrowEn",
+        "eyebrowId",
+        "titleEn",
+        "titleId",
+        "summaryEn",
+        "summaryId",
+        "layout",
+        "placement",
+        "items",
+        "sortOrder",
+        "isPublished",
+        "authorUid",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "SiteConfig": {
+      "title": "SiteConfig",
+      "description": "Editable hero positioning and metadata badges managed by the verified owner admin.",
+      "type": "object",
+      "properties": {
+        "positioningEn": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 360,
+          "description": "Hero positioning statement in English"
+        },
+        "positioningId": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 360,
+          "description": "Hero positioning statement in Indonesian"
+        },
+        "badgeOneEn": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60,
+          "description": "First hero highlight badge in English"
+        },
+        "badgeOneId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60,
+          "description": "First hero highlight badge in Indonesian"
+        },
+        "badgeTwoEn": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60,
+          "description": "Second hero highlight badge in English"
+        },
+        "badgeTwoId": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 60,
+          "description": "Second hero highlight badge in Indonesian"
+        },
+        "isPublished": {
+          "type": "boolean",
+          "description": "Must be true for public site config document"
+        },
+        "authorUid": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 128,
+          "description": "Firebase Auth UID of the verified owner admin"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when last updated"
+        }
+      },
+      "required": [
+        "positioningEn",
+        "positioningId",
+        "badgeOneEn",
+        "badgeOneId",
+        "badgeTwoEn",
+        "badgeTwoId",
+        "isPublished",
+        "authorUid",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/achievements/{achievementId}": {
+      "schema": { "$ref": "#/entities/Achievement" },
+      "description": "Portfolio achievements and awards. Public read strictly for published docs; write restricted to verified owner admin."
+    },
+    "/customSections/{sectionId}": {
+      "schema": { "$ref": "#/entities/CustomSection" },
+      "description": "Admin-created dynamic portfolio sections. Public read strictly for published docs; write restricted to verified owner admin."
+    },
+    "/siteConfig/{configId}": {
+      "schema": { "$ref": "#/entities/SiteConfig" },
+      "description": "Singleton site configuration document (id: main) editable only by verified owner admin."
+    }
+  }
+}

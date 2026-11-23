@@ -1,0 +1,116 @@
+import {
+  EXPERIENCE_KIND_LABELS,
+  type Language,
+  type LocalizedPortfolioBundle,
+} from '../data/i18n';
+import type { ExperienceItem } from '../data/portfolio';
+
+interface ExperienceSectionProps {
+  bundle: LocalizedPortfolioBundle;
+}
+
+function LedgerRows({
+  items,
+  lang,
+}: {
+  items: readonly ExperienceItem[];
+  lang: Language;
+}) {
+  return (
+    <div className="border-t border-b border-[#E8EDF3] divide-y divide-[#E8EDF3]">
+      {items.map((entry) => (
+        <div
+          key={entry.id}
+          className="py-8 lg:py-10 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-start"
+        >
+          <div className="lg:col-span-3">
+            <p className="font-mono text-xs tabular-nums tracking-[0.04em] text-[#475569]">
+              {entry.period}
+            </p>
+            <p className="mt-1.5 font-mono text-[11px] tracking-[0.06em] uppercase text-[#2457D6] font-medium">
+              {EXPERIENCE_KIND_LABELS[lang][entry.kind]}
+            </p>
+          </div>
+
+          <div className="lg:col-span-4">
+            <h4 className="text-xl font-bold tracking-[-0.02em] text-[#0B1220] leading-snug">
+              {entry.role}
+            </h4>
+            <p className="mt-1.5 text-sm font-medium text-[#475569]">
+              {entry.organization}
+            </p>
+          </div>
+
+          <ul className="lg:col-span-5 space-y-2.5 text-[15px] sm:text-base leading-[1.7] text-[#475569]">
+            {entry.highlights.map((point, index) => (
+              <li key={index} className="flex items-start gap-3">
+                <span
+                  aria-hidden="true"
+                  className="mt-2.5 w-2 h-px bg-[#94A3B8] shrink-0"
+                />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function ExperienceSection({ bundle }: ExperienceSectionProps) {
+  const { lang, experienceLedger, educationLedger, ui } = bundle;
+  const [chapterIndex, chapterLabel] = ui.experienceTag.split(' / ');
+
+  return (
+    <section
+      id="experience"
+      aria-labelledby="experience-heading"
+      className="bg-white text-[#0B1220] py-24 lg:py-32 border-b border-[#E8EDF3]"
+    >
+      <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
+        {/* Homepage-Matched Technical Metadata Strip */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-5 mb-14 border-b border-[#E8EDF3] font-mono text-[11px] sm:text-xs tracking-[0.06em] uppercase tabular-nums reveal-block">
+          <p className="flex items-center gap-2 text-[#0B1220] font-medium">
+            <span className="text-[#2457D6]">{chapterIndex}</span>
+            <span aria-hidden="true" className="text-[#CBD5E1]">
+              /
+            </span>
+            <span>{chapterLabel}</span>
+          </p>
+          <p className="text-[#64748B]">{ui.experienceMetaRight}</p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 mb-14 items-end reveal-block">
+          <div className="lg:col-span-5">
+            <h2
+              id="experience-heading"
+              className="font-serif italic text-[clamp(2.5rem,4.4vw,3.75rem)] font-normal tracking-[-0.018em] text-[#0B1220] leading-[1.02]"
+            >
+              {ui.experienceHeading}
+            </h2>
+          </div>
+          <div className="lg:col-span-7">
+            <p className="text-base sm:text-[17px] leading-[1.68] text-[#475569] max-w-[60ch]">
+              {ui.experienceLead}
+            </p>
+          </div>
+        </div>
+
+        <div className="reveal-block">
+          <h3 className="font-mono text-[11px] sm:text-xs tracking-[0.06em] uppercase text-[#64748B] mb-5">
+            {ui.experienceSubLeadership}
+          </h3>
+          <LedgerRows items={experienceLedger} lang={lang} />
+        </div>
+
+        <div className="mt-16 reveal-block">
+          <h3 className="font-mono text-[11px] sm:text-xs tracking-[0.06em] uppercase text-[#64748B] mb-5">
+            {ui.experienceSubEducation}
+          </h3>
+          <LedgerRows items={educationLedger} lang={lang} />
+        </div>
+      </div>
+    </section>
+  );
+}

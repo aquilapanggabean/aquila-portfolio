@@ -1,0 +1,298 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global Safety Net: Default deny all unmatched paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global Hardened Primitives
+    function isValidId(id) {
+      return id is string
+        && id.size() >= 1
+        && id.size() <= 128
+        && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwnerAdmin() {
+      return isSignedIn()
+        && request.auth.token.email == 'aquilapanggabean66@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    function isSafeHttpsOrEmpty(url) {
+      return url is string
+        && url.size() <= 300
+        && url.matches('^(|https://[^\\s]+)$');
+    }
+
+    // Validation Blueprint: Achievement
+    function isValidAchievement(data) {
+      return data.keys().hasAll([
+          'titleEn',
+          'titleId',
+          'issuer',
+          'year',
+          'category',
+          'summaryEn',
+          'summaryId',
+          'proofUrl',
+          'sortOrder',
+          'isPublished',
+          'authorUid',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'titleEn',
+          'titleId',
+          'issuer',
+          'year',
+          'category',
+          'summaryEn',
+          'summaryId',
+          'proofUrl',
+          'sortOrder',
+          'isPublished',
+          'authorUid',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.titleEn is string && data.titleEn.size() >= 2 && data.titleEn.size() <= 120
+        && data.titleId is string && data.titleId.size() >= 2 && data.titleId.size() <= 120
+        && data.issuer is string && data.issuer.size() >= 2 && data.issuer.size() <= 120
+        && data.year is string && data.year.size() >= 4 && data.year.size() <= 16 && data.year.matches('^[0-9]{4}(-[0-9]{4})?$')
+        && data.category is string && data.category in ['Competition', 'Academic', 'Certification', 'Organization']
+        && data.summaryEn is string && data.summaryEn.size() >= 5 && data.summaryEn.size() <= 420
+        && data.summaryId is string && data.summaryId.size() >= 5 && data.summaryId.size() <= 420
+        && isSafeHttpsOrEmpty(data.proofUrl)
+        && data.sortOrder is int && data.sortOrder >= 0 && data.sortOrder <= 999
+        && data.isPublished is bool
+        && data.authorUid is string && data.authorUid.size() >= 6 && data.authorUid.size() <= 128 && data.authorUid == request.auth.uid
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // Validation Blueprint: CustomSection + Total Array Guarding for all 8 bounded slots
+    function isValidSectionItem(item) {
+      return item is map
+        && item.keys().hasAll(['headingEn', 'headingId', 'meta', 'detailEn', 'detailId', 'linkUrl'])
+        && item.keys().hasOnly(['headingEn', 'headingId', 'meta', 'detailEn', 'detailId', 'linkUrl'])
+        && item.headingEn is string && item.headingEn.size() >= 2 && item.headingEn.size() <= 120
+        && item.headingId is string && item.headingId.size() >= 2 && item.headingId.size() <= 120
+        && item.meta is string && item.meta.size() <= 80
+        && item.detailEn is string && item.detailEn.size() >= 3 && item.detailEn.size() <= 360
+        && item.detailId is string && item.detailId.size() >= 3 && item.detailId.size() <= 360
+        && isSafeHttpsOrEmpty(item.linkUrl);
+    }
+
+    function isValidCustomSection(data) {
+      return data.keys().hasAll([
+          'eyebrowEn',
+          'eyebrowId',
+          'titleEn',
+          'titleId',
+          'summaryEn',
+          'summaryId',
+          'layout',
+          'placement',
+          'items',
+          'sortOrder',
+          'isPublished',
+          'authorUid',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'eyebrowEn',
+          'eyebrowId',
+          'titleEn',
+          'titleId',
+          'summaryEn',
+          'summaryId',
+          'layout',
+          'placement',
+          'items',
+          'sortOrder',
+          'isPublished',
+          'authorUid',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.eyebrowEn is string && data.eyebrowEn.size() >= 2 && data.eyebrowEn.size() <= 60
+        && data.eyebrowId is string && data.eyebrowId.size() >= 2 && data.eyebrowId.size() <= 60
+        && data.titleEn is string && data.titleEn.size() >= 2 && data.titleEn.size() <= 100
+        && data.titleId is string && data.titleId.size() >= 2 && data.titleId.size() <= 100
+        && data.summaryEn is string && data.summaryEn.size() >= 5 && data.summaryEn.size() <= 420
+        && data.summaryId is string && data.summaryId.size() >= 5 && data.summaryId.size() <= 420
+        && data.layout is string && data.layout in ['editorial-cards', 'timeline-list', 'highlight-grid']
+        && data.placement is string && data.placement in ['after-about', 'after-projects', 'after-experience', 'after-capabilities']
+        && data.items is list && data.items.size() >= 1 && data.items.size() <= 8
+        && isValidSectionItem(data.items[0])
+        && (data.items.size() < 2 || isValidSectionItem(data.items[1]))
+        && (data.items.size() < 3 || isValidSectionItem(data.items[2]))
+        && (data.items.size() < 4 || isValidSectionItem(data.items[3]))
+        && (data.items.size() < 5 || isValidSectionItem(data.items[4]))
+        && (data.items.size() < 6 || isValidSectionItem(data.items[5]))
+        && (data.items.size() < 7 || isValidSectionItem(data.items[6]))
+        && (data.items.size() < 8 || isValidSectionItem(data.items[7]))
+        && data.sortOrder is int && data.sortOrder >= 0 && data.sortOrder <= 999
+        && data.isPublished is bool
+        && data.authorUid is string && data.authorUid.size() >= 6 && data.authorUid.size() <= 128 && data.authorUid == request.auth.uid
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // Validation Blueprint: SiteConfig (singleton doc: main)
+    function isValidSiteConfig(data) {
+      return data.keys().hasAll([
+          'positioningEn',
+          'positioningId',
+          'badgeOneEn',
+          'badgeOneId',
+          'badgeTwoEn',
+          'badgeTwoId',
+          'isPublished',
+          'authorUid',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'positioningEn',
+          'positioningId',
+          'badgeOneEn',
+          'badgeOneId',
+          'badgeTwoEn',
+          'badgeTwoId',
+          'isPublished',
+          'authorUid',
+          'updatedAt'
+        ])
+        && data.positioningEn is string && data.positioningEn.size() >= 10 && data.positioningEn.size() <= 360
+        && data.positioningId is string && data.positioningId.size() >= 10 && data.positioningId.size() <= 360
+        && data.badgeOneEn is string && data.badgeOneEn.size() >= 2 && data.badgeOneEn.size() <= 60
+        && data.badgeOneId is string && data.badgeOneId.size() >= 2 && data.badgeOneId.size() <= 60
+        && data.badgeTwoEn is string && data.badgeTwoEn.size() >= 2 && data.badgeTwoEn.size() <= 60
+        && data.badgeTwoId is string && data.badgeTwoId.size() >= 2 && data.badgeTwoId.size() <= 60
+        && data.isPublished is bool && data.isPublished == true
+        && data.authorUid is string && data.authorUid.size() >= 6 && data.authorUid.size() <= 128 && data.authorUid == request.auth.uid
+        && data.updatedAt is timestamp;
+    }
+
+    // Collection 1: Portfolio Achievements / Prestasi
+    match /achievements/{achievementId} {
+      allow get: if isValidId(achievementId)
+        && (existing().isPublished == true || isOwnerAdmin());
+
+      allow list: if existing().isPublished == true || isOwnerAdmin();
+
+      allow create: if isOwnerAdmin()
+        && isValidId(achievementId)
+        && isValidAchievement(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isOwnerAdmin()
+        && isValidId(achievementId)
+        && isValidAchievement(incoming())
+        && incoming().authorUid == existing().authorUid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'titleEn',
+          'titleId',
+          'issuer',
+          'year',
+          'category',
+          'summaryEn',
+          'summaryId',
+          'proofUrl',
+          'sortOrder',
+          'isPublished',
+          'updatedAt'
+        ]);
+
+      allow delete: if isOwnerAdmin() && isValidId(achievementId);
+    }
+
+    // Collection 2: Admin-Created Custom Sections
+    match /customSections/{sectionId} {
+      allow get: if isValidId(sectionId)
+        && (existing().isPublished == true || isOwnerAdmin());
+
+      allow list: if existing().isPublished == true || isOwnerAdmin();
+
+      allow create: if isOwnerAdmin()
+        && isValidId(sectionId)
+        && isValidCustomSection(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isOwnerAdmin()
+        && isValidId(sectionId)
+        && isValidCustomSection(incoming())
+        && incoming().authorUid == existing().authorUid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'eyebrowEn',
+          'eyebrowId',
+          'titleEn',
+          'titleId',
+          'summaryEn',
+          'summaryId',
+          'layout',
+          'placement',
+          'items',
+          'sortOrder',
+          'isPublished',
+          'updatedAt'
+        ]);
+
+      allow delete: if isOwnerAdmin() && isValidId(sectionId);
+    }
+
+    // Collection 3: Singleton Hero / Site Configuration
+    match /siteConfig/{configId} {
+      allow get: if configId == 'main'
+        && (resource == null || existing().isPublished == true || isOwnerAdmin());
+
+      allow list: if false;
+
+      allow create: if isOwnerAdmin()
+        && configId == 'main'
+        && isValidSiteConfig(incoming())
+        && incoming().updatedAt == request.time;
+
+      allow update: if isOwnerAdmin()
+        && configId == 'main'
+        && isValidSiteConfig(incoming())
+        && incoming().authorUid == existing().authorUid
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'positioningEn',
+          'positioningId',
+          'badgeOneEn',
+          'badgeOneId',
+          'badgeTwoEn',
+          'badgeTwoId',
+          'isPublished',
+          'updatedAt'
+        ]);
+
+      allow delete: if false;
+    }
+  }
+}
