@@ -1,8 +1,10 @@
 import {
   ACHIEVEMENTS,
   CAPABILITY_GROUPS,
+  CERTIFICATES,
   EDUCATION_LEDGER,
   EXPERIENCE_LEDGER,
+  EXPERIENCE_PHOTOS,
   NAV_ITEMS,
   ORGANISATIONAL_LEDGER,
   PROJECTS,
@@ -10,8 +12,10 @@ import {
   type AchievementCategory,
   type AchievementItem,
   type CapabilityGroup,
+  type CertificateItem,
   type ExperienceItem,
   type ExperienceKind,
+  type ExperiencePhotoItem,
   type NavItem,
   type ProjectCategory,
   type ProjectItem,
@@ -106,15 +110,24 @@ export interface UiDictionary {
     closeButton: string;
   };
   achievementsTag: string;
-  achievementsMetaRight: (count: number) => string;
+  achievementsMetaRight: (honorsCount: number, certsCount: number) => string;
   achievementsHeading: string;
   achievementsLead: string;
   achievementsVerifyLabel: string;
+  achievementsSubCertifications: string;
+  achievementsInspectCert: string;
+  achievementsOpenPdf: string;
+  achievementsClosePreview: string;
+  achievementsValidUntil: string;
   experienceTag: string;
   experienceMetaRight: string;
   experienceHeading: string;
   experienceLead: string;
   experienceSubWork: string;
+  experienceSubPhotos: string;
+  experiencePhotosNote: string;
+  experiencePhotoSlotLabel: string;
+  experienceInspectPhoto: string;
   experienceSubOrganisational: string;
   experienceSubEducation: string;
   capabilitiesTag: string;
@@ -161,7 +174,9 @@ export interface LocalizedPortfolioBundle {
   navItems: readonly NavItem[];
   projects: readonly ProjectItem[];
   achievements: readonly AchievementItem[];
+  certificates: readonly CertificateItem[];
   experienceLedger: readonly ExperienceItem[];
+  experiencePhotos: readonly ExperiencePhotoItem[];
   organisationalLedger: readonly ExperienceItem[];
   educationLedger: readonly ExperienceItem[];
   capabilityGroups: readonly CapabilityGroup[];
@@ -192,7 +207,7 @@ const EN_UI: UiDictionary = {
   projectsMetaRight: 'SOFTWARE · IOT · APPLIED RESEARCH',
   projectsHeading: 'Selected Projects',
   projectsLead:
-    'Verified software systems, national entrepreneurship case studies, Mobile Innovation Lab prototypes, and Arduino IoT builds.',
+    'Verified software systems, entrepreneurship case studies, Mobile Innovation Lab prototypes, and Arduino IoT builds.',
   projectsSearchLabel: 'Search projects by title, technology, or collaborator',
   projectsSearchPlaceholder: 'Filter by keyword or tech',
   projectsSearchClear: 'Clear search query',
@@ -219,7 +234,7 @@ const EN_UI: UiDictionary = {
       'SuperPlus MotionHack 5.0 product architecture plate illustrating scope framing, frontend prototype build, and panel defense',
     eyebrow: 'MOTIONHACK 5.0 / COMPETITION ARCHITECTURE',
     title: 'SuperPlus Sprint Delivery Model',
-    badge: '2nd Place',
+    badge: '3rd Place',
     stagePrefix: 'Stage',
     footerRight: 'Mobile Innovation Lab Hackathon',
     milestones: [
@@ -236,7 +251,7 @@ const EN_UI: UiDictionary = {
       {
         index: '03',
         phase: 'Panel Defense',
-        output: '2nd Place, MotionHack 5.0',
+        output: '3rd Place, MotionHack 5.0',
       },
     ],
   },
@@ -255,18 +270,28 @@ const EN_UI: UiDictionary = {
     teamLabel: 'TEAM & COLLABORATORS',
     closeButton: 'Close Inspector',
   },
-  achievementsTag: '03 / HONORS',
-  achievementsMetaRight: (count) => `${count} VERIFIED RECORDS`,
-  achievementsHeading: 'Honors & Recognition',
+  achievementsTag: '03 / HONORS & CERTIFICATIONS',
+  achievementsMetaRight: (honorsCount, certsCount) =>
+    `${honorsCount} HONORS · ${certsCount} CERTIFICATES`,
+  achievementsHeading: 'Honors & Certifications',
   achievementsLead:
-    'National entrepreneurship finals, internal hackathon awards, faculty-level research tracks, and academic honors.',
+    'Entrepreneurship competition finals, internal hackathon awards, faculty-level research tracks, and verified English language certifications.',
   achievementsVerifyLabel: 'Verify Credential',
+  achievementsSubCertifications: 'VERIFIED LANGUAGE CERTIFICATIONS',
+  achievementsInspectCert: 'Inspect Full Certificate',
+  achievementsOpenPdf: 'Open Original PDF',
+  achievementsClosePreview: 'Close Certificate Preview',
+  achievementsValidUntil: 'Valid until',
   experienceTag: '04 / LEDGER',
   experienceMetaRight: 'CHRONOLOGICAL RECORD · 2023 TO 2026',
   experienceHeading: 'Experience & Education',
   experienceLead:
-    'A complete chronological ledger of IT internships, national and campus event operations, organizational leadership, and academic milestones.',
+    'A complete chronological ledger of IT internships, campus and basketball event operations, visual field documentation, organizational leadership, and academic milestones.',
   experienceSubWork: 'WORK, INTERNSHIP & EVENT EXPERIENCE',
+  experienceSubPhotos: 'FIELD & EVENT PHOTOGRAPHY',
+  experiencePhotosNote: '4:3 DOCUMENTATION ARCHIVE',
+  experiencePhotoSlotLabel: '4:3 Photo Frame Ready',
+  experienceInspectPhoto: 'Inspect photo',
   experienceSubOrganisational: 'ORGANISATIONAL EXPERIENCE',
   experienceSubEducation: 'EDUCATION LEVEL',
   capabilitiesTag: '05 / CAPABILITIES',
@@ -334,7 +359,7 @@ const ID_UI: UiDictionary = {
   projectsMetaRight: 'PERANGKAT LUNAK · IOT · RISET TERAPAN',
   projectsHeading: 'Proyek Pilihan',
   projectsLead:
-    'Sistem perangkat lunak terverifikasi, studi kasus kewirausahaan nasional, prototipe Mobile Innovation Lab, dan perangkat keras IoT berbasis Arduino.',
+    'Sistem perangkat lunak terverifikasi, studi kasus kewirausahaan, prototipe Mobile Innovation Lab, dan perangkat keras IoT berbasis Arduino.',
   projectsSearchLabel: 'Cari proyek berdasarkan judul, teknologi, atau kolaborator',
   projectsSearchPlaceholder: 'Saring kata kunci atau teknologi',
   projectsSearchClear: 'Hapus kata pencarian',
@@ -361,7 +386,7 @@ const ID_UI: UiDictionary = {
       'Pelat arsitektur produk SuperPlus MotionHack 5.0 yang menampilkan perumusan ruang lingkup, prototipe antarmuka, dan presentasi juri',
     eyebrow: 'MOTIONHACK 5.0 / ARSITEKTUR KOMPETISI',
     title: 'Model Eksekusi Sprint SuperPlus',
-    badge: 'Juara 2',
+    badge: 'Juara 3',
     stagePrefix: 'Tahap',
     footerRight: 'Hackathon Mobile Innovation Lab',
     milestones: [
@@ -378,7 +403,7 @@ const ID_UI: UiDictionary = {
       {
         index: '03',
         phase: 'Presentasi Panel',
-        output: 'Juara 2, MotionHack 5.0',
+        output: 'Juara 3, MotionHack 5.0',
       },
     ],
   },
@@ -397,18 +422,28 @@ const ID_UI: UiDictionary = {
     teamLabel: 'TIM & KOLABORATOR',
     closeButton: 'Tutup Detail',
   },
-  achievementsTag: '03 / PRESTASI',
-  achievementsMetaRight: (count) => `${count} CATATAN TERVERIFIKASI`,
-  achievementsHeading: 'Prestasi & Pengakuan',
+  achievementsTag: '03 / PRESTASI & SERTIFIKASI',
+  achievementsMetaRight: (honorsCount, certsCount) =>
+    `${honorsCount} PRESTASI · ${certsCount} SERTIFIKAT`,
+  achievementsHeading: 'Prestasi & Sertifikasi',
   achievementsLead:
-    'Finalis kewirausahaan nasional, penghargaan hackathon internal, riset terapan tingkat fakultas, dan prestasi akademik.',
+    'Finalis kompetisi kewirausahaan, penghargaan hackathon internal, riset terapan tingkat fakultas, serta sertifikasi bahasa Inggris terverifikasi.',
   achievementsVerifyLabel: 'Lihat Bukti / Sertifikat',
+  achievementsSubCertifications: 'SERTIFIKASI BAHASA TERVERIFIKASI',
+  achievementsInspectCert: 'Perbesar Sertifikat',
+  achievementsOpenPdf: 'Buka PDF Asli',
+  achievementsClosePreview: 'Tutup Pratinjau Sertifikat',
+  achievementsValidUntil: 'Berlaku hingga',
   experienceTag: '04 / REKAM JEJAK',
   experienceMetaRight: 'CATATAN KRONOLOGIS · 2023 HINGGA 2026',
   experienceHeading: 'Pengalaman & Pendidikan',
   experienceLead:
-    'Catatan kronologis lengkap magang departemen TI, operasional acara nasional dan kampus, pengalaman organisasi, serta riwayat pendidikan.',
+    'Catatan kronologis lengkap magang departemen TI, operasional acara kampus dan bola basket, dokumentasi foto lapangan, pengalaman organisasi, serta riwayat pendidikan.',
   experienceSubWork: 'PENGALAMAN KERJA, MAGANG & ACARA',
+  experienceSubPhotos: 'DOKUMENTASI FOTO PENGALAMAN',
+  experiencePhotosNote: 'ARSIP DOKUMENTASI 4:3',
+  experiencePhotoSlotLabel: 'Slot Foto 4:3 Siap Diisi',
+  experienceInspectPhoto: 'Perbesar foto',
   experienceSubOrganisational: 'PENGALAMAN ORGANISASI',
   experienceSubEducation: 'RIWAYAT PENDIDIKAN',
   capabilitiesTag: '05 / KAPABILITAS',
@@ -470,18 +505,18 @@ const ID_PROFILE: LocalizedSiteProfile = {
   statusInstitution: 'MAHASISWA S1 TELKOM UNIVERSITY',
   statusFaculty: 'FAKULTAS INFORMATIKA',
   badgeAdikara: 'FINALIS ADIKARA 2026',
-  badgeMotionHack: 'JUARA 2 MOTIONHACK 5.0',
+  badgeMotionHack: 'JUARA 3 MOTIONHACK 5.0',
   positioning:
-    'Mahasiswa Teknologi Informasi di Telkom University yang berfokus pada Internet of Things (IoT), inovasi digital, pemecahan masalah TI, dan solusi bisnis berbasis teknologi. Finalis Kewirausahaan Nasional Adikara 2026 bersama TiMu Escrow.',
+    'Mahasiswa Teknologi Informasi di Telkom University yang berfokus pada Internet of Things (IoT), inovasi digital, pemecahan masalah TI, dan solusi bisnis berbasis teknologi. Finalis ADIKARA 2026: Entrepreneurship bersama TiMu Escrow.',
   scrollHint: 'Gulir ke bawah untuk meninjau arsip studi kasus dan rekam jejak CV.',
   aboutProse: [
     'Saya adalah mahasiswa sarjana Teknologi Informasi di Telkom University (2025 hingga 2029) dengan minat kuat pada Internet of Things (IoT), inovasi digital, pemecahan masalah TI, serta penyelesaian tantangan bisnis melalui solusi teknologi yang praktis.',
-    'Mulai dari membangun aplikasi web dan mobile saat magang Departemen TI di PT. Tiki Jalur Nugraha Ekakurir (JNE) dan meneliti solusi sosial berbasis mobile di Mobile Innovation Laboratory, hingga mencapai babak final Kewirausahaan Nasional Adikara 2026 bersama TiMu serta memimpin acara skala kampus dan nasional, saya berkomitmen pada pengembangan diri berkelanjutan dan adaptasi teknologi baru.',
+    'Mulai dari membangun aplikasi web dan mobile saat magang Departemen TI di PT. Tiki Jalur Nugraha Ekakurir (JNE) dan meneliti solusi sosial berbasis mobile di Mobile Innovation Laboratory, hingga mencapai babak final ADIKARA 2026: Entrepreneurship bersama TiMu serta memimpin acara kampus dan turnamen bola basket, saya berkomitmen pada pengembangan diri berkelanjutan dan adaptasi teknologi baru.',
   ],
   aboutFacts: [
     { label: 'Institusi', value: 'Telkom University (Sep 2025 - Agu 2029)' },
     { label: 'Fokus Utama', value: 'IoT, Inovasi Digital & Solusi Bisnis TI' },
-    { label: 'Bahasa', value: 'Bahasa Indonesia (Asli), Inggris (Mahir)' },
+    { label: 'Bahasa', value: 'Bahasa Indonesia (Asli), Inggris (ECCT 3.5 · EPrT 503)' },
   ],
 };
 
@@ -503,7 +538,7 @@ const EN_PROFILE: LocalizedSiteProfile = {
   statusInstitution: 'UNDERGRADUATE AT TELKOM UNIVERSITY',
   statusFaculty: 'FACULTY OF INFORMATICS',
   badgeAdikara: 'ADIKARA 2026 FINALIST',
-  badgeMotionHack: 'MOTIONHACK 5.0 2ND PLACE',
+  badgeMotionHack: 'MOTIONHACK 5.0 3RD PLACE',
   positioning: SITE_PROFILE.positioning,
   scrollHint: SITE_PROFILE.scrollHint,
   aboutProse: SITE_PROFILE.aboutProse,
@@ -521,14 +556,14 @@ const ID_NAV_ITEMS: readonly NavItem[] = [
 const ID_PROJECTS: readonly ProjectItem[] = [
   {
     ...PROJECTS[0],
-    recognition: 'Finalis, Kewirausahaan Nasional Adikara 2026',
+    recognition: 'Finalis, ADIKARA 2026: Entrepreneurship',
     role: 'Arsitek Produk & Lead Rekayasa',
     overview:
       'Platform escrow peer-to-peer untuk melindungi transaksi daring langsung melalui mesin status penitipan dana empat tahap dan aturan serah terima terverifikasi.',
     problem:
       'Pembeli dan penjual pada transaksi langsung sering bertransaksi tanpa penitipan dana netral, sehingga menimbulkan risiko penyelesaian, bukti pengiriman yang kabur, dan sengketa tanpa kepastian.',
     contribution:
-      'Merancang bersama model transaksi dan mesin status penitipan dana empat tahap, menyusun studi kasus masalah-ke-solusi, serta menyiapkan arsitektur produk yang dipresentasikan pada Kewirausahaan Nasional Adikara 2026.',
+      'Merancang bersama model transaksi dan mesin status penitipan dana empat tahap, menyusun studi kasus masalah-ke-solusi, serta menyiapkan arsitektur produk yang dipresentasikan pada ADIKARA 2026: Entrepreneurship.',
     escrowStateMachine: [
       {
         step: '01',
@@ -566,14 +601,14 @@ const ID_PROJECTS: readonly ProjectItem[] = [
   },
   {
     ...PROJECTS[1],
-    recognition: 'Juara 2, MotionHack 5.0 (Mobile Innovation Lab)',
+    recognition: 'Juara 3, MotionHack 5.0 (Mobile Innovation Lab)',
     role: 'Pengembang Produk & Frontend',
     overview:
       'Produk hackathon internal yang dibangun untuk MotionHack 5.0 oleh Mobile Innovation Laboratory, memadukan alur pengguna terfokus dengan antarmuka web fungsional dan kelayakan bisnis.',
     problem:
       'Tim yang berlomba dalam sprint produk berbatas waktu sering terpecah antara slide konsep yang terlalu luas dan antarmuka yang belum selesai mendemonstrasikan alur nyata.',
     contribution:
-      'Menerjemahkan alur pengguna inti menjadi prototipe frontend yang berfungsi penuh, menyelaraskan lingkup fitur dengan kriteria penilaian, serta memaparkan demonstrasi teknis yang meraih Juara 2.',
+      'Menerjemahkan alur pengguna inti menjadi prototipe frontend yang berfungsi penuh, menyelaraskan lingkup fitur dengan kriteria penilaian, serta memaparkan demonstrasi teknis yang meraih Juara 3.',
   },
   {
     ...PROJECTS[2],
@@ -614,21 +649,21 @@ const ID_PROJECTS: readonly ProjectItem[] = [
 const ID_ACHIEVEMENTS: readonly AchievementItem[] = [
   {
     id: 'adikara-2026',
-    title: 'Finalis, Kewirausahaan Nasional Adikara 2026',
-    issuer: 'Kewirausahaan Nasional Adikara',
+    title: 'Finalis, ADIKARA 2026: Entrepreneurship',
+    issuer: 'ADIKARA 2026: Entrepreneurship',
     year: '2026',
     category: 'Competition',
     summary:
-      'Melaju ke tahap finalis nasional bersama TiMu, platform escrow peer-to-peer dengan mesin status penitipan dana empat tahap.',
+      'Melaju ke tahap finalis bersama TiMu, platform escrow peer-to-peer dengan mesin status penitipan dana empat tahap.',
   },
   {
     id: 'motionhack-5',
-    title: 'Juara 2, Hackathon Internal MotionHack 5.0',
+    title: 'Juara 3, Hackathon Internal MotionHack 5.0',
     issuer: 'Mobile Innovation Laboratory, Telkom University',
     year: '2025',
     category: 'Competition',
     summary:
-      'Meraih Juara 2 pada hackathon internal Mobile Innovation Laboratory lewat produk SuperPlus berbasis React dan TypeScript.',
+      'Meraih Juara 3 pada hackathon internal Mobile Innovation Laboratory lewat produk SuperPlus berbasis React dan TypeScript.',
   },
   {
     id: 'pkm-kc-faculty',
@@ -639,14 +674,38 @@ const ID_ACHIEVEMENTS: readonly AchievementItem[] = [
     summary:
       'Berpartisipasi di tingkat fakultas pada skema Karsa Cipta riset TI terapan dengan menyusun spesifikasi teknis dan prototipe sistem teruji.',
   },
+];
+
+const ID_CERTIFICATES: readonly CertificateItem[] = [
   {
-    id: 'sdh-osn-distinction',
-    title: 'Peserta OSN Sekolah 2024 & Predikat IPA (91,50/100,00)',
-    issuer: 'Sekolah Dian Harapan Jambi',
-    year: '2024',
-    category: 'Academic',
-    summary:
-      'Mengikuti OSN tingkat sekolah tahun 2024, lulus jurusan IPA dengan nilai 91,50/100,00, serta menjadi kandidat Ketua OSIS 2024.',
+    ...CERTIFICATES[0],
+    issuer: 'Pusat Bahasa Telkom University',
+    issuedDate: '13 Maret 2026',
+    validUntil: '13 Maret 2028',
+    scoreLabel: 'Skor 3.5 / 4.00',
+    levelLabel: 'Tingkat Low-Advanced',
+    breakdown: [
+      { label: 'Pelafalan', score: '3.5' },
+      { label: 'Kosakata', score: '3.5' },
+      { label: 'Tata Bahasa', score: '3.0' },
+      { label: 'Kelancaran', score: '3.5' },
+      { label: 'Konstruksi Ide', score: '3.5' },
+      { label: 'Penyelesaian Tugas', score: '3.5' },
+    ],
+  },
+  {
+    ...CERTIFICATES[1],
+    issuer: 'Pusat Bahasa Telkom University',
+    issuedDate: '02 Desember 2025',
+    validUntil: '02 Desember 2027',
+    scoreLabel: 'Skor Total 503',
+    levelLabel: 'Level CEFR B1',
+    breakdown: [
+      { label: 'Listening', score: '55' },
+      { label: 'Grammar', score: '50' },
+      { label: 'Reading', score: '46' },
+      { label: 'Skor Total', score: '503' },
+    ],
   },
 ];
 
@@ -667,7 +726,7 @@ const ID_EXPERIENCE_LEDGER: readonly ExperienceItem[] = [
     id: 'megabit-mc',
     period: 'Agu 2026 - Sep 2026',
     role: 'Master of Ceremonies (MC)',
-    organization: 'PKKMB x Megabit 9.0 · Bandung, Indonesia',
+    organization: 'PKKMB x Megabit 9.0 (HMIT Telkom University) · Bandung, Indonesia',
     kind: 'Event & Leadership',
     highlights: [
       'Bertugas sebagai Master of Ceremonies (MC) utama MEGABIT 9.0 di hadapan ratusan mahasiswa baru S1 Teknologi Informasi.',
@@ -713,6 +772,38 @@ const ID_EXPERIENCE_LEDGER: readonly ExperienceItem[] = [
   },
 ];
 
+const ID_EXPERIENCE_PHOTOS: readonly ExperiencePhotoItem[] = [
+  {
+    ...EXPERIENCE_PHOTOS[0],
+    role: 'Staf Public Relations & Team LO',
+    organization: 'Departemen Teknologi Informasi',
+    period: 'Nov 2026 - Sekarang',
+    caption:
+      'Kemitraan media publikasi, produksi kampanye sosial, dan koordinasi liaison officer tim peserta turnamen.',
+  },
+  {
+    ...EXPERIENCE_PHOTOS[1],
+    role: 'Master of Ceremonies & Staf Acara',
+    period: 'Jun 2026 - Sep 2026',
+    caption:
+      'Memandu ratusan mahasiswa baru S1 Teknologi Informasi dan mengoordinasikan rundown orientasi di lapangan.',
+  },
+  {
+    ...EXPERIENCE_PHOTOS[2],
+    role: 'Relawan Usher Tribune',
+    period: 'Apr 2026',
+    caption:
+      'Pengaturan arus penonton tribun, penataan kursi, dan layanan hospitality pada IBL All-Star Game 2026.',
+  },
+  {
+    ...EXPERIENCE_PHOTOS[3],
+    role: 'Magang Departemen TI',
+    period: 'Mei 2025',
+    caption:
+      'Pengembangan antarmuka JavaScript & React Native, troubleshooting backend, dan dukungan sistem TI logistik.',
+  },
+];
+
 const ID_ORGANISATIONAL_LEDGER: readonly ExperienceItem[] = [
   {
     id: 'mobile-innovation-lab',
@@ -749,8 +840,8 @@ const ID_EDUCATION_LEDGER: readonly ExperienceItem[] = [
     kind: 'Education',
     highlights: [
       'Berpartisipasi dalam Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC) Tingkat Fakultas.',
-      'Mengikuti MotionHack 5.0 (Hackathon Internal Mobile Innovation Laboratory) dan meraih Juara 2.',
-      'Finalis Kewirausahaan Nasional Adikara 2026 bersama TiMu Escrow.',
+      'Mengikuti MotionHack 5.0 (Hackathon Internal Mobile Innovation Laboratory) dan meraih Juara 3.',
+      'Finalis ADIKARA 2026: Entrepreneurship bersama TiMu Escrow.',
       'Bertugas sebagai Master of Ceremonies pada kegiatan Megabit 9.0.',
     ],
   },
@@ -791,7 +882,7 @@ const ID_CAPABILITY_GROUPS: readonly CapabilityGroup[] = [
     items: [
       'Pemecahan Masalah TI & Solusi Bisnis Berbasis TI',
       'Riset Bisnis Digital & Manajemen Proyek',
-      'Arsitektur Escrow Peer-to-Peer (TiMu · Adikara 2026)',
+      'Arsitektur Escrow Peer-to-Peer (TiMu · ADIKARA 2026: Entrepreneurship)',
       'Riset TI Terapan (PKM-KC Tingkat Fakultas)',
       'Berpikir Kritis & Kemampuan Analitis',
     ],
@@ -806,7 +897,7 @@ const ID_CAPABILITY_GROUPS: readonly CapabilityGroup[] = [
       'Hubungan Masyarakat, Mitra Media & Produksi Konten',
       'Master of Ceremonies & Public Speaking',
       'Team Liaison Officer (LO) & Layanan Penonton',
-      'Bahasa: Bahasa Indonesia (Asli), Bahasa Inggris (Mahir)',
+      'Bahasa: Bahasa Indonesia (Asli), Bahasa Inggris (ECCT 3.5 · EPrT 503)',
     ],
   },
 ];
@@ -855,7 +946,9 @@ export function getPortfolioBundle(lang: Language): LocalizedPortfolioBundle {
       navItems: ID_NAV_ITEMS,
       projects: ID_PROJECTS,
       achievements: ID_ACHIEVEMENTS,
+      certificates: ID_CERTIFICATES,
       experienceLedger: ID_EXPERIENCE_LEDGER,
+      experiencePhotos: ID_EXPERIENCE_PHOTOS,
       organisationalLedger: ID_ORGANISATIONAL_LEDGER,
       educationLedger: ID_EDUCATION_LEDGER,
       capabilityGroups: ID_CAPABILITY_GROUPS,
@@ -869,7 +962,9 @@ export function getPortfolioBundle(lang: Language): LocalizedPortfolioBundle {
     navItems: NAV_ITEMS,
     projects: PROJECTS,
     achievements: ACHIEVEMENTS,
+    certificates: CERTIFICATES,
     experienceLedger: EXPERIENCE_LEDGER,
+    experiencePhotos: EXPERIENCE_PHOTOS,
     organisationalLedger: ORGANISATIONAL_LEDGER,
     educationLedger: EDUCATION_LEDGER,
     capabilityGroups: CAPABILITY_GROUPS,

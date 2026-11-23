@@ -5,8 +5,10 @@ import { PORTFOLIO_MEDIA } from '../data/media';
 import {
   ACHIEVEMENTS,
   CAPABILITY_GROUPS,
+  CERTIFICATES,
   EDUCATION_LEDGER,
   EXPERIENCE_LEDGER,
+  EXPERIENCE_PHOTOS,
   ORGANISATIONAL_LEDGER,
   PROJECTS,
   SITE_PROFILE,
@@ -98,7 +100,7 @@ test('validateContactForm accepts valid input and buildMailtoUrl encodes paramet
   assert.ok(mailto.includes('Software%20Engineering%20Internship'));
 });
 
-test('EN and ID bundles match CV content, retain Adikara 2026, omit Current Role, and pass editorial gates', () => {
+test('EN and ID bundles match CV, use ADIKARA 2026: Entrepreneurship, include ECCT/EPrT & Experience gallery, and pass editorial gates', () => {
   const enBundle = getPortfolioBundle('en');
   const idBundle = getPortfolioBundle('id');
 
@@ -107,16 +109,42 @@ test('EN and ID bundles match CV content, retain Adikara 2026, omit Current Role
     enBundle.projects.map((p) => p.id),
     idBundle.projects.map((p) => p.id)
   );
-  assert.equal(enBundle.achievements.length, 4);
+  assert.equal(enBundle.achievements.length, 3);
   assert.deepEqual(
     enBundle.achievements.map((a) => a.id),
     idBundle.achievements.map((a) => a.id)
   );
-  // Ensure Adikara 2026 is preserved in both projects and achievements
-  assert.ok(enBundle.projects.some((p) => p.id === 'timu' && /Adikara 2026/i.test(p.recognition)));
-  assert.ok(enBundle.achievements.some((a) => a.id === 'adikara-2026'));
+  // Ensure ADIKARA 2026: Entrepreneurship naming (without National/Nasional) and MotionHack 3rd Place
+  assert.equal(enBundle.projects[0].recognition, 'Finalist, ADIKARA 2026: Entrepreneurship');
+  assert.equal(idBundle.projects[0].recognition, 'Finalis, ADIKARA 2026: Entrepreneurship');
+  assert.equal(enBundle.achievements[0].title, 'Finalist, ADIKARA 2026: Entrepreneurship');
+  assert.equal(idBundle.achievements[0].title, 'Finalis, ADIKARA 2026: Entrepreneurship');
+  assert.ok(enBundle.achievements.some((a) => a.id === 'motionhack-5' && /3rd Place/i.test(a.title)));
+  assert.ok(idBundle.achievements.some((a) => a.id === 'motionhack-5' && /Juara 3/i.test(a.title)));
+  assert.equal(enBundle.achievements.some((a) => a.id === 'sdh-osn-distinction'), false);
+  assert.equal(enBundle.profile.badgeMotionHack, 'MOTIONHACK 5.0 3RD PLACE');
+  assert.equal(idBundle.profile.badgeMotionHack, 'JUARA 3 MOTIONHACK 5.0');
 
-  // Verify CV Work (5), Organisational (2), and Education (2) ledgers
+  // Verify ECCT & EPrT certificates and Experience Photo Documentation gallery
+  assert.equal(enBundle.certificates.length, 2);
+  assert.equal(idBundle.certificates.length, 2);
+  assert.deepEqual(
+    enBundle.certificates.map((c) => c.id),
+    ['ecct-2026', 'eprt-2025']
+  );
+  assert.equal(enBundle.experiencePhotos.length, 4);
+  assert.equal(idBundle.experiencePhotos.length, 4);
+
+  // Verify CV Work (5), Organisational (2), and Education (2) ledgers + consistent Megabit org naming
+  const expectedMegabitOrg = 'PKKMB x Megabit 9.0 (HMIT Telkom University) · Bandung, Indonesia';
+  assert.equal(
+    enBundle.experienceLedger.find((e) => e.id === 'megabit-mc')?.organization,
+    expectedMegabitOrg
+  );
+  assert.equal(
+    idBundle.experienceLedger.find((e) => e.id === 'megabit-mc')?.organization,
+    expectedMegabitOrg
+  );
   assert.equal(enBundle.experienceLedger.length, 5);
   assert.equal(enBundle.experienceLedger.length, idBundle.experienceLedger.length);
   assert.equal(enBundle.organisationalLedger.length, 2);
@@ -176,6 +204,13 @@ test('EN and ID bundles match CV content, retain Adikara 2026, omit Current Role
         item.organization,
         ...item.highlights,
       ]),
+      ...bundle.experiencePhotos.flatMap((item) => [
+        item.title,
+        item.role,
+        item.organization,
+        item.period,
+        item.caption,
+      ]),
       ...bundle.organisationalLedger.flatMap((item) => [
         item.period,
         item.role,
@@ -194,12 +229,27 @@ test('EN and ID bundles match CV content, retain Adikara 2026, omit Current Role
         item.year,
         item.summary,
       ]),
+      ...bundle.certificates.flatMap((item) => [
+        item.title,
+        item.issuer,
+        item.scoreLabel,
+        item.levelLabel,
+      ]),
       ...bundle.capabilityGroups.flatMap((group) => [
         group.title,
         group.summary,
         ...group.items,
       ]),
     ];
+
+    // Confirm no lingering "National Entrepreneurship Adikara" / "Kewirausahaan Nasional Adikara"
+    for (const line of allCopy) {
+      assert.equal(
+        /National Entrepreneurship Adikara|Kewirausahaan Nasional Adikara/i.test(line),
+        false,
+        `Unexpected National/Nasional Adikara phrasing in: ${line}`
+      );
+    }
 
     const violations = findEditorialViolations(allCopy);
     assert.deepEqual(violations, []);
@@ -208,7 +258,9 @@ test('EN and ID bundles match CV content, retain Adikara 2026, omit Current Role
   // Ensure default EN exports stay in sync
   assert.equal(PROJECTS.length, enBundle.projects.length);
   assert.equal(ACHIEVEMENTS.length, enBundle.achievements.length);
+  assert.equal(CERTIFICATES.length, enBundle.certificates.length);
   assert.equal(EXPERIENCE_LEDGER.length, enBundle.experienceLedger.length);
+  assert.equal(EXPERIENCE_PHOTOS.length, enBundle.experiencePhotos.length);
   assert.equal(ORGANISATIONAL_LEDGER.length, enBundle.organisationalLedger.length);
   assert.equal(EDUCATION_LEDGER.length, enBundle.educationLedger.length);
   assert.equal(CAPABILITY_GROUPS.length, enBundle.capabilityGroups.length);
@@ -218,6 +270,7 @@ test('all media assets declare consistent width, height, and aspectRatio values'
   const allAssets = [
     ...Object.values(PORTFOLIO_MEDIA.profile),
     ...Object.values(PORTFOLIO_MEDIA.projects),
+    ...Object.values(PORTFOLIO_MEDIA.certificates),
   ];
 
   for (const asset of allAssets) {

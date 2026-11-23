@@ -62,6 +62,31 @@ Foto profil kamu saat ini sudah terpasang di `src/data/media.ts`. Jika suatu saa
    ```
 4. Panggil `media: PORTFOLIO_MEDIA.projects.proyekBaru` pada data proyek di `src/data/portfolio.ts`.
 
+### C. Foto Dokumentasi Pengalaman (`04 / Experience & Education`)
+1. Siapkan foto kegiatan berorientasi **landscape rasio `4:3`** (misalnya `1200x900`).
+2. Simpan di folder `public/images/experience/` (contoh: `itsf.jpg`, `megabit.jpg`, `ibl.jpg`, `jne.jpg`).
+3. Buka `src/data/media.ts`, lalu isi objek `EXPERIENCE_MEDIA`:
+   ```ts
+   export const EXPERIENCE_MEDIA = {
+     itsf: {
+       src: '/images/experience/itsf.jpg',
+       alt: 'Dokumentasi ITSF Championship',
+       width: 1200,
+       height: 900,
+       aspectRatio: '4/3',
+       caption: 'Koordinasi Public Relations & Team LO ITSF Championship',
+     },
+     megabit: undefined,
+     ibl: undefined,
+     jne: undefined,
+   };
+   ```
+   Setelah diisi, foto otomatis menggantikan frame arsip 4:3 dan bisa diklik untuk diperbesar (lightbox).
+
+### D. Foto Sertifikat (`03 / Honors & Certifications`)
+1. Simpan gambar sertifikat (`4:3`, misal `1200x900`) di `public/images/certificates/` dan PDF aslinya di `public/assets/`.
+2. Daftarkan gambarnya di `PORTFOLIO_MEDIA.certificates` (`src/data/media.ts`), lalu tambahkan entri baru ke array `CERTIFICATES` (`src/data/portfolio.ts`) dan `ID_CERTIFICATES` (`src/data/i18n.ts`).
+
 ---
 
 ## 3. Mengubah Email, LinkedIn, GitHub, Bio & Profil

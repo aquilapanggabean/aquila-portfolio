@@ -1,9 +1,9 @@
 /**
  * Centralized Media Manifest
  *
- * Replace any path below with a local asset under /images/profile/ or
- * /images/projects/ (in public/) whenever updating personal photography
- * or project screenshots.
+ * Replace any path below with a local asset under /images/profile/,
+ * /images/projects/, /images/certificates/, or /images/experience/ (in public/)
+ * whenever updating personal photography, certificates, or event documentation.
  */
 
 export type MediaAspectRatio = '3/4' | '4/3' | '16/9';
@@ -78,7 +78,43 @@ export const PORTFOLIO_MEDIA = {
       caption: 'PKM-KC faculty-level applied information technology research and prototype bench',
     },
   },
+  certificates: {
+    ecct: {
+      src: '/images/certificates/ecct-certificate.png',
+      alt: 'Official Telkom University Language Center ECCT (English Communicative Competence Test) certificate for Aquila Altair Panggabean with a total score of 3.5 issued March 13, 2026',
+      width: 1200,
+      height: 900,
+      aspectRatio: '4/3',
+      caption: 'ECCT Certificate No. 6522/SPI3-B/BHS/2026 — Total Score 3.5 (Low-Advanced Level)',
+    },
+    eprt: {
+      src: '/images/certificates/eprt-certificate.png',
+      alt: 'Official Telkom University Language Center EPrT (English Proficiency Test) certificate for Aquila Altair Panggabean with a total score of 503 issued December 02, 2025',
+      width: 1200,
+      height: 900,
+      aspectRatio: '4/3',
+      caption: 'EPrT Certificate — Total Score 503 (CEFR Level B1, Valid until Dec 2027)',
+    },
+  },
 } as const satisfies {
   profile: Record<string, MediaAsset>;
   projects: Record<string, MediaAsset>;
+  certificates: Record<string, MediaAsset>;
+};
+
+/**
+ * Optional Experience Documentation Photos (4:3)
+ *
+ * To display your real event & internship photos inside the Experience Gallery,
+ * save your images under public/images/experience/ (e.g., itsf.jpg, megabit.jpg,
+ * ibl.jpg, jne.jpg) and replace `undefined` below with a MediaAsset object.
+ */
+export const EXPERIENCE_MEDIA: Record<
+  'itsf' | 'megabit' | 'ibl' | 'jne',
+  MediaAsset | undefined
+> = {
+  itsf: undefined,
+  megabit: undefined,
+  ibl: undefined,
+  jne: undefined,
 };

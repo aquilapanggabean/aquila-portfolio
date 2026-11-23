@@ -1,4 +1,4 @@
-import { PORTFOLIO_MEDIA, type MediaAsset } from './media';
+import { EXPERIENCE_MEDIA, PORTFOLIO_MEDIA, type MediaAsset } from './media';
 
 export type ProjectCategory =
   | 'All'
@@ -48,6 +48,19 @@ export interface ExperienceItem {
   highlights: string[];
 }
 
+export interface ExperiencePhotoItem {
+  id: string;
+  index: string;
+  title: string;
+  role: string;
+  organization: string;
+  period: string;
+  location: string;
+  caption: string;
+  slotPath: string;
+  media?: MediaAsset;
+}
+
 export interface CapabilityGroup {
   index: string;
   title: string;
@@ -71,6 +84,22 @@ export interface AchievementItem {
   proofUrl?: string;
 }
 
+export interface CertificateItem {
+  id: string;
+  index: string;
+  code: string;
+  title: string;
+  issuer: string;
+  issuedDate: string;
+  validUntil: string;
+  scoreLabel: string;
+  levelLabel: string;
+  certificateNumber?: string;
+  breakdown: readonly { label: string; score: string }[];
+  media: MediaAsset;
+  pdfUrl: string;
+}
+
 export interface NavItem {
   id: string;
   label: string;
@@ -86,7 +115,7 @@ export const SITE_PROFILE = {
   headlineLast: 'PANGGABEAN',
   headline: 'Aquila Altair Panggabean',
   positioning:
-    'Information Technology student at Telkom University focused on the Internet of Things (IoT), digital innovation, IT problem-solving, and business solutions through technology. Finalist at National Entrepreneurship Adikara 2026 with TiMu Escrow.',
+    'Information Technology student at Telkom University focused on the Internet of Things (IoT), digital innovation, IT problem-solving, and business solutions through technology. Finalist at ADIKARA 2026: Entrepreneurship with TiMu Escrow.',
   scrollHint: 'Scroll down to inspect the curated case archive and CV ledger.',
   email: 'altair.panggabean@gmail.com',
   phone: '+62 812-2366-8133',
@@ -116,12 +145,12 @@ export const SITE_PROFILE = {
   ],
   aboutProse: [
     'I am an Information Technology undergraduate at Telkom University (2025 to 2029) with strong interests in the Internet of Things (IoT), digital innovation, IT problem-solving, and addressing business challenges with practical IT solutions.',
-    'From developing web and mobile applications during my IT Department internship at PT. Tiki Jalur Nugraha Ekakurir (JNE) and researching mobile-based social solutions at Mobile Innovation Laboratory, to reaching the National Entrepreneurship Adikara 2026 finals with TiMu and leading large-scale campus and national events, I remain committed to continuous self-development and adapting to new technologies.',
+    'From developing web and mobile applications during my IT Department internship at PT. Tiki Jalur Nugraha Ekakurir (JNE) and researching mobile-based social solutions at Mobile Innovation Laboratory, to reaching the ADIKARA 2026: Entrepreneurship finals with TiMu and leading large-scale campus and basketball events, I remain committed to continuous self-development and adapting to new technologies.',
   ],
   aboutFacts: [
     { label: 'Institution', value: 'Telkom University (Sep 2025 - Aug 2029)' },
     { label: 'Core Focus', value: 'IoT, Digital Innovation & Business IT Solutions' },
-    { label: 'Languages', value: 'Bahasa Indonesia (Native), English (Proficient)' },
+    { label: 'Languages', value: 'Bahasa Indonesia (Native), English (ECCT 3.5 · EPrT 503)' },
   ],
 } as const;
 
@@ -145,7 +174,7 @@ export const PROJECTS: ProjectItem[] = [
     id: 'timu',
     index: '01',
     title: 'TiMu',
-    recognition: 'Finalist, National Entrepreneurship Adikara 2026',
+    recognition: 'Finalist, ADIKARA 2026: Entrepreneurship',
     category: 'FinTech & Web',
     year: '2026',
     role: 'Product Architect & Engineering Lead',
@@ -154,7 +183,7 @@ export const PROJECTS: ProjectItem[] = [
     problem:
       'Informal peer-to-peer buyers and sellers frequently transact without neutral payment custody, creating settlement risk, unclear delivery proof, and unresolved disputes.',
     contribution:
-      'Co-authored the transaction model and four-step fund custody state machine, structured the problem-to-solution case study, and prepared the product architecture presented at National Entrepreneurship Adikara 2026.',
+      'Co-authored the transaction model and four-step fund custody state machine, structured the problem-to-solution case study, and prepared the product architecture presented at ADIKARA 2026: Entrepreneurship.',
     technologies: [
       'TypeScript',
       'React',
@@ -208,7 +237,7 @@ export const PROJECTS: ProjectItem[] = [
     id: 'superplus',
     index: '02',
     title: 'SuperPlus',
-    recognition: '2nd Place, MotionHack 5.0 (Mobile Innovation Lab)',
+    recognition: '3rd Place, MotionHack 5.0 (Mobile Innovation Lab)',
     category: 'FinTech & Web',
     year: '2025',
     role: 'Product & Frontend Developer',
@@ -217,7 +246,7 @@ export const PROJECTS: ProjectItem[] = [
     problem:
       'Teams competing in time-boxed product sprints often split between over-scoped slides and unfinished interfaces that fail to demonstrate real user flows.',
     contribution:
-      'Translated the core user journey into a working frontend prototype, aligned feature scope with judging criteria, and delivered the technical walkthrough that earned 2nd Place.',
+      'Translated the core user journey into a working frontend prototype, aligned feature scope with judging criteria, and delivered the technical walkthrough that earned 3rd Place.',
     technologies: ['React', 'TypeScript', 'Vite', 'UI Prototyping', 'Digital Business'],
     media: PORTFOLIO_MEDIA.projects.superplus,
     repositoryUrl: 'https://github.com/aquilapanggabean',
@@ -289,21 +318,21 @@ export const PROJECTS: ProjectItem[] = [
 export const ACHIEVEMENTS: AchievementItem[] = [
   {
     id: 'adikara-2026',
-    title: 'Finalist, National Entrepreneurship Adikara 2026',
-    issuer: 'National Entrepreneurship Adikara',
+    title: 'Finalist, ADIKARA 2026: Entrepreneurship',
+    issuer: 'ADIKARA 2026: Entrepreneurship',
     year: '2026',
     category: 'Competition',
     summary:
-      'Advanced to the national finalist stage with TiMu, a peer-to-peer escrow platform backed by a four-step fund custody state machine.',
+      'Advanced to the finalist stage with TiMu, a peer-to-peer escrow platform backed by a four-step fund custody state machine.',
   },
   {
     id: 'motionhack-5',
-    title: '2nd Place, MotionHack 5.0 Internal Hackathon',
+    title: '3rd Place, MotionHack 5.0 Internal Hackathon',
     issuer: 'Mobile Innovation Laboratory, Telkom University',
     year: '2025',
     category: 'Competition',
     summary:
-      'Secured 2nd Place in the internal hackathon organized by Mobile Innovation Laboratory by delivering SuperPlus with React and TypeScript.',
+      'Secured 3rd Place in the internal hackathon organized by Mobile Innovation Laboratory by delivering SuperPlus with React and TypeScript.',
   },
   {
     id: 'pkm-kc-faculty',
@@ -314,14 +343,49 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     summary:
       'Participated at the faculty level in the Karsa Cipta applied IT research track, developing technical specifications and testable system prototypes.',
   },
+];
+
+export const CERTIFICATES: CertificateItem[] = [
   {
-    id: 'sdh-osn-distinction',
-    title: '2024 School OSN Participant & Science Honors (91.50/100.00)',
-    issuer: 'Sekolah Dian Harapan Jambi',
-    year: '2024',
-    category: 'Academic',
-    summary:
-      'Competed in the 2024 School National Science Olympiad (OSN), graduated in the Science track with a 91.50/100.00 score, and ran for Student Council President 2024.',
+    id: 'ecct-2026',
+    index: '01',
+    code: 'ECCT',
+    title: 'English Communicative Competence Test (ECCT)',
+    issuer: 'Telkom University Language Center',
+    issuedDate: 'March 13, 2026',
+    validUntil: 'March 13, 2028',
+    scoreLabel: 'Score 3.5 / 4.00',
+    levelLabel: 'Low-Advanced Level',
+    certificateNumber: 'No. 6522/SPI3-B/BHS/2026',
+    breakdown: [
+      { label: 'Pronunciation', score: '3.5' },
+      { label: 'Vocabulary', score: '3.5' },
+      { label: 'Grammar', score: '3.0' },
+      { label: 'Flow of Speech', score: '3.5' },
+      { label: 'Idea Construction', score: '3.5' },
+      { label: 'Task Completion', score: '3.5' },
+    ],
+    media: PORTFOLIO_MEDIA.certificates.ecct,
+    pdfUrl: '/assets/aistudio/ecct_742219e8.pdf',
+  },
+  {
+    id: 'eprt-2025',
+    index: '02',
+    code: 'EPrT®',
+    title: 'English Proficiency Test (EPrT®)',
+    issuer: 'Telkom University Language Center',
+    issuedDate: 'December 02, 2025',
+    validUntil: 'December 02, 2027',
+    scoreLabel: 'Total Score 503',
+    levelLabel: 'CEFR Level B1',
+    breakdown: [
+      { label: 'Listening', score: '55' },
+      { label: 'Grammar', score: '50' },
+      { label: 'Reading', score: '46' },
+      { label: 'Total Score', score: '503' },
+    ],
+    media: PORTFOLIO_MEDIA.certificates.eprt,
+    pdfUrl: '/assets/aistudio/eprt_43eb766c.pdf',
   },
 ];
 
@@ -342,7 +406,7 @@ export const EXPERIENCE_LEDGER: ExperienceItem[] = [
     id: 'megabit-mc',
     period: 'Aug 2026 - Sep 2026',
     role: 'Master of Ceremonies',
-    organization: 'PKKMB x Megabit 9.0 · Bandung, Indonesia',
+    organization: 'PKKMB x Megabit 9.0 (HMIT Telkom University) · Bandung, Indonesia',
     kind: 'Event & Leadership',
     highlights: [
       'Served as lead Master of Ceremonies (MC) for MEGABIT 9.0, hosting hundreds of incoming Information Technology undergraduate students.',
@@ -388,6 +452,61 @@ export const EXPERIENCE_LEDGER: ExperienceItem[] = [
   },
 ];
 
+export const EXPERIENCE_PHOTOS: ExperiencePhotoItem[] = [
+  {
+    id: 'exp-photo-itsf',
+    index: 'FIG. 01',
+    title: 'ITSF Championship',
+    role: 'Staff of Public Relation & Team LO',
+    organization: 'Information Technology Department',
+    period: 'Nov 2026 - Present',
+    location: 'Bandung, Indonesia',
+    caption:
+      'Public relations media partnerships, social campaign production, and on-court team liaison coordination.',
+    slotPath: 'public/images/experience/itsf.jpg',
+    media: EXPERIENCE_MEDIA.itsf,
+  },
+  {
+    id: 'exp-photo-megabit',
+    index: 'FIG. 02',
+    title: 'PKKMB x Megabit 9.0',
+    role: 'Master of Ceremonies & Event Staff',
+    organization: 'HMIT Telkom University',
+    period: 'Jun 2026 - Sep 2026',
+    location: 'Bandung, Indonesia',
+    caption:
+      'Hosting hundreds of incoming Information Technology freshmen and coordinating live orientation rundowns.',
+    slotPath: 'public/images/experience/megabit.jpg',
+    media: EXPERIENCE_MEDIA.megabit,
+  },
+  {
+    id: 'exp-photo-ibl',
+    index: 'FIG. 03',
+    title: 'IBL All Stars 2026',
+    role: 'Usher Tribune Volunteer',
+    organization: 'Indonesian Basketball League',
+    period: 'Apr 2026',
+    location: 'Bandung, Indonesia',
+    caption:
+      'Grandstand crowd flow, seating coordination, and real-time spectator hospitality at the 2026 IBL All-Star Game.',
+    slotPath: 'public/images/experience/ibl.jpg',
+    media: EXPERIENCE_MEDIA.ibl,
+  },
+  {
+    id: 'exp-photo-jne',
+    index: 'FIG. 04',
+    title: 'PT. Tiki Jalur Nugraha Ekakurir (JNE)',
+    role: 'IT Department Internship',
+    organization: 'JNE Jambi',
+    period: 'May 2025',
+    location: 'Jambi, Indonesia',
+    caption:
+      'JavaScript & React Native front-end development, back-end troubleshooting, and logistics IT operations.',
+    slotPath: 'public/images/experience/jne.jpg',
+    media: EXPERIENCE_MEDIA.jne,
+  },
+];
+
 export const ORGANISATIONAL_LEDGER: ExperienceItem[] = [
   {
     id: 'mobile-innovation-lab',
@@ -424,8 +543,8 @@ export const EDUCATION_LEDGER: ExperienceItem[] = [
     kind: 'Education',
     highlights: [
       'Participating in Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC) at the Faculty Level.',
-      'Joined MotionHack 5.0 (Internal Hackathon by Mobile Innovation Laboratory) and earned 2nd Place.',
-      'Finalist at National Entrepreneurship Adikara 2026 with TiMu Escrow.',
+      'Joined MotionHack 5.0 (Internal Hackathon by Mobile Innovation Laboratory) and earned 3rd Place.',
+      'Finalist at ADIKARA 2026: Entrepreneurship with TiMu Escrow.',
       'Served as Master of Ceremonies in Megabit 9.0.',
     ],
   },
@@ -466,7 +585,7 @@ export const CAPABILITY_GROUPS: CapabilityGroup[] = [
     items: [
       'IT Problem-Solving & Business IT Solutions',
       'Digital Business Research & Project Management',
-      'Peer-to-Peer Escrow Architecture (TiMu · Adikara 2026)',
+      'Peer-to-Peer Escrow Architecture (TiMu · ADIKARA 2026: Entrepreneurship)',
       'Applied IT Research (PKM-KC Faculty Level)',
       'Critical Thinking & Analytical Skills',
     ],
@@ -481,7 +600,7 @@ export const CAPABILITY_GROUPS: CapabilityGroup[] = [
       'Public Relations, Media Partnerships & Content Creation',
       'Master of Ceremonies & Public Speaking',
       'Team Liaison Officer (LO) & Crowd Hospitality',
-      'Languages: Bahasa Indonesia (Native), English (Proficient)',
+      'Languages: Bahasa Indonesia (Native), English (ECCT 3.5 · EPrT 503)',
     ],
   },
 ];
