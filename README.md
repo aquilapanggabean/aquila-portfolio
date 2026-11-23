@@ -72,6 +72,9 @@ Buka `src/data/portfolio.ts`, lalu cari objek `SITE_PROFILE`:
 export const SITE_PROFILE = {
   fullName: 'Aquila Altair Panggabean',
   email: 'altair.panggabean@gmail.com',
+  phone: '+62 812-2366-8133',
+  phoneHref: 'tel:+6281223668133',
+  resumeUrl: '/assets/aistudio/Aquila_Altair_Panggabean-resume__10__19d10eec.pdf',
   githubUrl: 'https://github.com/aquilapanggabean',
   githubHandle: '@aquilapanggabean',
   linkedinUrl: 'https://www.linkedin.com/in/aquilapanggabean',
@@ -82,14 +85,15 @@ export const SITE_PROFILE = {
     'Paragraf 2 Tentang Saya (EN)...',
   ],
   aboutFacts: [
-    { label: 'Institution', value: 'Telkom University' },
-    { label: 'Program', value: 'B.Sc. Information Technology (Undergraduate)' },
-    { label: 'Core Domains', value: 'Web Engineering, Arduino IoT, Product Strategy' },
+    { label: 'Institution', value: 'Telkom University (Sep 2025 - Aug 2029)' },
+    { label: 'Core Focus', value: 'IoT, Digital Innovation & Business IT Solutions' },
+    { label: 'Languages', value: 'Bahasa Indonesia (Native), English (Proficient)' },
   ],
 };
 ```
 
-- Email, GitHub, dan LinkedIn otomatis dipakai di seluruh website (Hero, About, Contact, dan Footer) untuk kedua bahasa.
+- Email, nomor telepon, file CV PDF, GitHub, dan LinkedIn otomatis dipakai di seluruh website (Hero, About, Contact, dan Footer) untuk kedua bahasa.
+- Untuk mengganti file CV PDF di masa depan, taruh file `.pdf` baru ke `public/` lalu ubah nilai `resumeUrl`.
 - Untuk mengubah versi Bahasa Indonesia dari `positioning`, `aboutProse`, dan `aboutFacts`, edit objek `ID_PROFILE` di `src/data/i18n.ts`.
 
 ---
@@ -156,17 +160,18 @@ Hapus objek proyek tersebut dari array `PROJECTS` (`src/data/portfolio.ts`) **da
 
 ## 6. Menambah atau Menghapus Pengalaman & Pendidikan (`04 / Experience & Education`)
 
-- **Pengalaman / Organisasi / Kompetisi:** edit array `EXPERIENCE_LEDGER` di `src/data/portfolio.ts` dan `ID_EXPERIENCE_LEDGER` di `src/data/i18n.ts`.
+- **Pengalaman Kerja, Magang & Acara:** edit array `EXPERIENCE_LEDGER` di `src/data/portfolio.ts` dan `ID_EXPERIENCE_LEDGER` di `src/data/i18n.ts`.
+- **Pengalaman Organisasi:** edit array `ORGANISATIONAL_LEDGER` di `src/data/portfolio.ts` dan `ID_ORGANISATIONAL_LEDGER` di `src/data/i18n.ts`.
 - **Pendidikan:** edit array `EDUCATION_LEDGER` di `src/data/portfolio.ts` dan `ID_EDUCATION_LEDGER` di `src/data/i18n.ts`.
 
 Contoh format 1 entri:
 ```ts
 {
   id: 'magang-2026',
-  period: 'Jun 2026 to Sep 2026',
+  period: 'Jun 2026 - Sep 2026',
   role: 'Software Engineering Intern',
-  organization: 'Nama Perusahaan',
-  kind: 'Leadership & Operations', // Pilihan: 'Leadership & Operations' | 'Competition & Research' | 'Education'
+  organization: 'Nama Perusahaan · Bandung, Indonesia',
+  kind: 'Work & Internship', // Pilihan: 'Work & Internship' | 'Event & Leadership' | 'Organization' | 'Education'
   highlights: [
     'Pencapaian atau tanggung jawab pertama.',
     'Pencapaian atau tanggung jawab kedua.',

@@ -4,12 +4,14 @@ import {
   EDUCATION_LEDGER,
   EXPERIENCE_LEDGER,
   NAV_ITEMS,
+  ORGANISATIONAL_LEDGER,
   PROJECTS,
   SITE_PROFILE,
   type AchievementCategory,
   type AchievementItem,
   type CapabilityGroup,
   type ExperienceItem,
+  type ExperienceKind,
   type NavItem,
   type ProjectCategory,
   type ProjectItem,
@@ -24,6 +26,9 @@ export interface LocalizedSiteProfile {
   headlineFirst: string;
   headlineLast: string;
   email: string;
+  phone: string;
+  phoneHref: string;
+  resumeUrl: string;
   githubUrl: string;
   githubHandle: string;
   linkedinUrl: string;
@@ -56,6 +61,7 @@ export interface UiDictionary {
   aboutHeading: string;
   aboutLead: string;
   aboutPortraitCaption: string;
+  aboutResumeLabel: string;
   projectsTag: string;
   projectsMetaRight: string;
   projectsHeading: string;
@@ -108,7 +114,8 @@ export interface UiDictionary {
   experienceMetaRight: string;
   experienceHeading: string;
   experienceLead: string;
-  experienceSubLeadership: string;
+  experienceSubWork: string;
+  experienceSubOrganisational: string;
   experienceSubEducation: string;
   capabilitiesTag: string;
   capabilitiesMetaRight: string;
@@ -119,9 +126,11 @@ export interface UiDictionary {
   contactHeading: string;
   contactLead: string;
   contactDirectEmail: string;
+  contactDirectPhone: string;
   contactCopyEmail: string;
   contactCopiedStatus: string;
   contactSocialProfiles: string;
+  contactResumeLabel: string;
   contactNameLabel: string;
   contactNamePlaceholder: string;
   contactEmailLabel: string;
@@ -153,6 +162,7 @@ export interface LocalizedPortfolioBundle {
   projects: readonly ProjectItem[];
   achievements: readonly AchievementItem[];
   experienceLedger: readonly ExperienceItem[];
+  organisationalLedger: readonly ExperienceItem[];
   educationLedger: readonly ExperienceItem[];
   capabilityGroups: readonly CapabilityGroup[];
   ui: UiDictionary;
@@ -174,14 +184,15 @@ const EN_UI: UiDictionary = {
   aboutMetaRight: 'BANDUNG, INDONESIA · TELKOM UNIVERSITY',
   aboutHeading: 'About',
   aboutLead:
-    'Academic grounding in Information Technology paired with applied systems engineering and clear operational communication.',
+    'Academic grounding in Information Technology paired with software engineering internships, digital business research, and public relations leadership.',
   aboutPortraitCaption:
     'Aquila Altair Panggabean, Information Technology Undergraduate at Telkom University',
+  aboutResumeLabel: 'Curriculum Vitae (PDF)',
   projectsTag: '02 / CASE ARCHIVE',
   projectsMetaRight: 'SOFTWARE · IOT · APPLIED RESEARCH',
   projectsHeading: 'Selected Projects',
   projectsLead:
-    'Verified software systems, national entrepreneurship case studies, applied lab prototypes, and Arduino IoT builds.',
+    'Verified software systems, national entrepreneurship case studies, Mobile Innovation Lab prototypes, and Arduino IoT builds.',
   projectsSearchLabel: 'Search projects by title, technology, or collaborator',
   projectsSearchPlaceholder: 'Filter by keyword or tech',
   projectsSearchClear: 'Clear search query',
@@ -210,7 +221,7 @@ const EN_UI: UiDictionary = {
     title: 'SuperPlus Sprint Delivery Model',
     badge: '2nd Place',
     stagePrefix: 'Stage',
-    footerRight: 'Product & Frontend Delivery',
+    footerRight: 'Mobile Innovation Lab Hackathon',
     milestones: [
       {
         index: '01',
@@ -248,29 +259,32 @@ const EN_UI: UiDictionary = {
   achievementsMetaRight: (count) => `${count} VERIFIED RECORDS`,
   achievementsHeading: 'Honors & Recognition',
   achievementsLead:
-    'National competition milestones, academic distinctions, and verified credentials earned across engineering and entrepreneurship.',
+    'National entrepreneurship finals, internal hackathon awards, faculty-level research tracks, and academic honors.',
   achievementsVerifyLabel: 'Verify Credential',
   experienceTag: '04 / LEDGER',
-  experienceMetaRight: 'CHRONOLOGICAL RECORD · 2025 TO 2026',
+  experienceMetaRight: 'CHRONOLOGICAL RECORD · 2023 TO 2026',
   experienceHeading: 'Experience & Education',
   experienceLead:
-    'A chronological ledger of public relations leadership, national competition milestones, applied lab work, and university studies.',
-  experienceSubLeadership: 'LEADERSHIP, COMPETITIONS & RESEARCH',
-  experienceSubEducation: 'EDUCATION',
+    'A complete chronological ledger of IT internships, national and campus event operations, organizational leadership, and academic milestones.',
+  experienceSubWork: 'WORK, INTERNSHIP & EVENT EXPERIENCE',
+  experienceSubOrganisational: 'ORGANISATIONAL EXPERIENCE',
+  experienceSubEducation: 'EDUCATION LEVEL',
   capabilitiesTag: '05 / CAPABILITIES',
-  capabilitiesMetaRight: 'SYSTEMS · STRATEGY · OPERATIONS',
+  capabilitiesMetaRight: 'HARD SKILLS · SOFT SKILLS · LANGUAGES',
   capabilitiesHeading: 'Core Capabilities',
   capabilitiesLead:
-    'Technical, strategic, and operational disciplines practiced across coursework, lab research, competitions, and student organizations.',
+    'Hard skills, digital business problem-solving, leadership disciplines, and bilingual communication practiced across internships, labs, and organizations.',
   contactTag: '06 / INQUIRIES',
   contactMetaRight: 'DIRECT CHANNEL · BANDUNG, ID',
   contactHeading: 'Start a Conversation',
   contactLead:
-    'Available for software engineering internships, applied IoT collaborations, product research, and technical roles. Reach out directly by email or use the structured inquiry form.',
+    'Available for software engineering internships, mobile and web development, IoT collaborations, and digital business projects. Reach out directly or use the structured inquiry form.',
   contactDirectEmail: 'DIRECT EMAIL',
+  contactDirectPhone: 'PHONE / WHATSAPP',
   contactCopyEmail: 'Copy Email Address',
   contactCopiedStatus: 'Copied to clipboard.',
-  contactSocialProfiles: 'GITHUB & LINKEDIN',
+  contactSocialProfiles: 'PROFILES & RESUME',
+  contactResumeLabel: 'Curriculum Vitae (PDF)',
   contactNameLabel: 'Name',
   contactNamePlaceholder: 'Your name',
   contactEmailLabel: 'Email',
@@ -312,14 +326,15 @@ const ID_UI: UiDictionary = {
   aboutMetaRight: 'BANDUNG, INDONESIA · TELKOM UNIVERSITY',
   aboutHeading: 'Tentang Saya',
   aboutLead:
-    'Landasan akademik Teknologi Informasi yang dipadukan dengan rekayasa sistem terapan serta komunikasi operasional yang jelas.',
+    'Landasan akademik Teknologi Informasi yang dipadukan dengan magang rekayasa perangkat lunak, riset bisnis digital, dan kepemimpinan hubungan masyarakat.',
   aboutPortraitCaption:
     'Aquila Altair Panggabean, Mahasiswa Sarjana Teknologi Informasi di Telkom University',
+  aboutResumeLabel: 'Unduh CV (PDF)',
   projectsTag: '02 / ARSIP KARYA',
   projectsMetaRight: 'PERANGKAT LUNAK · IOT · RISET TERAPAN',
   projectsHeading: 'Proyek Pilihan',
   projectsLead:
-    'Sistem perangkat lunak terverifikasi, studi kasus kewirausahaan nasional, prototipe riset lab, dan perangkat keras IoT berbasis Arduino.',
+    'Sistem perangkat lunak terverifikasi, studi kasus kewirausahaan nasional, prototipe Mobile Innovation Lab, dan perangkat keras IoT berbasis Arduino.',
   projectsSearchLabel: 'Cari proyek berdasarkan judul, teknologi, atau kolaborator',
   projectsSearchPlaceholder: 'Saring kata kunci atau teknologi',
   projectsSearchClear: 'Hapus kata pencarian',
@@ -348,7 +363,7 @@ const ID_UI: UiDictionary = {
     title: 'Model Eksekusi Sprint SuperPlus',
     badge: 'Juara 2',
     stagePrefix: 'Tahap',
-    footerRight: 'Produk & Pengembangan Frontend',
+    footerRight: 'Hackathon Mobile Innovation Lab',
     milestones: [
       {
         index: '01',
@@ -386,29 +401,32 @@ const ID_UI: UiDictionary = {
   achievementsMetaRight: (count) => `${count} CATATAN TERVERIFIKASI`,
   achievementsHeading: 'Prestasi & Pengakuan',
   achievementsLead:
-    'Capaian kompetisi nasional, penghargaan akademik, serta sertifikasi terverifikasi di bidang rekayasa dan kewirausahaan.',
+    'Finalis kewirausahaan nasional, penghargaan hackathon internal, riset terapan tingkat fakultas, dan prestasi akademik.',
   achievementsVerifyLabel: 'Lihat Bukti / Sertifikat',
   experienceTag: '04 / REKAM JEJAK',
-  experienceMetaRight: 'CATATAN KRONOLOGIS · 2025 HINGGA 2026',
+  experienceMetaRight: 'CATATAN KRONOLOGIS · 2023 HINGGA 2026',
   experienceHeading: 'Pengalaman & Pendidikan',
   experienceLead:
-    'Catatan kronologis kepemimpinan hubungan masyarakat, capaian kompetisi nasional, riset laboratorium terapan, dan studi universitas.',
-  experienceSubLeadership: 'KEPEMIMPINAN, KOMPETISI & RISET',
-  experienceSubEducation: 'PENDIDIKAN',
+    'Catatan kronologis lengkap magang departemen TI, operasional acara nasional dan kampus, pengalaman organisasi, serta riwayat pendidikan.',
+  experienceSubWork: 'PENGALAMAN KERJA, MAGANG & ACARA',
+  experienceSubOrganisational: 'PENGALAMAN ORGANISASI',
+  experienceSubEducation: 'RIWAYAT PENDIDIKAN',
   capabilitiesTag: '05 / KAPABILITAS',
-  capabilitiesMetaRight: 'SISTEM · STRATEGI · OPERASIONAL',
+  capabilitiesMetaRight: 'HARD SKILLS · SOFT SKILLS · BAHASA',
   capabilitiesHeading: 'Kapabilitas Utama',
   capabilitiesLead:
-    'Disiplin teknis, strategis, dan operasional yang dipraktikkan melalui perkuliahan, riset laboratorium, kompetisi, dan organisasi mahasiswa.',
+    'Keahlian teknis, pemecahan masalah bisnis digital, kepemimpinan, dan kemampuan dwibahasa yang dipraktikkan di magang, laboratorium, dan organisasi.',
   contactTag: '06 / KONTAK',
   contactMetaRight: 'SALURAN LANGSUNG · BANDUNG, ID',
   contactHeading: 'Mulai Diskusi',
   contactLead:
-    'Terbuka untuk magang rekayasa perangkat lunak, kolaborasi IoT terapan, riset produk, dan peran teknis. Hubungi langsung melalui email atau gunakan formulir terstruktur ini.',
+    'Terbuka untuk magang rekayasa perangkat lunak, pengembangan web dan mobile, kolaborasi IoT, serta proyek bisnis digital. Hubungi langsung atau gunakan formulir terstruktur ini.',
   contactDirectEmail: 'EMAIL LANGSUNG',
+  contactDirectPhone: 'TELEPON / WHATSAPP',
   contactCopyEmail: 'Salin Alamat Email',
   contactCopiedStatus: 'Disalin ke papan klip.',
-  contactSocialProfiles: 'GITHUB & LINKEDIN',
+  contactSocialProfiles: 'PROFIL & CV',
+  contactResumeLabel: 'Curriculum Vitae (PDF)',
   contactNameLabel: 'Nama',
   contactNamePlaceholder: 'Nama Anda',
   contactEmailLabel: 'Email',
@@ -441,6 +459,9 @@ const ID_PROFILE: LocalizedSiteProfile = {
   headlineFirst: SITE_PROFILE.headlineFirst,
   headlineLast: SITE_PROFILE.headlineLast,
   email: SITE_PROFILE.email,
+  phone: SITE_PROFILE.phone,
+  phoneHref: SITE_PROFILE.phoneHref,
+  resumeUrl: SITE_PROFILE.resumeUrl,
   githubUrl: SITE_PROFILE.githubUrl,
   githubHandle: SITE_PROFILE.githubHandle,
   linkedinUrl: SITE_PROFILE.linkedinUrl,
@@ -451,16 +472,16 @@ const ID_PROFILE: LocalizedSiteProfile = {
   badgeAdikara: 'FINALIS ADIKARA 2026',
   badgeMotionHack: 'JUARA 2 MOTIONHACK 5.0',
   positioning:
-    'Mahasiswa sarjana Teknologi Informasi di Telkom University. Menjembatani Inovasi Digital, IoT, dan Strategi Bisnis menjadi Solusi TI yang Skalabel. Pendiri dan Strategis TiMu Escrow.',
-  scrollHint: 'Gulir ke bawah untuk meninjau arsip studi kasus pilihan.',
+    'Mahasiswa Teknologi Informasi di Telkom University yang berfokus pada Internet of Things (IoT), inovasi digital, pemecahan masalah TI, dan solusi bisnis berbasis teknologi. Finalis Kewirausahaan Nasional Adikara 2026 bersama TiMu Escrow.',
+  scrollHint: 'Gulir ke bawah untuk meninjau arsip studi kasus dan rekam jejak CV.',
   aboutProse: [
-    'Saya adalah mahasiswa sarjana Teknologi Informasi di Telkom University yang berfokus mengubah arsitektur teknis dan kebutuhan bisnis menjadi perangkat lunak praktis serta sistem perangkat keras terhubung. Pekerjaan saya berada di persimpangan rekayasa web terstruktur, prototipe IoT berbasis mikrokontroler, dan perumusan produk yang terukur.',
-    'Melalui kompetisi kewirausahaan nasional, hackathon, riset terapan tingkat fakultas, dan peran hubungan masyarakat mahasiswa, saya mengutamakan eksekusi yang jelas: merancang alur status transaksi yang andal, menguji telemetri perangkat keras secara langsung, serta berkomunikasi lugas lintas tim teknis maupun non-teknis.',
+    'Saya adalah mahasiswa sarjana Teknologi Informasi di Telkom University (2025 hingga 2029) dengan minat kuat pada Internet of Things (IoT), inovasi digital, pemecahan masalah TI, serta penyelesaian tantangan bisnis melalui solusi teknologi yang praktis.',
+    'Mulai dari membangun aplikasi web dan mobile saat magang Departemen TI di PT. Tiki Jalur Nugraha Ekakurir (JNE) dan meneliti solusi sosial berbasis mobile di Mobile Innovation Laboratory, hingga mencapai babak final Kewirausahaan Nasional Adikara 2026 bersama TiMu serta memimpin acara skala kampus dan nasional, saya berkomitmen pada pengembangan diri berkelanjutan dan adaptasi teknologi baru.',
   ],
   aboutFacts: [
-    { label: 'Institusi', value: 'Telkom University' },
-    { label: 'Program Studi', value: 'S1 Teknologi Informasi (Sarjana)' },
-    { label: 'Bidang Utama', value: 'Rekayasa Web, Arduino IoT, Strategi Produk' },
+    { label: 'Institusi', value: 'Telkom University (Sep 2025 - Agu 2029)' },
+    { label: 'Fokus Utama', value: 'IoT, Inovasi Digital & Solusi Bisnis TI' },
+    { label: 'Bahasa', value: 'Bahasa Indonesia (Asli), Inggris (Mahir)' },
   ],
 };
 
@@ -471,6 +492,9 @@ const EN_PROFILE: LocalizedSiteProfile = {
   headlineFirst: SITE_PROFILE.headlineFirst,
   headlineLast: SITE_PROFILE.headlineLast,
   email: SITE_PROFILE.email,
+  phone: SITE_PROFILE.phone,
+  phoneHref: SITE_PROFILE.phoneHref,
+  resumeUrl: SITE_PROFILE.resumeUrl,
   githubUrl: SITE_PROFILE.githubUrl,
   githubHandle: SITE_PROFILE.githubHandle,
   linkedinUrl: SITE_PROFILE.linkedinUrl,
@@ -542,10 +566,10 @@ const ID_PROJECTS: readonly ProjectItem[] = [
   },
   {
     ...PROJECTS[1],
-    recognition: 'Juara 2, MotionHack 5.0',
+    recognition: 'Juara 2, MotionHack 5.0 (Mobile Innovation Lab)',
     role: 'Pengembang Produk & Frontend',
     overview:
-      'Produk hackathon yang dibangun dalam tenggat waktu ketat untuk MotionHack 5.0, memadukan alur pengguna terfokus dengan antarmuka web fungsional dan kelayakan bisnis.',
+      'Produk hackathon internal yang dibangun untuk MotionHack 5.0 oleh Mobile Innovation Laboratory, memadukan alur pengguna terfokus dengan antarmuka web fungsional dan kelayakan bisnis.',
     problem:
       'Tim yang berlomba dalam sprint produk berbatas waktu sering terpecah antara slide konsep yang terlalu luas dan antarmuka yang belum selesai mendemonstrasikan alur nyata.',
     contribution:
@@ -553,14 +577,14 @@ const ID_PROJECTS: readonly ProjectItem[] = [
   },
   {
     ...PROJECTS[2],
-    recognition: 'Mobile Innovation Lab, Telkom University',
-    role: 'Kontributor Sistem Mobile',
+    recognition: 'Mobile Innovation Laboratory, Telkom University',
+    role: 'Magang Bisnis Digital & Sistem Mobile',
     overview:
-      'Inisiatif riset aplikasi mobile terapan di Mobile Innovation Lab Telkom University yang menelaah alur kerja cerdas terstruktur serta arsitektur informasi mobile yang rapi.',
+      'Inisiatif riset inovasi mobile terapan di Mobile Innovation Laboratory Telkom University yang berfokus memecahkan masalah sosial melalui alur mobile terstruktur dan pemodelan bisnis digital.',
     problem:
-      'Prototipe awal di laboratorium membutuhkan struktur interaksi mobile yang konsisten agar keluaran analitis dapat dibaca jelas pada layar ringkas tanpa membebani pengguna.',
+      'Prototipe awal di laboratorium memerlukan jembatan yang jelas antara riset dampak sosial, model bisnis digital yang layak, dan struktur interaksi mobile yang konsisten.',
     contribution:
-      'Berkontribusi pada arsitektur interaksi mobile, mengevaluasi alur tugas pengguna, serta mendokumentasikan spesifikasi teknis selama siklus riset laboratorium.',
+      'Terlibat dalam kelompok studi riset solusi sosial berbasis mobile, mengevaluasi dampak aplikasi nyata, serta mendokumentasikan spesifikasi produk secara terstruktur.',
   },
   {
     ...PROJECTS[3],
@@ -579,115 +603,11 @@ const ID_PROJECTS: readonly ProjectItem[] = [
     recognition: 'Tingkat Fakultas, Skema Karsa Cipta',
     role: 'Peneliti TI Terapan',
     overview:
-      'Inisiatif riset Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC) tingkat fakultas yang berfokus membangun prototipe teknologi informasi terapan yang terukur dan dapat diuji.',
+      'Inisiatif riset Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC) tingkat fakultas di Telkom University yang berfokus membangun prototipe teknologi informasi terapan yang terukur dan dapat diuji.',
     problem:
       'Menerjemahkan konsep akademik TI menjadi prototipe fungsional membutuhkan perumusan masalah formal, validasi kebutuhan sistem, dan dokumentasi rekayasa yang dapat direproduksi.',
     contribution:
       'Menyusun spesifikasi teknis, diagram arsitektur sistem terstruktur, serta mengoordinasikan validasi berulang sesuai pedoman peninjauan tingkat fakultas.',
-  },
-];
-
-const ID_EXPERIENCE_LEDGER: readonly ExperienceItem[] = [
-  {
-    id: 'itsf-pr',
-    period: 'Nov 2026 hingga Sekarang',
-    role: 'Staf Hubungan Masyarakat (Public Relations)',
-    organization: 'ITSF Championship',
-    kind: 'Leadership & Operations',
-    highlights: [
-      'Menyusun jadwal kampanye media sosial terstruktur serta aset komunikasi visual untuk pengumuman turnamen.',
-      'Mengelola relasi mitra media eksternal dan koordinasi publikasi lintas kanal mahasiswa serta regional.',
-      'Bertugas sebagai Team Liaison Officer (LO) yang mengoordinasikan jadwal, pengarahan teknis, dan kebutuhan operasional tim peserta.',
-    ],
-  },
-  {
-    id: 'adikara-2026',
-    period: '2026',
-    role: 'Finalis & Lead Produk (TiMu)',
-    organization: 'Kewirausahaan Nasional Adikara 2026',
-    kind: 'Competition & Research',
-    highlights: [
-      'Merancang model escrow peer-to-peer TiMu serta mesin status penitipan dana empat tahap.',
-      'Berkolaborasi bersama Berni Venus Mutri Azhara dan Vincentius Farrel Hermawan dari validasi masalah hingga presentasi final tingkat nasional.',
-    ],
-  },
-  {
-    id: 'motionhack-5',
-    period: '2025',
-    role: 'Juara 2 (SuperPlus)',
-    organization: 'MotionHack 5.0',
-    kind: 'Competition & Research',
-    highlights: [
-      'Membangun dan mempresentasikan prototipe produk SuperPlus dalam tenggat hackathon hingga meraih Juara 2.',
-      'Menyeimbangkan kelayakan teknis, kejelasan antarmuka, dan strategi bisnis di hadapan panel juri.',
-    ],
-  },
-  {
-    id: 'mobile-innovation-lab',
-    period: '2025',
-    role: 'Kontributor Proyek & Riset (Vantage AI)',
-    organization: 'Mobile Innovation Lab, Telkom University',
-    kind: 'Competition & Research',
-    highlights: [
-      'Berkontribusi pada kajian sistem mobile dan spesifikasi UX terstruktur untuk inisiatif lab Vantage AI.',
-      'Berpartisipasi dalam riset TI terapan tingkat fakultas pada skema PKM-KC Karsa Cipta.',
-    ],
-  },
-];
-
-const ID_EDUCATION_LEDGER: readonly ExperienceItem[] = [
-  {
-    id: 'telkom-university',
-    period: 'Sarjana (S1)',
-    role: 'S1 Teknologi Informasi',
-    organization: 'Telkom University',
-    kind: 'Education',
-    highlights: [
-      'Perkuliahan dan praktikum terapan mencakup rekayasa perangkat lunak, sistem web, Internet of Things (Arduino), serta strategi bisnis digital.',
-      'Aktif mengikuti kompetisi kewirausahaan nasional, hackathon rekayasa, Mobile Innovation Lab, dan riset PKM-KC.',
-    ],
-  },
-];
-
-const ID_CAPABILITY_GROUPS: readonly CapabilityGroup[] = [
-  {
-    index: '01',
-    title: 'Sistem Perangkat Lunak & IoT',
-    summary:
-      'Membangun aplikasi frontend andal, alur status eksplisit, serta prototipe perangkat tertanam berbasis sensor.',
-    items: [
-      'React, TypeScript, Vite & Tailwind CSS',
-      'HTML5 Semantik & Rekayasa UI Aksesibel',
-      'Pemodelan State-Machine & Alur Kerja',
-      'Mikrokontroler Arduino & Sensor Ultrasonik',
-      'Git, GitHub & Otomasi Deployment CI',
-    ],
-  },
-  {
-    index: '02',
-    title: 'Strategi Produk & Bisnis',
-    summary:
-      'Menyelaraskan arsitektur teknis dengan kebutuhan pengguna, kelayakan pasar, dan dokumentasi keputusan yang jelas.',
-    items: [
-      'Desain Alur Escrow & Penitipan Dana Peer-to-Peer',
-      'Penyusunan Studi Kasus Masalah-ke-Solusi',
-      'Riset TI Terapan (Skema PKM-KC)',
-      'Perumusan Ruang Lingkup & Pitching Produk',
-      'Dokumentasi Kebutuhan Lintas Tim',
-    ],
-  },
-  {
-    index: '03',
-    title: 'Kepemimpinan & Hubungan Masyarakat',
-    summary:
-      'Mengoordinasikan komunikasi eksternal, kemitraan media, serta kelancaran operasional kegiatan di lapangan.',
-    items: [
-      'Produksi Kampanye Media Sosial Terstruktur',
-      'Relasi & Koordinasi Mitra Media',
-      'Koordinasi Team Liaison Officer (LO)',
-      'Pengarahan Pemangku Kepentingan & Presentasi Teknis',
-      'Eksekusi Sprint Kolaboratif',
-    ],
   },
 ];
 
@@ -703,12 +623,191 @@ const ID_ACHIEVEMENTS: readonly AchievementItem[] = [
   },
   {
     id: 'motionhack-5',
-    title: 'Juara 2, MotionHack 5.0',
-    issuer: 'Panel Juri MotionHack 5.0',
+    title: 'Juara 2, Hackathon Internal MotionHack 5.0',
+    issuer: 'Mobile Innovation Laboratory, Telkom University',
     year: '2025',
     category: 'Competition',
     summary:
-      'Meraih Juara 2 lewat produk SuperPlus yang memadukan alur pengguna terfokus dengan antarmuka web React dan TypeScript.',
+      'Meraih Juara 2 pada hackathon internal Mobile Innovation Laboratory lewat produk SuperPlus berbasis React dan TypeScript.',
+  },
+  {
+    id: 'pkm-kc-faculty',
+    title: 'Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC)',
+    issuer: 'Fakultas Informatika, Telkom University',
+    year: '2025',
+    category: 'Academic',
+    summary:
+      'Berpartisipasi di tingkat fakultas pada skema Karsa Cipta riset TI terapan dengan menyusun spesifikasi teknis dan prototipe sistem teruji.',
+  },
+  {
+    id: 'sdh-osn-distinction',
+    title: 'Peserta OSN Sekolah 2024 & Predikat IPA (91,50/100,00)',
+    issuer: 'Sekolah Dian Harapan Jambi',
+    year: '2024',
+    category: 'Academic',
+    summary:
+      'Mengikuti OSN tingkat sekolah tahun 2024, lulus jurusan IPA dengan nilai 91,50/100,00, serta menjadi kandidat Ketua OSIS 2024.',
+  },
+];
+
+const ID_EXPERIENCE_LEDGER: readonly ExperienceItem[] = [
+  {
+    id: 'itsf-pr',
+    period: 'Nov 2026 - Sekarang',
+    role: 'Staf Hubungan Masyarakat (Public Relations)',
+    organization: 'ITSF Championship · Bandung, Indonesia',
+    kind: 'Event & Leadership',
+    highlights: [
+      'Produksi Konten: Merancang dan memproduksi konten promosi serta informasi di media sosial untuk memperluas jangkauan audiens dan partisipasi turnamen.',
+      'Mitra Media: Menjalin komunikasi, negosiasi, dan kolaborasi publikasi dengan media kampus maupun eksternal untuk meningkatkan eksposur acara.',
+      'Team Liaison Officer (LO): Menjadi narahubung utama dan dukungan operasional bagi tim basket peserta serta menangani kebutuhan teknis selama turnamen.',
+    ],
+  },
+  {
+    id: 'megabit-mc',
+    period: 'Agu 2026 - Sep 2026',
+    role: 'Master of Ceremonies (MC)',
+    organization: 'PKKMB x Megabit 9.0 · Bandung, Indonesia',
+    kind: 'Event & Leadership',
+    highlights: [
+      'Bertugas sebagai Master of Ceremonies (MC) utama MEGABIT 9.0 di hadapan ratusan mahasiswa baru S1 Teknologi Informasi.',
+      'Membawakan rangkaian acara bertema "Hotel Transylvania", menjaga transisi sesi sesuai rundown, serta mempertahankan antusiasme audiens.',
+      'Berkoordinasi langsung dengan divisi acara lapangan untuk menangani dinamika waktu dan penyesuaian jadwal mendadak secara mulus.',
+    ],
+  },
+  {
+    id: 'megabit-event',
+    period: 'Jun 2026 - Sep 2026',
+    role: 'Staf Manajemen Acara (Event Management Staff)',
+    organization: 'PKKMB x Megabit 9.0 (HMIT Telkom University) · Bandung, Indonesia',
+    kind: 'Event & Leadership',
+    highlights: [
+      'Konsep & Rundown Acara: Merancang alur konsep utama "Hotel Transylvania", rundown, dan pedoman teknis orientasi mahasiswa baru S1 Teknologi Informasi.',
+      'Perencanaan Aktivitas & Interaksi: Menyusun penugasan kelompok kreatif, ice-breaker, dan kegiatan interaktif bagi ratusan mahasiswa baru.',
+      'Koordinasi Lintas Divisi & Operasional Langsung: Mengoordinasikan mobilisasi dan kebutuhan teknis bersama divisi LO, Usher, Logistik, dan PDD serta menyelesaikan kendala jadwal di lapangan.',
+    ],
+  },
+  {
+    id: 'ibl-allstars-2026',
+    period: 'Apr 2026',
+    role: 'Relawan Usher Tribune - IBL All Stars 2026',
+    organization: 'Indonesian Basketball League (IBL) · Bandung, Indonesia',
+    kind: 'Event & Leadership',
+    highlights: [
+      'Mengatur tata duduk dan arus penonton di area tribun selama jam padat pertandingan IBL All-Star Game 2026 bertema "Brighter Future".',
+      'Membantu pengunjung menemukan kursi secara proaktif sekaligus menjaga ketertiban dan suasana arena yang aman serta kondusif.',
+      'Berkolaborasi dengan tim operasional acara untuk menghadirkan layanan hospitality terbaik dan menangani pertanyaan pengunjung secara langsung.',
+    ],
+  },
+  {
+    id: 'jne-it-internship',
+    period: 'Mei 2025',
+    role: 'Magang Departemen Teknologi Informasi',
+    organization: 'PT. Tiki Jalur Nugraha Ekakurir (JNE) · Jambi, Indonesia',
+    kind: 'Work & Internship',
+    highlights: [
+      'Mengembangkan aplikasi web dan mobile serta merancang antarmuka frontend menggunakan JavaScript dan React Native.',
+      'Menangani pemecahan masalah backend untuk menjaga fungsi sistem serta membantu pemeliharaan dan optimasi sistem internal logistik.',
+      'Melakukan troubleshooting perangkat keras komputer untuk operasional harian sekaligus memperoleh pengalaman praktis TI di industri logistik.',
+    ],
+  },
+];
+
+const ID_ORGANISATIONAL_LEDGER: readonly ExperienceItem[] = [
+  {
+    id: 'mobile-innovation-lab',
+    period: 'Okt 2025 - Sep 2026',
+    role: 'Magang Digital Business / Project Manager',
+    organization: 'Mobile Innovation Laboratory, Telkom University · Bandung, Indonesia',
+    kind: 'Organization',
+    highlights: [
+      'Terlibat dalam riset solusi berbasis teknologi mobile untuk masalah sosial pada Divisi Digital Business di Fakultas Informatika Telkom University.',
+      'Mengikuti kelompok studi terstruktur untuk memperdalam konsep bisnis digital dan manajemen proyek.',
+      'Mengevaluasi dampak nyata konsep inovasi mobile serta prototipe terapan di lingkungan laboratorium.',
+    ],
+  },
+  {
+    id: 'sdh-student-council',
+    period: 'Sep 2023 - Nov 2024',
+    role: 'Kepala Divisi Hubungan Masyarakat (Public Relations)',
+    organization: 'OSIS Sekolah Dian Harapan Jambi · Jambi, Indonesia',
+    kind: 'Organization',
+    highlights: [
+      'Memimpin divisi Hubungan Masyarakat dalam membangun citra organisasi dan komunikasi eksternal.',
+      'Mengelola strategi konten media sosial untuk meningkatkan keterlibatan siswa dan komunitas sekolah.',
+      'Mengoordinasikan kampanye serta publikasi lintas divisi sembari mengembangkan kepemimpinan, kerja tim, dan kemampuan berbicara di depan umum.',
+    ],
+  },
+];
+
+const ID_EDUCATION_LEDGER: readonly ExperienceItem[] = [
+  {
+    id: 'telkom-university',
+    period: 'Sep 2025 - Agu 2029 (Perkiraan)',
+    role: 'Mahasiswa Sarjana (S1) Teknologi Informasi',
+    organization: 'Telkom University · Bandung, Indonesia',
+    kind: 'Education',
+    highlights: [
+      'Berpartisipasi dalam Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC) Tingkat Fakultas.',
+      'Mengikuti MotionHack 5.0 (Hackathon Internal Mobile Innovation Laboratory) dan meraih Juara 2.',
+      'Finalis Kewirausahaan Nasional Adikara 2026 bersama TiMu Escrow.',
+      'Bertugas sebagai Master of Ceremonies pada kegiatan Megabit 9.0.',
+    ],
+  },
+  {
+    id: 'sekolah-dian-harapan',
+    period: 'Jan 2023 - Jun 2025',
+    role: 'SMA Jurusan IPA (91,50 / 100,00)',
+    organization: 'Sekolah Dian Harapan · Jambi, Indonesia',
+    kind: 'Education',
+    highlights: [
+      'Kepala Divisi Hubungan Masyarakat OSIS dan kandidat Ketua OSIS Sekolah Dian Harapan Jambi 2024.',
+      'Berpartisipasi dalam Olimpiade Sains Nasional (OSN) tingkat sekolah tahun 2024.',
+      'Master of Ceremony pada peringatan Hari Pendidikan Nasional dan berbagai acara sekolah.',
+      'Panitia Open House Sekolah Dian Harapan Jambi (5K Fun Run) serta Perwakilan Sekolah untuk Open House Tahun Pertama.',
+    ],
+  },
+];
+
+const ID_CAPABILITY_GROUPS: readonly CapabilityGroup[] = [
+  {
+    index: '01',
+    title: 'Hard Skills & Rekayasa',
+    summary:
+      'Membangun aplikasi web dan mobile, antarmuka frontend, prototipe IoT, serta troubleshooting sistem perangkat lunak dan keras.',
+    items: [
+      'Pengembangan Aplikasi (JavaScript & React Native)',
+      'Pemrograman & Pengembangan Web (React, TypeScript, Tailwind CSS)',
+      'Troubleshooting Backend & Pemeliharaan Sistem Internal',
+      'Internet of Things (IoT) & Prototipe Arduino',
+      'Troubleshooting Perangkat Keras Komputer',
+    ],
+  },
+  {
+    index: '02',
+    title: 'Bisnis Digital & Pemecahan Masalah',
+    summary:
+      'Menerjemahkan tantangan bisnis dan sosial menjadi solusi TI terstruktur melalui pemikiran analitis dan desain produk.',
+    items: [
+      'Pemecahan Masalah TI & Solusi Bisnis Berbasis TI',
+      'Riset Bisnis Digital & Manajemen Proyek',
+      'Arsitektur Escrow Peer-to-Peer (TiMu · Adikara 2026)',
+      'Riset TI Terapan (PKM-KC Tingkat Fakultas)',
+      'Berpikir Kritis & Kemampuan Analitis',
+    ],
+  },
+  {
+    index: '03',
+    title: 'Kepemimpinan, Acara & Bahasa',
+    summary:
+      'Memimpin divisi hubungan masyarakat, memandu ratusan peserta sebagai Master of Ceremonies, dan mengoordinasikan operasional acara.',
+    items: [
+      'Kepemimpinan & Manajemen Acara Lintas Divisi',
+      'Hubungan Masyarakat, Mitra Media & Produksi Konten',
+      'Master of Ceremonies & Public Speaking',
+      'Team Liaison Officer (LO) & Layanan Penonton',
+      'Bahasa: Bahasa Indonesia (Asli), Bahasa Inggris (Mahir)',
+    ],
   },
 ];
 
@@ -732,16 +831,18 @@ export const ACHIEVEMENT_CATEGORY_LABELS: Record<
 
 export const EXPERIENCE_KIND_LABELS: Record<
   Language,
-  Record<ExperienceItem['kind'], string>
+  Record<ExperienceKind, string>
 > = {
   en: {
-    'Leadership & Operations': 'Leadership & Operations',
-    'Competition & Research': 'Competition & Research',
+    'Work & Internship': 'Work & Internship',
+    'Event & Leadership': 'Event & Leadership',
+    Organization: 'Organization',
     Education: 'Education',
   },
   id: {
-    'Leadership & Operations': 'Kepemimpinan & Operasional',
-    'Competition & Research': 'Kompetisi & Riset',
+    'Work & Internship': 'Kerja & Magang',
+    'Event & Leadership': 'Acara & Kepemimpinan',
+    Organization: 'Organisasi',
     Education: 'Pendidikan',
   },
 };
@@ -755,6 +856,7 @@ export function getPortfolioBundle(lang: Language): LocalizedPortfolioBundle {
       projects: ID_PROJECTS,
       achievements: ID_ACHIEVEMENTS,
       experienceLedger: ID_EXPERIENCE_LEDGER,
+      organisationalLedger: ID_ORGANISATIONAL_LEDGER,
       educationLedger: ID_EDUCATION_LEDGER,
       capabilityGroups: ID_CAPABILITY_GROUPS,
       ui: ID_UI,
@@ -768,6 +870,7 @@ export function getPortfolioBundle(lang: Language): LocalizedPortfolioBundle {
     projects: PROJECTS,
     achievements: ACHIEVEMENTS,
     experienceLedger: EXPERIENCE_LEDGER,
+    organisationalLedger: ORGANISATIONAL_LEDGER,
     educationLedger: EDUCATION_LEDGER,
     capabilityGroups: CAPABILITY_GROUPS,
     ui: EN_UI,

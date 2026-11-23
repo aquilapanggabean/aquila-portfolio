@@ -7,6 +7,7 @@ import {
   CAPABILITY_GROUPS,
   EDUCATION_LEDGER,
   EXPERIENCE_LEDGER,
+  ORGANISATIONAL_LEDGER,
   PROJECTS,
   SITE_PROFILE,
 } from '../data/portfolio';
@@ -97,7 +98,7 @@ test('validateContactForm accepts valid input and buildMailtoUrl encodes paramet
   assert.ok(mailto.includes('Software%20Engineering%20Internship'));
 });
 
-test('EN and ID bundles have matching structure, omit Current Role, and pass editorial gates', () => {
+test('EN and ID bundles match CV content, retain Adikara 2026, omit Current Role, and pass editorial gates', () => {
   const enBundle = getPortfolioBundle('en');
   const idBundle = getPortfolioBundle('id');
 
@@ -106,16 +107,27 @@ test('EN and ID bundles have matching structure, omit Current Role, and pass edi
     enBundle.projects.map((p) => p.id),
     idBundle.projects.map((p) => p.id)
   );
-  assert.equal(enBundle.achievements.length, idBundle.achievements.length);
+  assert.equal(enBundle.achievements.length, 4);
   assert.deepEqual(
     enBundle.achievements.map((a) => a.id),
     idBundle.achievements.map((a) => a.id)
   );
+  // Ensure Adikara 2026 is preserved in both projects and achievements
+  assert.ok(enBundle.projects.some((p) => p.id === 'timu' && /Adikara 2026/i.test(p.recognition)));
+  assert.ok(enBundle.achievements.some((a) => a.id === 'adikara-2026'));
+
+  // Verify CV Work (5), Organisational (2), and Education (2) ledgers
+  assert.equal(enBundle.experienceLedger.length, 5);
   assert.equal(enBundle.experienceLedger.length, idBundle.experienceLedger.length);
+  assert.equal(enBundle.organisationalLedger.length, 2);
+  assert.equal(enBundle.organisationalLedger.length, idBundle.organisationalLedger.length);
+  assert.equal(enBundle.educationLedger.length, 2);
+  assert.equal(enBundle.educationLedger.length, idBundle.educationLedger.length);
   assert.equal(enBundle.capabilityGroups.length, idBundle.capabilityGroups.length);
 
-  // Verify updated email, LinkedIn profile, and uploaded portrait photo
+  // Verify updated email, phone, LinkedIn profile, and uploaded portrait photo
   assert.equal(SITE_PROFILE.email, 'altair.panggabean@gmail.com');
+  assert.equal(SITE_PROFILE.phone, '+62 812-2366-8133');
   assert.equal(SITE_PROFILE.linkedinUrl, 'https://www.linkedin.com/in/aquilapanggabean');
   assert.equal(
     PORTFOLIO_MEDIA.profile.heroPortrait.src,
@@ -164,6 +176,12 @@ test('EN and ID bundles have matching structure, omit Current Role, and pass edi
         item.organization,
         ...item.highlights,
       ]),
+      ...bundle.organisationalLedger.flatMap((item) => [
+        item.period,
+        item.role,
+        item.organization,
+        ...item.highlights,
+      ]),
       ...bundle.educationLedger.flatMap((item) => [
         item.period,
         item.role,
@@ -191,6 +209,7 @@ test('EN and ID bundles have matching structure, omit Current Role, and pass edi
   assert.equal(PROJECTS.length, enBundle.projects.length);
   assert.equal(ACHIEVEMENTS.length, enBundle.achievements.length);
   assert.equal(EXPERIENCE_LEDGER.length, enBundle.experienceLedger.length);
+  assert.equal(ORGANISATIONAL_LEDGER.length, enBundle.organisationalLedger.length);
   assert.equal(EDUCATION_LEDGER.length, enBundle.educationLedger.length);
   assert.equal(CAPABILITY_GROUPS.length, enBundle.capabilityGroups.length);
 });

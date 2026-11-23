@@ -106,6 +106,18 @@ export function AboutSection({ bundle }: AboutSectionProps) {
                 <span>GitHub ({profile.githubHandle})</span>
                 <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
               </a>
+              <span aria-hidden="true" className="text-[#CBD5E1]">
+                ·
+              </span>
+              <a
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-[#2457D6] hover:text-[#315FC8] font-medium transition-colors"
+              >
+                <span>{ui.aboutResumeLabel}</span>
+                <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+              </a>
             </div>
           </div>
         </div>

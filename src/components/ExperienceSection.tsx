@@ -59,7 +59,7 @@ function LedgerRows({
 }
 
 export function ExperienceSection({ bundle }: ExperienceSectionProps) {
-  const { lang, experienceLedger, educationLedger, ui } = bundle;
+  const { lang, experienceLedger, organisationalLedger, educationLedger, ui } = bundle;
   const [chapterIndex, chapterLabel] = ui.experienceTag.split(' / ');
 
   return (
@@ -99,9 +99,16 @@ export function ExperienceSection({ bundle }: ExperienceSectionProps) {
 
         <div className="reveal-block">
           <h3 className="font-mono text-[11px] sm:text-xs tracking-[0.06em] uppercase text-[#64748B] mb-5">
-            {ui.experienceSubLeadership}
+            {ui.experienceSubWork}
           </h3>
           <LedgerRows items={experienceLedger} lang={lang} />
+        </div>
+
+        <div className="mt-16 reveal-block">
+          <h3 className="font-mono text-[11px] sm:text-xs tracking-[0.06em] uppercase text-[#64748B] mb-5">
+            {ui.experienceSubOrganisational}
+          </h3>
+          <LedgerRows items={organisationalLedger} lang={lang} />
         </div>
 
         <div className="mt-16 reveal-block">

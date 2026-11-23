@@ -172,6 +172,18 @@ export function ContactFooterSection({ bundle }: ContactFooterSectionProps) {
               </div>
 
               <div className="pt-7 border-t border-[#E8EDF3]">
+                <p className="font-mono text-[11px] tracking-[0.06em] uppercase text-[#64748B] mb-2">
+                  {ui.contactDirectPhone}
+                </p>
+                <a
+                  href={profile.phoneHref}
+                  className="text-base sm:text-lg font-semibold tabular-nums text-[#0B1220] hover:text-[#2457D6] underline decoration-[#CBD5E1] underline-offset-4 transition-colors"
+                >
+                  {profile.phone}
+                </a>
+              </div>
+
+              <div className="pt-7 border-t border-[#E8EDF3]">
                 <p className="font-mono text-[11px] tracking-[0.06em] uppercase text-[#64748B] mb-3">
                   {ui.contactSocialProfiles}
                 </p>
@@ -192,6 +204,15 @@ export function ContactFooterSection({ bundle }: ContactFooterSectionProps) {
                     className="inline-flex items-center justify-between gap-3 py-2 border-b border-[#E8EDF3] font-mono text-xs tracking-[0.04em] font-medium text-[#0B1220] hover:text-[#2457D6] transition-colors"
                   >
                     <span>GitHub ({profile.githubHandle})</span>
+                    <ArrowUpRight className="w-4 h-4 shrink-0" aria-hidden="true" />
+                  </a>
+                  <a
+                    href={profile.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-between gap-3 py-2 border-b border-[#E8EDF3] font-mono text-xs tracking-[0.04em] font-medium text-[#2457D6] hover:text-[#315FC8] transition-colors"
+                  >
+                    <span>{ui.contactResumeLabel}</span>
                     <ArrowUpRight className="w-4 h-4 shrink-0" aria-hidden="true" />
                   </a>
                 </div>

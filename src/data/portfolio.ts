@@ -33,12 +33,18 @@ export interface ProjectItem {
   escrowStateMachine?: EscrowStateStep[];
 }
 
+export type ExperienceKind =
+  | 'Work & Internship'
+  | 'Event & Leadership'
+  | 'Organization'
+  | 'Education';
+
 export interface ExperienceItem {
   id: string;
   period: string;
   role: string;
   organization: string;
-  kind: 'Leadership & Operations' | 'Competition & Research' | 'Education';
+  kind: ExperienceKind;
   highlights: string[];
 }
 
@@ -80,9 +86,12 @@ export const SITE_PROFILE = {
   headlineLast: 'PANGGABEAN',
   headline: 'Aquila Altair Panggabean',
   positioning:
-    'Information Technology undergraduate at Telkom University. Bridging Digital Innovation, IoT, and Business Strategy into Scalable IT Solutions. Founder and Strategist of TiMu Escrow.',
-  scrollHint: 'Scroll down to inspect the curated case archive.',
+    'Information Technology student at Telkom University focused on the Internet of Things (IoT), digital innovation, IT problem-solving, and business solutions through technology. Finalist at National Entrepreneurship Adikara 2026 with TiMu Escrow.',
+  scrollHint: 'Scroll down to inspect the curated case archive and CV ledger.',
   email: 'altair.panggabean@gmail.com',
+  phone: '+62 812-2366-8133',
+  phoneHref: 'tel:+6281223668133',
+  resumeUrl: '/assets/aistudio/Aquila_Altair_Panggabean-resume__10__19d10eec.pdf',
   githubUrl: 'https://github.com/aquilapanggabean',
   githubHandle: '@aquilapanggabean',
   linkedinUrl: 'https://www.linkedin.com/in/aquilapanggabean',
@@ -92,27 +101,27 @@ export const SITE_PROFILE = {
     {
       index: '01',
       label: 'Software & IoT Systems',
-      detail: 'Web applications, state-machine workflows, and Arduino sensor hardware',
+      detail: 'Web and mobile development (JavaScript, React Native, React), plus Arduino IoT hardware',
     },
     {
       index: '02',
-      label: 'Product & Business Strategy',
-      detail: 'Escrow transaction modeling, structured scoping, and national case pitches',
+      label: 'Digital Business & IT Solutions',
+      detail: 'Escrow transaction modeling, Mobile Innovation Lab research, and PKM-KC prototyping',
     },
     {
       index: '03',
-      label: 'Leadership & Public Relations',
-      detail: 'Campaign production, media partner coordination, and team liaison operations',
+      label: 'Public Relations & Event Leadership',
+      detail: 'Master of Ceremonies, media partner outreach, event operations, and team liaison work',
     },
   ],
   aboutProse: [
-    'I am an Information Technology undergraduate at Telkom University focused on turning technical architecture and business requirements into practical software and connected hardware systems. My work sits at the intersection of structured web engineering, microcontroller-based IoT prototyping, and clear product scoping.',
-    'Across national entrepreneurship competitions, hackathons, applied faculty research, and student public relations roles, I prioritize measurable execution: designing reliable transaction states, validating hardware telemetry on the bench, and communicating clearly across technical and non-technical teams.',
+    'I am an Information Technology undergraduate at Telkom University (2025 to 2029) with strong interests in the Internet of Things (IoT), digital innovation, IT problem-solving, and addressing business challenges with practical IT solutions.',
+    'From developing web and mobile applications during my IT Department internship at PT. Tiki Jalur Nugraha Ekakurir (JNE) and researching mobile-based social solutions at Mobile Innovation Laboratory, to reaching the National Entrepreneurship Adikara 2026 finals with TiMu and leading large-scale campus and national events, I remain committed to continuous self-development and adapting to new technologies.',
   ],
   aboutFacts: [
-    { label: 'Institution', value: 'Telkom University' },
-    { label: 'Program', value: 'B.Sc. Information Technology (Undergraduate)' },
-    { label: 'Core Domains', value: 'Web Engineering, Arduino IoT, Product Strategy' },
+    { label: 'Institution', value: 'Telkom University (Sep 2025 - Aug 2029)' },
+    { label: 'Core Focus', value: 'IoT, Digital Innovation & Business IT Solutions' },
+    { label: 'Languages', value: 'Bahasa Indonesia (Native), English (Proficient)' },
   ],
 } as const;
 
@@ -199,17 +208,17 @@ export const PROJECTS: ProjectItem[] = [
     id: 'superplus',
     index: '02',
     title: 'SuperPlus',
-    recognition: '2nd Place, MotionHack 5.0',
+    recognition: '2nd Place, MotionHack 5.0 (Mobile Innovation Lab)',
     category: 'FinTech & Web',
     year: '2025',
     role: 'Product & Frontend Developer',
     overview:
-      'Hackathon product built under tight delivery constraints for MotionHack 5.0, pairing focused user workflow design with a functional web interface and business viability pitch.',
+      'Internal hackathon product built for MotionHack 5.0 by Mobile Innovation Laboratory, pairing focused user workflow design with a functional web interface and business viability pitch.',
     problem:
       'Teams competing in time-boxed product sprints often split between over-scoped slides and unfinished interfaces that fail to demonstrate real user flows.',
     contribution:
       'Translated the core user journey into a working frontend prototype, aligned feature scope with judging criteria, and delivered the technical walkthrough that earned 2nd Place.',
-    technologies: ['React', 'TypeScript', 'Vite', 'UI Prototyping', 'Product Strategy'],
+    technologies: ['React', 'TypeScript', 'Vite', 'UI Prototyping', 'Digital Business'],
     media: PORTFOLIO_MEDIA.projects.superplus,
     repositoryUrl: 'https://github.com/aquilapanggabean',
   },
@@ -217,21 +226,21 @@ export const PROJECTS: ProjectItem[] = [
     id: 'vantage-ai',
     index: '03',
     title: 'Vantage AI',
-    recognition: 'Mobile Innovation Lab, Telkom University',
+    recognition: 'Mobile Innovation Laboratory, Telkom University',
     category: 'Mobile & Research',
     year: '2025',
-    role: 'Mobile Systems Contributor',
+    role: 'Digital Business & Mobile Systems Intern',
     overview:
-      'Applied mobile application research initiative inside Telkom University Mobile Innovation Lab exploring structured intelligent workflows and clean mobile information architecture.',
+      'Applied mobile innovation research initiative at Telkom University Mobile Innovation Laboratory focused on solving social problems through structured mobile workflows and digital business modeling.',
     problem:
-      'Early lab prototypes needed a repeatable mobile interaction structure capable of presenting analytical outputs clearly on compact screens without overwhelming users.',
+      'Early lab prototypes needed a clear bridge between social-impact research, viable digital business models, and repeatable mobile interaction structures.',
     contribution:
-      'Contributed to mobile interaction architecture, evaluated user task flows, and documented technical requirements within the lab research cycle.',
+      'Engaged in study group research on mobile-based solutions to social problems, evaluated real-world application impact, and documented structured product requirements.',
     technologies: [
+      'Digital Business Modeling',
       'Mobile UI Architecture',
+      'Project Management',
       'Applied Research',
-      'Workflow Design',
-      'System Documentation',
     ],
     media: PORTFOLIO_MEDIA.projects.vantageAi,
   },
@@ -262,7 +271,7 @@ export const PROJECTS: ProjectItem[] = [
     year: '2025',
     role: 'Applied IT Researcher',
     overview:
-      'Faculty-level Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC) research initiative focused on constructing a grounded, testable applied information technology prototype.',
+      'Faculty-level Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC) research initiative at Telkom University focused on constructing a grounded, testable applied information technology prototype.',
     problem:
       'Translating academic IT concepts into working functional prototypes requires formal problem framing, system requirements validation, and reproducible engineering documentation.',
     contribution:
@@ -289,59 +298,119 @@ export const ACHIEVEMENTS: AchievementItem[] = [
   },
   {
     id: 'motionhack-5',
-    title: '2nd Place, MotionHack 5.0',
-    issuer: 'MotionHack 5.0 Competition Panel',
+    title: '2nd Place, MotionHack 5.0 Internal Hackathon',
+    issuer: 'Mobile Innovation Laboratory, Telkom University',
     year: '2025',
     category: 'Competition',
     summary:
-      'Secured 2nd Place by delivering SuperPlus, pairing focused user workflow design with a working React and TypeScript interface.',
+      'Secured 2nd Place in the internal hackathon organized by Mobile Innovation Laboratory by delivering SuperPlus with React and TypeScript.',
+  },
+  {
+    id: 'pkm-kc-faculty',
+    title: 'Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC)',
+    issuer: 'Faculty of Informatics, Telkom University',
+    year: '2025',
+    category: 'Academic',
+    summary:
+      'Participated at the faculty level in the Karsa Cipta applied IT research track, developing technical specifications and testable system prototypes.',
+  },
+  {
+    id: 'sdh-osn-distinction',
+    title: '2024 School OSN Participant & Science Honors (91.50/100.00)',
+    issuer: 'Sekolah Dian Harapan Jambi',
+    year: '2024',
+    category: 'Academic',
+    summary:
+      'Competed in the 2024 School National Science Olympiad (OSN), graduated in the Science track with a 91.50/100.00 score, and ran for Student Council President 2024.',
   },
 ];
 
 export const EXPERIENCE_LEDGER: ExperienceItem[] = [
   {
     id: 'itsf-pr',
-    period: 'Nov 2026 to Present',
-    role: 'Staff of Public Relations',
-    organization: 'ITSF Championship',
-    kind: 'Leadership & Operations',
+    period: 'Nov 2026 - Present',
+    role: 'Staff of Public Relation',
+    organization: 'ITSF Championship · Bandung, Indonesia',
+    kind: 'Event & Leadership',
     highlights: [
-      'Produced structured social media campaign schedules and visual communication assets for tournament announcements.',
-      'Managed external media partner relations and publication coordination across student and regional channels.',
-      'Served as Team Liaison Officer (LO), coordinating schedules, briefings, and operational inquiries for participating teams.',
+      'Content Creation: Designed and produced promotional and informational social media content to grow audience reach and tournament participation.',
+      'Media Partners: Communicated, negotiated, and collaborated on publications with on-campus and external media outlets to expand exposure.',
+      'Team Liaison Officer (LO): Served as primary point of contact and operational support for participating basketball teams, addressing technical needs throughout the tournament.',
     ],
   },
   {
-    id: 'adikara-2026',
-    period: '2026',
-    role: 'Finalist & Product Lead (TiMu)',
-    organization: 'National Entrepreneurship Adikara 2026',
-    kind: 'Competition & Research',
+    id: 'megabit-mc',
+    period: 'Aug 2026 - Sep 2026',
+    role: 'Master of Ceremonies',
+    organization: 'PKKMB x Megabit 9.0 · Bandung, Indonesia',
+    kind: 'Event & Leadership',
     highlights: [
-      'Architected the TiMu peer-to-peer escrow model and four-step fund custody state machine.',
-      'Collaborated with Berni Venus Mutri Azhara and Vincentius Farrel Hermawan from problem validation through national finalist presentation.',
+      'Served as lead Master of Ceremonies (MC) for MEGABIT 9.0, hosting hundreds of incoming Information Technology undergraduate students.',
+      'Delivered the "Hotel Transylvania"-themed program, managed session transitions according to rundown, and maintained high audience engagement.',
+      'Improvised and coordinated with the on-field event division to handle real-time pacing dynamics and sudden schedule adjustments smoothly.',
     ],
   },
   {
-    id: 'motionhack-5',
-    period: '2025',
-    role: '2nd Place Finisher (SuperPlus)',
-    organization: 'MotionHack 5.0',
-    kind: 'Competition & Research',
+    id: 'megabit-event',
+    period: 'Jun 2026 - Sep 2026',
+    role: 'Event Management Staff',
+    organization: 'PKKMB x Megabit 9.0 (HMIT Telkom University) · Bandung, Indonesia',
+    kind: 'Event & Leadership',
     highlights: [
-      'Built and pitched the SuperPlus product prototype within hackathon delivery constraints, securing 2nd Place.',
-      'Balanced technical feasibility, interface clarity, and business strategy under panel evaluation.',
+      'Event Concept & Rundown Design: Designed the "Hotel Transylvania" orientation concept flow, rundown, and technical guidelines for B.Sc. Information Technology freshmen.',
+      'Engagement & Activity Planning: Developed creative group assignments, ice-breakers, and interactive activities to help hundreds of new students adjust.',
+      'Cross-Division Coordination & Live Operations: Coordinated mobilization plans and technical requirements with LO, Usher, Logistics, and PDD divisions while resolving on-site scheduling issues.',
     ],
   },
+  {
+    id: 'ibl-allstars-2026',
+    period: 'Apr 2026',
+    role: 'IBL All Stars 2026 - Usher Tribune Volunteer',
+    organization: 'Indonesian Basketball League (IBL) · Bandung, Indonesia',
+    kind: 'Event & Leadership',
+    highlights: [
+      'Managed seating arrangements and crowd flow in the grandstand area during high-traffic peak periods at the 2026 IBL All-Star Game ("Brighter Future").',
+      'Proactively guided visitors to their seats while maintaining a safe, orderly, and conducive stadium environment.',
+      'Collaborated with the event operations team to deliver high-quality hospitality and resolve guest inquiries in real time.',
+    ],
+  },
+  {
+    id: 'jne-it-internship',
+    period: 'May 2025',
+    role: 'Information Technology Department Internship',
+    organization: 'PT. Tiki Jalur Nugraha Ekakurir (JNE) · Jambi, Indonesia',
+    kind: 'Work & Internship',
+    highlights: [
+      'Developed web and mobile applications and designed front-end interfaces using JavaScript and React Native.',
+      'Troubleshot back-end issues to support system functionality and assisted in maintaining and optimizing internal logistics systems.',
+      'Handled day-to-day computer hardware troubleshooting while gaining practical IT experience in real-world logistics operations.',
+    ],
+  },
+];
+
+export const ORGANISATIONAL_LEDGER: ExperienceItem[] = [
   {
     id: 'mobile-innovation-lab',
-    period: '2025',
-    role: 'Project & Research Contributor (Vantage AI)',
-    organization: 'Mobile Innovation Lab, Telkom University',
-    kind: 'Competition & Research',
+    period: 'Oct 2025 - Sep 2026',
+    role: 'Digital Business / Project Manager Internship',
+    organization: 'Mobile Innovation Laboratory, Telkom University · Bandung, Indonesia',
+    kind: 'Organization',
     highlights: [
-      'Contributed to mobile system exploration and structured UX specifications for the Vantage AI lab initiative.',
-      'Participated in faculty-level applied IT research under the PKM-KC Karsa Cipta track.',
+      'Engaged in research on mobile-based solutions to social problems under the Digital Business Division at Telkom University Faculty of Informatics.',
+      'Participated in structured study groups to deepen digital business concepts and project management practices.',
+      'Evaluated the real-world impact of mobile innovation concepts and applied student prototypes.',
+    ],
+  },
+  {
+    id: 'sdh-student-council',
+    period: 'Sep 2023 - Nov 2024',
+    role: 'Head of Public Relations Division',
+    organization: 'Sekolah Dian Harapan Jambi Student Council · Jambi, Indonesia',
+    kind: 'Organization',
+    highlights: [
+      'Led the Public Relations division to strengthen organizational branding and external communications.',
+      'Managed social media content strategy to increase student and wider community engagement.',
+      'Coordinated cross-division campaigns and publicizing activities while developing leadership, teamwork, and public speaking skills.',
     ],
   },
 ];
@@ -349,13 +418,28 @@ export const EXPERIENCE_LEDGER: ExperienceItem[] = [
 export const EDUCATION_LEDGER: ExperienceItem[] = [
   {
     id: 'telkom-university',
-    period: 'Undergraduate',
-    role: 'B.Sc. in Information Technology',
-    organization: 'Telkom University',
+    period: 'Sep 2025 - Aug 2029 (Expected)',
+    role: 'Undergraduate Information Technology Student',
+    organization: 'Telkom University · Bandung, Indonesia',
     kind: 'Education',
     highlights: [
-      'Coursework and applied lab work spanning software engineering, web systems, Internet of Things (Arduino), and digital business strategy.',
-      'Active participant in national entrepreneurship competitions, engineering hackathons, Mobile Innovation Lab, and PKM-KC research.',
+      'Participating in Program Kreativitas Mahasiswa Karsa Cipta (PKM-KC) at the Faculty Level.',
+      'Joined MotionHack 5.0 (Internal Hackathon by Mobile Innovation Laboratory) and earned 2nd Place.',
+      'Finalist at National Entrepreneurship Adikara 2026 with TiMu Escrow.',
+      'Served as Master of Ceremonies in Megabit 9.0.',
+    ],
+  },
+  {
+    id: 'sekolah-dian-harapan',
+    period: 'Jan 2023 - Jun 2025',
+    role: 'Senior High School, Science (91.50 / 100.00)',
+    organization: 'Sekolah Dian Harapan · Jambi, Indonesia',
+    kind: 'Education',
+    highlights: [
+      'Head of Public Relations, Student Council; ran for Student Council President of Sekolah Dian Harapan Jambi 2024.',
+      'Participated in the 2024 School National Science Olympiad (OSN).',
+      'Master of Ceremony at National Education Day and various school events.',
+      'Open House Committee (5K Fun Run) and School Representative for 1st Year Sekolah Dian Harapan Jambi Open House.',
     ],
   },
 ];
@@ -363,41 +447,41 @@ export const EDUCATION_LEDGER: ExperienceItem[] = [
 export const CAPABILITY_GROUPS: CapabilityGroup[] = [
   {
     index: '01',
-    title: 'Software & IoT Systems',
+    title: 'Hard Skills & Engineering',
     summary:
-      'Building reliable frontend applications, explicit state flows, and sensor-driven embedded prototypes.',
+      'Building web and mobile applications, front-end interfaces, IoT prototypes, and troubleshooting software and hardware systems.',
     items: [
-      'React, TypeScript, Vite & Tailwind CSS',
-      'Semantic HTML5 & Accessible UI Engineering',
-      'State-Machine & Workflow Modeling',
-      'Arduino Microcontrollers & Ultrasonic Sensors',
-      'Git, GitHub & Automated CI Deployment',
+      'App Development (JavaScript & React Native)',
+      'Programming & Web Development (React, TypeScript, Tailwind CSS)',
+      'Back-End Troubleshooting & Internal System Maintenance',
+      'Internet of Things (IoT) & Arduino Prototyping',
+      'Computer Hardware Troubleshooting',
     ],
   },
   {
     index: '02',
-    title: 'Product & Business Strategy',
+    title: 'Digital Business & Problem Solving',
     summary:
-      'Aligning technical architecture with user problems, market viability, and clear decision documentation.',
+      'Translating business and social challenges into structured IT solutions through analytical thinking and product design.',
     items: [
-      'Peer-to-Peer Escrow & Custody Flow Design',
-      'Problem-to-Solution Case Study Framing',
-      'Applied IT Research (PKM-KC Track)',
-      'Competitive Product Scoping & Pitching',
-      'Cross-Team Requirements Documentation',
+      'IT Problem-Solving & Business IT Solutions',
+      'Digital Business Research & Project Management',
+      'Peer-to-Peer Escrow Architecture (TiMu · Adikara 2026)',
+      'Applied IT Research (PKM-KC Faculty Level)',
+      'Critical Thinking & Analytical Skills',
     ],
   },
   {
     index: '03',
-    title: 'Leadership & Public Relations',
+    title: 'Leadership, Events & Languages',
     summary:
-      'Coordinating external communications, partner relationships, and on-the-ground event operations.',
+      'Leading public relations divisions, hosting hundreds of attendees as Master of Ceremonies, and coordinating live event operations.',
     items: [
-      'Social Media Campaign Production',
-      'Media Partner Relations & Outreach',
-      'Team Liaison Officer (LO) Coordination',
-      'Stakeholder Briefings & Technical Presentation',
-      'Collaborative Sprint Execution',
+      'Leadership & Cross-Division Event Management',
+      'Public Relations, Media Partnerships & Content Creation',
+      'Master of Ceremonies & Public Speaking',
+      'Team Liaison Officer (LO) & Crowd Hospitality',
+      'Languages: Bahasa Indonesia (Native), English (Proficient)',
     ],
   },
 ];
