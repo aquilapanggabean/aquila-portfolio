@@ -8,10 +8,6 @@ import {
 } from '../data/portfolio';
 import { filterProjects } from '../utils/portfolio';
 import { EditorialImage } from './EditorialImage';
-import {
-  SuperPlusBlueprintPlate,
-  hasCustomVisualPlate,
-} from './ProjectVisualPlate';
 
 interface ProjectsSectionProps {
   bundle: LocalizedPortfolioBundle;
@@ -185,17 +181,11 @@ export function ProjectsSection({
                       className="group block w-full text-left border border-[#E2E8F0] hover:border-[#94A3B8] rounded-[4px] overflow-hidden bg-[#F7F8FA] p-1.5 transition-colors duration-200 focus-visible:outline-offset-4"
                     >
                       <div className="aspect-[16/9] w-full rounded-[2px] overflow-hidden">
-                        {hasCustomVisualPlate(project.id) ? (
-                          <div className="w-full h-full transition-transform duration-300 ease-out group-hover:scale-[1.015]">
-                            <SuperPlusBlueprintPlate copy={ui.superPlusPlate} />
-                          </div>
-                        ) : (
-                          <EditorialImage
-                            asset={project.media}
-                            className="w-full h-full"
-                            imgClassName="transition-transform duration-300 ease-out group-hover:scale-[1.02]"
-                          />
-                        )}
+                        <EditorialImage
+                          asset={project.media}
+                          className="w-full h-full"
+                          imgClassName="transition-transform duration-300 ease-out group-hover:scale-[1.02]"
+                        />
                       </div>
                     </button>
                   </div>
@@ -269,9 +259,21 @@ export function ProjectsSection({
                           href={project.liveDemoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2.5 font-mono text-xs tracking-[0.06em] uppercase font-medium text-[#2457D6] hover:text-[#315FC8] transition-colors whitespace-nowrap shrink-0"
+                          className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2.5 font-mono text-xs tracking-[0.06em] uppercase font-medium text-[#2457D6] bg-white border border-[#CBD5E1] hover:border-[#2457D6] hover:text-[#315FC8] rounded-[4px] transition-colors whitespace-nowrap shrink-0"
                         >
                           <span>{ui.projectsOpenDemo}</span>
+                          <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+                        </a>
+                      )}
+
+                      {project.pitchDeckUrl && (
+                        <a
+                          href={project.pitchDeckUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2.5 font-mono text-xs tracking-[0.06em] uppercase font-medium text-[#0B1220] bg-white border border-[#CBD5E1] hover:border-[#2457D6] hover:text-[#2457D6] rounded-[4px] transition-colors duration-150 whitespace-nowrap shrink-0"
+                        >
+                          <span>{ui.projectsViewPitchDeck}</span>
                           <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
                         </a>
                       )}

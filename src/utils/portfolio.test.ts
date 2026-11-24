@@ -1,7 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { getPortfolioBundle } from '../data/i18n';
-import { PORTFOLIO_MEDIA } from '../data/media';
+import {
+  EXPERIENCE_GALLERIES,
+  EXPERIENCE_MEDIA,
+  PORTFOLIO_MEDIA,
+  PROJECT_GALLERIES,
+} from '../data/media';
 import {
   ACHIEVEMENTS,
   CAPABILITY_GROUPS,
@@ -125,15 +130,51 @@ test('EN and ID bundles match CV, use ADIKARA 2026: Entrepreneurship, include EC
   assert.equal(enBundle.profile.badgeMotionHack, 'MOTIONHACK 5.0 3RD PLACE');
   assert.equal(idBundle.profile.badgeMotionHack, 'JUARA 3 MOTIONHACK 5.0');
 
-  // Verify ECCT & EPrT certificates and Experience Photo Documentation gallery
-  assert.equal(enBundle.certificates.length, 2);
-  assert.equal(idBundle.certificates.length, 2);
+  // Verify TiMu links, SuperPlus (no GitHub), Vantage AI Computer Vision copy, and EZPark IR/LCD/Servo copy
+  const timuEn = enBundle.projects.find((p) => p.id === 'timu');
+  const superplusEn = enBundle.projects.find((p) => p.id === 'superplus');
+  const vantageEn = enBundle.projects.find((p) => p.id === 'vantage-ai');
+  const ezparkEn = enBundle.projects.find((p) => p.id === 'ezpark');
+
+  assert.equal(timuEn?.repositoryUrl, 'https://github.com/aquilapanggabean/TiMu');
+  assert.equal(timuEn?.liveDemoUrl, 'https://timu-fawn.vercel.app/');
+  assert.equal(timuEn?.gallery?.length, 3);
+
+  assert.equal(superplusEn?.repositoryUrl, undefined);
+  assert.equal(superplusEn?.pitchDeckUrl, '/assets/aistudio/SuperPlus__1__ebfd9505.pdf');
+  assert.equal(superplusEn?.gallery?.length, 4);
+  assert.ok(superplusEn?.overview.includes('SmartBid'));
+
+  assert.equal(
+    vantageEn?.pitchDeckUrl,
+    '/assets/aistudio/Black_and_White_Modern_Innovative_AI_Presentation__1__2d6d3c6f.pdf'
+  );
+  assert.equal(vantageEn?.gallery?.length, 3);
+  assert.ok(vantageEn?.overview.includes('Computer Vision'));
+
+  assert.equal(ezparkEn?.gallery?.length, 2);
+  assert.ok(ezparkEn?.overview.includes('infrared (IR) sensors'));
+  assert.ok(ezparkEn?.overview.includes('LCD screen'));
+  assert.ok(ezparkEn?.overview.includes('servo motor'));
+
+  // Verify 4 certificates (all with real certificate photos) and 4 Experience photos with multi-photo galleries
+  assert.equal(enBundle.certificates.length, 4);
+  assert.equal(idBundle.certificates.length, 4);
   assert.deepEqual(
     enBundle.certificates.map((c) => c.id),
-    ['ecct-2026', 'eprt-2025']
+    ['huawei-ai-2026', 'ecct-2026', 'eprt-2025', 'ibl-allstar-2026']
   );
+  for (const cert of enBundle.certificates) {
+    assert.ok(cert.media?.src, `Certificate ${cert.id} must have a verified image`);
+  }
   assert.equal(enBundle.experiencePhotos.length, 4);
   assert.equal(idBundle.experiencePhotos.length, 4);
+  for (const item of enBundle.experiencePhotos) {
+    assert.ok(item.media?.src, `Experience photo ${item.id} must have a verified image`);
+  }
+  assert.equal(enBundle.experiencePhotos[0].gallery?.length, 3);
+  assert.equal(enBundle.experiencePhotos[1].gallery?.length, 2);
+  assert.equal(enBundle.experiencePhotos[3].gallery?.length, 2);
 
   // Verify CV Work (5), Organisational (2), and Education (2) ledgers + consistent Megabit org naming
   const expectedMegabitOrg = 'PKKMB x Megabit 9.0 (HMIT Telkom University) · Bandung, Indonesia';
@@ -271,6 +312,11 @@ test('all media assets declare consistent width, height, and aspectRatio values'
     ...Object.values(PORTFOLIO_MEDIA.profile),
     ...Object.values(PORTFOLIO_MEDIA.projects),
     ...Object.values(PORTFOLIO_MEDIA.certificates),
+    ...Object.values(PROJECT_GALLERIES).flatMap((list) => list ?? []),
+    ...Object.values(EXPERIENCE_MEDIA).filter((item): item is NonNullable<typeof item> =>
+      Boolean(item)
+    ),
+    ...Object.values(EXPERIENCE_GALLERIES).flatMap((list) => list ?? []),
   ];
 
   for (const asset of allAssets) {

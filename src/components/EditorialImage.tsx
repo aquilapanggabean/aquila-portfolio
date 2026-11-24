@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { MediaAspectRatio, MediaAsset } from '../data/media';
 
 interface EditorialImageProps {
@@ -25,6 +25,10 @@ export function EditorialImage({
   const [failed, setFailed] = useState(false);
   const aspectClass = ASPECT_CLASS_MAP[asset.aspectRatio];
 
+  useEffect(() => {
+    setFailed(false);
+  }, [asset.src]);
+
   if (failed) {
     return (
       <div
@@ -46,11 +50,14 @@ export function EditorialImage({
     );
   }
 
+  const fitClass = asset.fit === 'contain' ? 'object-contain' : 'object-cover';
+
   return (
     <div
       className={`w-full ${aspectClass} overflow-hidden ${
         darkSurface ? 'bg-[#101C30]' : 'bg-[#F7F8FA]'
       } ${className}`}
+      style={asset.surfaceBg ? { backgroundColor: asset.surfaceBg } : undefined}
     >
       <img
         src={asset.src}
@@ -58,11 +65,14 @@ export function EditorialImage({
         width={asset.width}
         height={asset.height}
         fetchPriority={priority ? 'high' : undefined}
-        loading={priority ? undefined : 'lazy'}
-        decoding="async"
         referrerPolicy="no-referrer"
         onError={() => setFailed(true)}
-        className={`block w-full h-full ${aspectClass} object-cover ${imgClassName}`}
+        style={
+          asset.objectPosition
+            ? { objectPosition: asset.objectPosition }
+            : undefined
+        }
+        className={`block w-full h-full ${aspectClass} ${fitClass} ${imgClassName}`}
       />
     </div>
   );

@@ -153,7 +153,7 @@ export function AchievementsSection({ bundle }: AchievementsSectionProps) {
                 {ui.achievementsSubCertifications}
               </h3>
               <p className="font-mono text-[11px] sm:text-xs tracking-[0.06em] uppercase text-[#64748B] tabular-nums">
-                TELKOM UNIVERSITY LANGUAGE CENTER
+                {ui.achievementsCertMetaRight}
               </p>
             </div>
 
@@ -165,44 +165,94 @@ export function AchievementsSection({ bundle }: AchievementsSectionProps) {
                   className="bg-white border border-[#E8EDF3] rounded-[4px] overflow-hidden flex flex-col justify-between"
                 >
                   <div>
-                    {/* Clickable 4:3 Certificate Photo Preview */}
-                    <button
-                      type="button"
-                      onClick={() => setActiveCert(cert)}
-                      aria-label={`${ui.achievementsInspectCert}: ${cert.title}`}
-                      data-cursor="project"
-                      className="group relative block w-full text-left bg-[#F7F8FA] p-4 sm:p-5 border-b border-[#E8EDF3] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#2457D6]"
-                    >
-                      <div className="overflow-hidden rounded-[2px] border border-[#E2E8F0] bg-white">
-                        <EditorialImage
-                          asset={cert.media}
-                          imgClassName="object-contain bg-white transition-transform duration-300 group-hover:scale-[1.015]"
-                        />
+                    {/* Clickable 4:3 Certificate Photo Preview or Clean Documentary Plate */}
+                    {cert.media ? (
+                      <button
+                        type="button"
+                        onClick={() => setActiveCert(cert)}
+                        aria-label={`${ui.achievementsInspectCert}: ${cert.title}`}
+                        data-cursor="project"
+                        className="group relative block w-full text-left bg-[#F7F8FA] p-4 sm:p-5 border-b border-[#E8EDF3] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#2457D6]"
+                      >
+                        <div className="overflow-hidden rounded-[2px] border border-[#E2E8F0] bg-white">
+                          <EditorialImage
+                            asset={cert.media}
+                            imgClassName="object-contain bg-white transition-transform duration-300 group-hover:scale-[1.015]"
+                          />
+                        </div>
+                        <span className="mt-3 flex items-center justify-between font-mono text-[11px] tracking-[0.06em] uppercase text-[#64748B] group-hover:text-[#2457D6] transition-colors">
+                          <span>
+                            {cert.index} / {cert.code}
+                          </span>
+                          <span className="inline-flex items-center gap-1.5">
+                            <span>{ui.achievementsInspectCert}</span>
+                            <Maximize2 className="w-3 h-3" aria-hidden="true" />
+                          </span>
+                        </span>
+                      </button>
+                    ) : (
+                      <div className="bg-[#F7F8FA] p-4 sm:p-5 border-b border-[#E8EDF3]">
+                        <div className="aspect-[4/3] w-full rounded-[2px] border border-[#E2E8F0] bg-white p-6 sm:p-8 flex flex-col justify-between relative">
+                          <span
+                            aria-hidden="true"
+                            className="absolute top-3 left-3 w-3 h-3 border-t border-l border-[#CBD5E1]"
+                          />
+                          <span
+                            aria-hidden="true"
+                            className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[#CBD5E1]"
+                          />
+                          <span
+                            aria-hidden="true"
+                            className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[#CBD5E1]"
+                          />
+                          <span
+                            aria-hidden="true"
+                            className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-[#CBD5E1]"
+                          />
+                          <div className="flex items-center justify-between font-mono text-[11px] tracking-[0.06em] uppercase tabular-nums text-[#64748B]">
+                            <span className="text-[#2457D6] font-medium">
+                              {cert.index} / {cert.code}
+                            </span>
+                            <span>{cert.issuedDate}</span>
+                          </div>
+                          <div className="my-auto text-center px-2">
+                            <p className="font-mono text-[11px] tracking-[0.08em] uppercase text-[#2457D6]">
+                              {cert.levelLabel}
+                            </p>
+                            <p className="mt-2 font-serif italic text-2xl sm:text-[28px] leading-snug text-[#0B1220]">
+                              {cert.title}
+                            </p>
+                            <p className="mt-2 font-mono text-xs text-[#475569]">
+                              {cert.issuer}
+                            </p>
+                          </div>
+                          <div className="pt-3 border-t border-[#E8EDF3] flex items-center justify-between font-mono text-[10px] tracking-[0.04em] uppercase text-[#64748B]">
+                            <span>Aquila Altair Panggabean</span>
+                            <span>{cert.certificateNumber ?? cert.scoreLabel}</span>
+                          </div>
+                        </div>
+                        <span className="mt-3 flex items-center justify-between font-mono text-[11px] tracking-[0.06em] uppercase text-[#64748B]">
+                          <span>
+                            {cert.index} / {cert.code}
+                          </span>
+                          <span>{cert.scoreLabel}</span>
+                        </span>
                       </div>
-                      <span className="mt-3 flex items-center justify-between font-mono text-[11px] tracking-[0.06em] uppercase text-[#64748B] group-hover:text-[#2457D6] transition-colors">
-                        <span>
-                          {cert.index} / {cert.code}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5">
-                          <span>{ui.achievementsInspectCert}</span>
-                          <Maximize2 className="w-3 h-3" aria-hidden="true" />
-                        </span>
-                      </span>
-                    </button>
+                    )}
 
                     {/* Certificate Metadata & Score Breakdown */}
                     <div className="p-6 sm:p-7">
-                      <div className="flex flex-wrap items-baseline justify-between gap-2 pb-4 border-b border-[#E8EDF3]">
-                        <div>
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-4 border-b border-[#E8EDF3]">
+                        <div className="min-w-0 flex-1">
                           <h4 className="text-lg sm:text-xl font-bold tracking-[-0.02em] text-[#0B1220] leading-snug">
                             {cert.title}
                           </h4>
-                          <p className="mt-1 font-mono text-xs text-[#64748B]">
+                          <p className="mt-1 font-mono text-xs text-[#64748B] break-words">
                             {cert.issuer}
                             {cert.certificateNumber ? ` · ${cert.certificateNumber}` : ''}
                           </p>
                         </div>
-                        <div className="text-left sm:text-right font-mono tabular-nums">
+                        <div className="shrink-0 text-left sm:text-right font-mono tabular-nums">
                           <p className="text-sm font-semibold text-[#2457D6]">
                             {cert.scoreLabel}
                           </p>
@@ -232,17 +282,35 @@ export function AchievementsSection({ bundle }: AchievementsSectionProps) {
 
                   <div className="px-6 sm:px-7 py-4 border-t border-[#E8EDF3] bg-[#FAFBFD] flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] tracking-[0.05em] uppercase tabular-nums">
                     <span className="text-[#64748B]">
-                      {cert.issuedDate} · {ui.achievementsValidUntil} {cert.validUntil}
+                      {cert.issuedDate}
+                      {cert.validUntil
+                        ? ` · ${ui.achievementsValidUntil} ${cert.validUntil}`
+                        : ''}
                     </span>
-                    <a
-                      href={cert.pdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[#2457D6] hover:text-[#315FC8] font-medium transition-colors"
-                    >
-                      <span>{ui.achievementsOpenPdf}</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
-                    </a>
+                    {cert.pdfUrl ? (
+                      <a
+                        href={cert.pdfUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[#2457D6] hover:text-[#315FC8] font-medium transition-colors"
+                      >
+                        <span>{ui.achievementsOpenPdf}</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+                      </a>
+                    ) : cert.media ? (
+                      <button
+                        type="button"
+                        onClick={() => setActiveCert(cert)}
+                        className="inline-flex items-center gap-1.5 text-[#2457D6] hover:text-[#315FC8] font-medium uppercase tracking-[0.05em] transition-colors"
+                      >
+                        <span>{ui.achievementsInspectCert}</span>
+                        <Maximize2 className="w-3 h-3" aria-hidden="true" />
+                      </button>
+                    ) : (
+                      <span className="text-[#475569] font-medium">
+                        {cert.scoreLabel}
+                      </span>
+                    )}
                   </div>
                 </article>
               ))}
@@ -252,7 +320,7 @@ export function AchievementsSection({ bundle }: AchievementsSectionProps) {
       </div>
 
       {/* Accessible Certificate Lightbox Modal */}
-      {activeCert && (
+      {activeCert && activeCert.media && (
         <div
           role="dialog"
           aria-modal="true"
@@ -300,15 +368,17 @@ export function AchievementsSection({ bundle }: AchievementsSectionProps) {
               <span className="text-[#64748B]">
                 {activeCert.issuer} · {activeCert.issuedDate}
               </span>
-              <a
-                href={activeCert.pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[#2457D6] hover:text-[#315FC8] font-medium uppercase tracking-[0.06em]"
-              >
-                <span>{ui.achievementsOpenPdf}</span>
-                <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
-              </a>
+              {activeCert.pdfUrl && (
+                <a
+                  href={activeCert.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[#2457D6] hover:text-[#315FC8] font-medium uppercase tracking-[0.06em]"
+                >
+                  <span>{ui.achievementsOpenPdf}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+                </a>
+              )}
             </div>
           </div>
         </div>

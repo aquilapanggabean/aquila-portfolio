@@ -83,6 +83,7 @@ export interface UiDictionary {
   projectsReadCaseStudy: string;
   projectsViewSource: string;
   projectsOpenDemo: string;
+  projectsViewPitchDeck: string;
   projectsInspectAria: (title: string) => string;
   categoryLabels: Record<ProjectCategory, string>;
   superPlusPlate: {
@@ -115,6 +116,7 @@ export interface UiDictionary {
   achievementsLead: string;
   achievementsVerifyLabel: string;
   achievementsSubCertifications: string;
+  achievementsCertMetaRight: string;
   achievementsInspectCert: string;
   achievementsOpenPdf: string;
   achievementsClosePreview: string;
@@ -128,6 +130,7 @@ export interface UiDictionary {
   experiencePhotosNote: string;
   experiencePhotoSlotLabel: string;
   experienceInspectPhoto: string;
+  experiencePhotoCount: (count: number) => string;
   experienceSubOrganisational: string;
   experienceSubEducation: string;
   capabilitiesTag: string;
@@ -222,6 +225,7 @@ const EN_UI: UiDictionary = {
   projectsReadCaseStudy: 'Read Case Study',
   projectsViewSource: 'View Source on GitHub',
   projectsOpenDemo: 'Open Live Demo',
+  projectsViewPitchDeck: 'View Pitch Deck (PDF)',
   projectsInspectAria: (title) => `Inspect ${title} case study preview`,
   categoryLabels: {
     All: 'All',
@@ -275,9 +279,10 @@ const EN_UI: UiDictionary = {
     `${honorsCount} HONORS · ${certsCount} CERTIFICATES`,
   achievementsHeading: 'Honors & Certifications',
   achievementsLead:
-    'Entrepreneurship competition finals, internal hackathon awards, faculty-level research tracks, and verified English language certifications.',
+    'Entrepreneurship competition finals, internal hackathon awards, faculty-level research tracks, and verified certifications across AI, English proficiency, and national sports events.',
   achievementsVerifyLabel: 'Verify Credential',
-  achievementsSubCertifications: 'VERIFIED LANGUAGE CERTIFICATIONS',
+  achievementsSubCertifications: 'VERIFIED CERTIFICATIONS',
+  achievementsCertMetaRight: 'HUAWEI AI · ECCT · EPrT® · IBL 2026',
   achievementsInspectCert: 'Inspect Full Certificate',
   achievementsOpenPdf: 'Open Original PDF',
   achievementsClosePreview: 'Close Certificate Preview',
@@ -292,6 +297,7 @@ const EN_UI: UiDictionary = {
   experiencePhotosNote: '4:3 DOCUMENTATION ARCHIVE',
   experiencePhotoSlotLabel: '4:3 Photo Frame Ready',
   experienceInspectPhoto: 'Inspect photo',
+  experiencePhotoCount: (count) => `${count} Photos`,
   experienceSubOrganisational: 'ORGANISATIONAL EXPERIENCE',
   experienceSubEducation: 'EDUCATION LEVEL',
   capabilitiesTag: '05 / CAPABILITIES',
@@ -374,6 +380,7 @@ const ID_UI: UiDictionary = {
   projectsReadCaseStudy: 'Baca Studi Kasus',
   projectsViewSource: 'Lihat Kode di GitHub',
   projectsOpenDemo: 'Buka Demo Langsung',
+  projectsViewPitchDeck: 'Buka Pitch Deck (PDF)',
   projectsInspectAria: (title) => `Tinjau pratinjau studi kasus ${title}`,
   categoryLabels: {
     All: 'Semua',
@@ -427,9 +434,10 @@ const ID_UI: UiDictionary = {
     `${honorsCount} PRESTASI · ${certsCount} SERTIFIKAT`,
   achievementsHeading: 'Prestasi & Sertifikasi',
   achievementsLead:
-    'Finalis kompetisi kewirausahaan, penghargaan hackathon internal, riset terapan tingkat fakultas, serta sertifikasi bahasa Inggris terverifikasi.',
+    'Finalis kompetisi kewirausahaan, penghargaan hackathon internal, riset terapan tingkat fakultas, serta sertifikasi terverifikasi di bidang AI, bahasa Inggris, dan acara nasional.',
   achievementsVerifyLabel: 'Lihat Bukti / Sertifikat',
-  achievementsSubCertifications: 'SERTIFIKASI BAHASA TERVERIFIKASI',
+  achievementsSubCertifications: 'SERTIFIKASI TERVERIFIKASI',
+  achievementsCertMetaRight: 'HUAWEI AI · ECCT · EPrT® · IBL 2026',
   achievementsInspectCert: 'Perbesar Sertifikat',
   achievementsOpenPdf: 'Buka PDF Asli',
   achievementsClosePreview: 'Tutup Pratinjau Sertifikat',
@@ -444,6 +452,7 @@ const ID_UI: UiDictionary = {
   experiencePhotosNote: 'ARSIP DOKUMENTASI 4:3',
   experiencePhotoSlotLabel: 'Slot Foto 4:3 Siap Diisi',
   experienceInspectPhoto: 'Perbesar foto',
+  experiencePhotoCount: (count) => `${count} Foto`,
   experienceSubOrganisational: 'PENGALAMAN ORGANISASI',
   experienceSubEducation: 'RIWAYAT PENDIDIKAN',
   capabilitiesTag: '05 / KAPABILITAS',
@@ -559,78 +568,78 @@ const ID_PROJECTS: readonly ProjectItem[] = [
     recognition: 'Finalis, ADIKARA 2026: Entrepreneurship',
     role: 'Arsitek Produk & Lead Rekayasa',
     overview:
-      'Platform escrow peer-to-peer untuk melindungi transaksi daring langsung melalui mesin status penitipan dana empat tahap dan aturan serah terima terverifikasi.',
+      'Platform web yang mempertemukan talenta muda dan UMKM lokal secara aman melalui pencocokan keahlian anonim tanpa bias, perlindungan pembayaran Escrow pihak ketiga (90% Talenta / 10% Admin), serta sertifikat kerja terverifikasi.',
     problem:
-      'Pembeli dan penjual pada transaksi langsung sering bertransaksi tanpa penitipan dana netral, sehingga menimbulkan risiko penyelesaian, bukti pengiriman yang kabur, dan sengketa tanpa kepastian.',
+      'Mahasiswa dan UMKM lokal kerap menghadapi bias rekrutmen awal, transaksi informal tanpa penitipan dana netral, serta portofolio kerja lepas yang sulit diverifikasi.',
     contribution:
-      'Merancang bersama model transaksi dan mesin status penitipan dana empat tahap, menyusun studi kasus masalah-ke-solusi, serta menyiapkan arsitektur produk yang dipresentasikan pada ADIKARA 2026: Entrepreneurship.',
+      'Merancang mesin status penitipan dana Escrow empat tahap, menyusun alur pencocokan talenta anonim dan papan proyek UMKM, serta meluncurkan prototipe langsung yang dipresentasikan pada ADIKARA 2026: Entrepreneurship.',
     escrowStateMachine: [
       {
         step: '01',
         stateName: 'Pesanan & Setoran',
-        actor: 'Pembeli',
+        actor: 'Pemberi Kerja (UMKM)',
         summary:
-          'Pembeli menginisiasi kesepakatan transaksi dan menyetorkan dana ke buku kas penitipan TiMu, bukan mentransfer langsung ke penjual.',
-        guardCondition: 'Ketentuan kesepakatan dikunci dan bukti pembayaran terkonfirmasi.',
+          'UMKM mengunci ruang lingkup proyek dan menyetorkan pembayaran ke Escrow pihak ketiga TiMu, bukan melalui transfer langsung informal.',
+        guardCondition: 'Ketentuan kontrak dikunci dan setoran Escrow terkonfirmasi (90% Talenta / 10% Admin).',
       },
       {
         step: '02',
         stateName: 'Penguncian Dana',
         actor: 'Buku Kas Escrow TiMu',
         summary:
-          'Dana dibekukan sementara dalam penitipan netral saat penjual menerima sinyal terverifikasi untuk mengirim barang atau menyelesaikan hasil kerja.',
+          'Dana dibekukan sementara dalam penitipan netral selama talenta menyelesaikan deliverables sesuai brief proyek.',
         guardCondition: 'Saldo terverifikasi; penarikan diblokir hingga pemenuhan selesai.',
       },
       {
         step: '03',
         stateName: 'Pengiriman & Verifikasi',
-        actor: 'Penjual & Pembeli',
+        actor: 'Talenta & UMKM',
         summary:
-          'Penjual mengunggah bukti pengiriman dan pembeli memeriksa barang atau hasil kerja dalam jendela waktu konfirmasi yang jelas.',
+          'Talenta mengirimkan hasil pekerjaan dan UMKM meninjau deliverables dalam jendela konfirmasi terstruktur.',
         guardCondition: 'Timer inspeksi aktif dengan opsi terima atau ajukan sanggahan.',
       },
       {
         step: '04',
-        stateName: 'Penyelesaian atau Sengketa',
+        stateName: 'Pencairan & Sertifikat',
         actor: 'Mesin Aturan Escrow',
         summary:
-          'Konfirmasi penerimaan mencairkan dana otomatis ke penjual; pesanan yang disanggah dialihkan ke peninjauan bukti terstruktur sebelum penyelesaian.',
-        guardCondition: 'Satu status akhir pasti: Dicairkan ke Penjual atau Dikembalikan ke Pembeli.',
+          'Konfirmasi penerimaan mencairkan 90% dana ke talenta dan menerbitkan sertifikat kerja TiMu terverifikasi; sanggahan diarahkan ke tinjauan bukti.',
+        guardCondition: 'Status akhir pasti: Dicairkan beserta sertifikat terverifikasi atau Dikembalikan ke UMKM.',
       },
     ],
   },
   {
     ...PROJECTS[1],
     recognition: 'Juara 3, MotionHack 5.0 (Mobile Innovation Lab)',
-    role: 'Pengembang Produk & Frontend',
+    role: 'Co-Founder Digital Business (Tim 12)',
     overview:
-      'Produk hackathon internal yang dibangun untuk MotionHack 5.0 oleh Mobile Innovation Laboratory, memadukan alur pengguna terfokus dengan antarmuka web fungsional dan kelayakan bisnis.',
+      'Aplikasi marketplace pengelola limbah rumah tangga (plastik, organik, minyak jelantah) yang menghubungkan langsung penghasil limbah dengan UMKM, petani, dan industri daur ulang melalui Marketplace, SmartBid, dan DirectChat.',
     problem:
-      'Tim yang berlomba dalam sprint produk berbatas waktu sering terpecah antara slide konsep yang terlalu luas dan antarmuka yang belum selesai mendemonstrasikan alur nyata.',
+      'Lebih dari 60% limbah rumah tangga Indonesia berakhir di TPA karena minimnya insentif pemilahan dan akses langsung yang transparan ke pembeli UMKM maupun pengolah daur ulang.',
     contribution:
-      'Menerjemahkan alur pengguna inti menjadi prototipe frontend yang berfungsi penuh, menyelaraskan lingkup fitur dengan kriteria penilaian, serta memaparkan demonstrasi teknis yang meraih Juara 3.',
+      'Memimpin pemodelan Bisnis Digital Tim 12: menyusun Business Model Canvas, analisis kompetitor, peta jalan Go-To-Market, dan kelayakan finansial (NPV Rp2,76 M, IRR 70%, BCR 2,73, Payback 24 bulan) hingga meraih Juara 3 MotionHack 5.0.',
   },
   {
     ...PROJECTS[2],
     recognition: 'Mobile Innovation Laboratory, Telkom University',
-    role: 'Magang Bisnis Digital & Sistem Mobile',
+    role: 'Strategis Produk & Peneliti Bisnis Digital',
     overview:
-      'Inisiatif riset inovasi mobile terapan di Mobile Innovation Laboratory Telkom University yang berfokus memecahkan masalah sosial melalui alur mobile terstruktur dan pemodelan bisnis digital.',
+      'Konsep analitik ritel berbasis Computer Vision yang terintegrasi ke jaringan CCTV pusat perbelanjaan yang sudah ada untuk mengatasi "Dead Zones" lewat pelacakan pengunjung real-time, Dwell Time, dan Heat Maps.',
     problem:
-      'Prototipe awal di laboratorium memerlukan jembatan yang jelas antara riset dampak sosial, model bisnis digital yang layak, dan struktur interaksi mobile yang konsisten.',
+      'Pengelola pusat perbelanjaan sering kekurangan data pergerakan pengunjung fisik yang akurat sehingga area sepi (Dead Zones) sulit dioptimalkan dan tingkat retensi tenant menurun.',
     contribution:
-      'Terlibat dalam kelompok studi riset solusi sosial berbasis mobile, mengevaluasi dampak aplikasi nyata, serta mendokumentasikan spesifikasi produk secara terstruktur.',
+      'Menyusun pitch deck produk dan komersial Vantage AI yang mencakup integrasi CCTV rendah CAPEX, arsitektur analitik Heat Map, serta model langganan SaaS B2B (Basic Rp5 jt/bulan, Advanced Rp15 jt/bulan, BEP 8 bulan).',
   },
   {
     ...PROJECTS[3],
     recognition: 'Prototipe IoT Arduino',
     role: 'Pembangun Sistem Tertanam & IoT',
     overview:
-      'Prototipe deteksi parkir pintar berbasis mikrokontroler Arduino dan sensor jarak ultrasonik untuk memantau keterisian slot serta melaporkan status secara langsung.',
+      'EZPark adalah proyek berbasis Arduino yang dirancang untuk mengelola sistem parkir secara lebih efisien menggunakan sensor dan otomatisasi. Sistem mendeteksi kendaraan masuk dan keluar area parkir dengan sensor inframerah (IR), menampilkan jumlah slot parkir tersedia secara real-time pada layar LCD, serta menutup palang pintu masuk secara otomatis menggunakan motor servo dan memberi peringatan saat lahan parkir penuh.',
     problem:
-      'Pengendara membuang waktu mencari area parkir ketika keterisian slot masih dipantau secara manual, bukan terdeteksi langsung di tiap petak parkir.',
+      'Pengelolaan parkir manual membuat pengendara membuang waktu mencari slot kosong dan memicu antrean di pintu masuk ketika ketersediaan ruang tidak terdeteksi secara otomatis.',
     contribution:
-      'Merakit rangkaian Arduino Uno dan sensor ultrasonik, mengkalibrasi ambang jarak untuk transisi status keterisian, serta memvalidasi pembacaan status langsung pada pengujian meja.',
+      'Merakit dan memprogram rangkaian Arduino Uno dengan sepasang sensor inframerah (IR) masuk/keluar, layar LCD 16x2 untuk jumlah slot real-time, serta palang pintu otomatis berbasis motor servo saat kapasitas penuh.',
   },
   {
     ...PROJECTS[4],
@@ -663,7 +672,7 @@ const ID_ACHIEVEMENTS: readonly AchievementItem[] = [
     year: '2025',
     category: 'Competition',
     summary:
-      'Meraih Juara 3 pada hackathon internal Mobile Innovation Laboratory lewat produk SuperPlus berbasis React dan TypeScript.',
+      'Meraih Juara 3 bersama Tim 12 pada hackathon internal Mobile Innovation Laboratory lewat SuperPlus, marketplace limbah rumah tangga dengan fitur SmartBid dan DirectChat.',
   },
   {
     id: 'pkm-kc-faculty',
@@ -679,6 +688,18 @@ const ID_ACHIEVEMENTS: readonly AchievementItem[] = [
 const ID_CERTIFICATES: readonly CertificateItem[] = [
   {
     ...CERTIFICATES[0],
+    issuer: 'Digital Talent Scholarship · KOMDIGI & Huawei',
+    issuedDate: '06 November 2026',
+    scoreLabel: 'Selesai · 3 Jam Pelatihan',
+    levelLabel: 'Digital Talent Scholarship 2026',
+    breakdown: [
+      { label: 'Program', score: 'Huawei AI for Everyone' },
+      { label: 'Akademi', score: 'Digital Talent Academy' },
+      { label: 'Penyelenggara', score: 'BLSDM KOMDIGI' },
+    ],
+  },
+  {
+    ...CERTIFICATES[1],
     issuer: 'Pusat Bahasa Telkom University',
     issuedDate: '13 Maret 2026',
     validUntil: '13 Maret 2028',
@@ -694,7 +715,7 @@ const ID_CERTIFICATES: readonly CertificateItem[] = [
     ],
   },
   {
-    ...CERTIFICATES[1],
+    ...CERTIFICATES[2],
     issuer: 'Pusat Bahasa Telkom University',
     issuedDate: '02 Desember 2025',
     validUntil: '02 Desember 2027',
@@ -705,6 +726,19 @@ const ID_CERTIFICATES: readonly CertificateItem[] = [
       { label: 'Grammar', score: '50' },
       { label: 'Reading', score: '46' },
       { label: 'Skor Total', score: '503' },
+    ],
+  },
+  {
+    ...CERTIFICATES[3],
+    title: 'Sertifikat Apresiasi IBL All-Star 2026',
+    issuer: 'Indonesian Basketball League (IBL)',
+    issuedDate: 'April 2026',
+    scoreLabel: 'Sertifikat Apresiasi',
+    levelLabel: 'Relawan Usher Tribune',
+    breakdown: [
+      { label: 'Acara', score: 'IBL All-Star 2026' },
+      { label: 'Lokasi', score: 'Bandung Arena' },
+      { label: 'Penandatangan', score: 'Junas Miradiarsyah (CEO)' },
     ],
   },
 ];

@@ -1,4 +1,10 @@
-import { EXPERIENCE_MEDIA, PORTFOLIO_MEDIA, type MediaAsset } from './media';
+import {
+  EXPERIENCE_GALLERIES,
+  EXPERIENCE_MEDIA,
+  PORTFOLIO_MEDIA,
+  PROJECT_GALLERIES,
+  type MediaAsset,
+} from './media';
 
 export type ProjectCategory =
   | 'All'
@@ -27,9 +33,11 @@ export interface ProjectItem {
   contribution: string;
   technologies: string[];
   media: MediaAsset;
+  gallery?: readonly MediaAsset[];
   collaborators?: string[];
   repositoryUrl?: string;
   liveDemoUrl?: string;
+  pitchDeckUrl?: string;
   escrowStateMachine?: EscrowStateStep[];
 }
 
@@ -59,6 +67,7 @@ export interface ExperiencePhotoItem {
   caption: string;
   slotPath: string;
   media?: MediaAsset;
+  gallery?: readonly MediaAsset[];
 }
 
 export interface CapabilityGroup {
@@ -91,13 +100,13 @@ export interface CertificateItem {
   title: string;
   issuer: string;
   issuedDate: string;
-  validUntil: string;
+  validUntil?: string;
   scoreLabel: string;
   levelLabel: string;
   certificateNumber?: string;
   breakdown: readonly { label: string; score: string }[];
-  media: MediaAsset;
-  pdfUrl: string;
+  media?: MediaAsset;
+  pdfUrl?: string;
 }
 
 export interface NavItem {
@@ -173,63 +182,65 @@ export const PROJECTS: ProjectItem[] = [
   {
     id: 'timu',
     index: '01',
-    title: 'TiMu',
+    title: 'TiMu (Titik Temu)',
     recognition: 'Finalist, ADIKARA 2026: Entrepreneurship',
     category: 'FinTech & Web',
     year: '2026',
     role: 'Product Architect & Engineering Lead',
     overview:
-      'Peer-to-peer escrow platform designed to protect direct online transactions through an explicit four-step fund custody state machine and verifiable handoff rules.',
+      'Web platform connecting young talent and local MSMEs (UMKM) safely through unbiased anonymous skill matching, third-party Escrow payment protection (90% Talent / 10% Admin), and verifiable work certificates.',
     problem:
-      'Informal peer-to-peer buyers and sellers frequently transact without neutral payment custody, creating settlement risk, unclear delivery proof, and unresolved disputes.',
+      'Students and local MSMEs struggle with biased early hiring, informal payment agreements without neutral fund custody, and unverifiable freelance track records.',
     contribution:
-      'Co-authored the transaction model and four-step fund custody state machine, structured the problem-to-solution case study, and prepared the product architecture presented at ADIKARA 2026: Entrepreneurship.',
+      'Co-authored the four-step Escrow fund custody state machine, designed the unbiased anonymous talent card and project board flow, and deployed the live prototype presented at ADIKARA 2026: Entrepreneurship.',
     technologies: [
       'TypeScript',
       'React',
-      'State-Machine Architecture',
       'Escrow Custody Modeling',
+      'Unbiased Skill Matching',
       'Tailwind CSS',
     ],
     media: PORTFOLIO_MEDIA.projects.timu,
+    gallery: PROJECT_GALLERIES.timu,
     collaborators: [
       'Aquila Altair Panggabean',
       'Berni Venus Mutri Azhara',
       'Vincentius Farrel Hermawan',
     ],
-    repositoryUrl: 'https://github.com/aquilapanggabean',
+    repositoryUrl: 'https://github.com/aquilapanggabean/TiMu',
+    liveDemoUrl: 'https://timu-fawn.vercel.app/',
     escrowStateMachine: [
       {
         step: '01',
         stateName: 'Order & Deposit',
-        actor: 'Buyer',
+        actor: 'MSME / Employer',
         summary:
-          'Buyer initiates the transaction agreement and deposits funds into the TiMu custody ledger rather than transferring directly to the seller.',
-        guardCondition: 'Agreement terms locked and payment receipt confirmed.',
+          'Employer locks project scope and deposits payment into third-party TiMu Escrow custody rather than sending informal direct transfers.',
+        guardCondition: 'Agreement terms locked and Escrow deposit confirmed (90% Talent / 10% Admin).',
       },
       {
         step: '02',
         stateName: 'Custody Lock',
         actor: 'TiMu Escrow Ledger',
         summary:
-          'Funds remain frozen in neutral custody while the seller receives a verified fulfillment signal to dispatch goods or complete deliverables.',
+          'Funds remain frozen in neutral custody while the matched talent completes deliverables against the agreed brief.',
         guardCondition: 'Ledger balance verified; withdrawal blocked until fulfillment.',
       },
       {
         step: '03',
         stateName: 'Delivery & Verification',
-        actor: 'Seller & Buyer',
+        actor: 'Talent & MSME',
         summary:
-          'Seller submits fulfillment evidence and the buyer inspects the item or deliverable within a defined confirmation window.',
+          'Talent submits work output and the MSME reviews deliverables within a structured confirmation window.',
         guardCondition: 'Inspection timer active with explicit accept or contest action.',
       },
       {
         step: '04',
-        stateName: 'Settlement or Dispute',
+        stateName: 'Settlement & Certificate',
         actor: 'Escrow Rules Engine',
         summary:
-          'Confirmed delivery releases funds automatically to the seller; contested orders route to structured evidence review before settlement.',
-        guardCondition: 'Single terminal state: Released to Seller or Refunded to Buyer.',
+          'Confirmed delivery releases 90% to the talent and issues a verifiable TiMu work certificate; contested orders route to evidence review.',
+        guardCondition: 'Terminal state: Released with verified certificate or Refunded to Employer.',
       },
     ],
   },
@@ -240,16 +251,32 @@ export const PROJECTS: ProjectItem[] = [
     recognition: '3rd Place, MotionHack 5.0 (Mobile Innovation Lab)',
     category: 'FinTech & Web',
     year: '2025',
-    role: 'Product & Frontend Developer',
+    role: 'Digital Business Co-Founder (Team 12)',
     overview:
-      'Internal hackathon product built for MotionHack 5.0 by Mobile Innovation Laboratory, pairing focused user workflow design with a functional web interface and business viability pitch.',
+      'Household waste marketplace mobile application turning plastic, organic waste, and used cooking oil into economic value by connecting households directly with MSMEs, farmers, and recyclers through Marketplace, SmartBid, and DirectChat.',
     problem:
-      'Teams competing in time-boxed product sprints often split between over-scoped slides and unfinished interfaces that fail to demonstrate real user flows.',
+      'Over 60% of Indonesian household waste ends up in landfills because residents lack simple sorting incentives and transparent direct access to MSME and recycling buyers.',
     contribution:
-      'Translated the core user journey into a working frontend prototype, aligned feature scope with judging criteria, and delivered the technical walkthrough that earned 3rd Place.',
-    technologies: ['React', 'TypeScript', 'Vite', 'UI Prototyping', 'Digital Business'],
+      'Led Digital Business modeling for Team 12: structured the Business Model Canvas, competitor analysis, Go-To-Market roadmap, and financial feasibility (NPV Rp2.76B, IRR 70%, BCR 2.73, 24-month payback) that won 3rd Place at MotionHack 5.0.',
+    technologies: [
+      'Digital Business Modeling',
+      'Marketplace & SmartBid',
+      'DirectChat Architecture',
+      'Financial Feasibility',
+      'Mobile UI Prototyping',
+    ],
     media: PORTFOLIO_MEDIA.projects.superplus,
-    repositoryUrl: 'https://github.com/aquilapanggabean',
+    gallery: PROJECT_GALLERIES.superplus,
+    pitchDeckUrl: '/assets/aistudio/SuperPlus__1__ebfd9505.pdf',
+    collaborators: [
+      'Alexandra Yohana',
+      'Aquila Altair Panggabean',
+      'Adika Ghivan Pratama',
+      'Muhammad Irfan Afifi',
+      'Raditya A. Rachmadie',
+      'Aufa Azzaky Arief',
+      'Fathul Rozi',
+    ],
   },
   {
     id: 'vantage-ai',
@@ -258,20 +285,23 @@ export const PROJECTS: ProjectItem[] = [
     recognition: 'Mobile Innovation Laboratory, Telkom University',
     category: 'Mobile & Research',
     year: '2025',
-    role: 'Digital Business & Mobile Systems Intern',
+    role: 'Product Strategist & Digital Business Researcher',
     overview:
-      'Applied mobile innovation research initiative at Telkom University Mobile Innovation Laboratory focused on solving social problems through structured mobile workflows and digital business modeling.',
+      'Computer Vision retail intelligence concept that integrates directly into existing shopping mall CCTV networks to eliminate low-traffic "Dead Zones" using real-time visitor tracking, Dwell Time metrics, and Heat Maps.',
     problem:
-      'Early lab prototypes needed a clear bridge between social-impact research, viable digital business models, and repeatable mobile interaction structures.',
+      'Shopping malls operate with blind spots in physical visitor analytics, leading to unbalanced foot traffic, low-performing retail areas, and high tenant churn without an affordable hardware-free insight layer.',
     contribution:
-      'Engaged in study group research on mobile-based solutions to social problems, evaluated real-world application impact, and documented structured product requirements.',
+      'Authored the Vantage AI product and commercial pitch deck covering low-CAPEX CCTV integration, heat map analytics architecture, and a tiered B2B SaaS subscription model (Basic Rp5M/mo, Advanced Rp15M/mo, 8-month break-even).',
     technologies: [
-      'Digital Business Modeling',
-      'Mobile UI Architecture',
-      'Project Management',
-      'Applied Research',
+      'Computer Vision Analytics',
+      'CCTV Heat Maps & Dwell Time',
+      'B2B SaaS Business Model',
+      'Digital Business Research',
     ],
     media: PORTFOLIO_MEDIA.projects.vantageAi,
+    gallery: PROJECT_GALLERIES.vantageAi,
+    pitchDeckUrl:
+      '/assets/aistudio/Black_and_White_Modern_Innovative_AI_Presentation__1__2d6d3c6f.pdf',
   },
   {
     id: 'ezpark',
@@ -282,13 +312,20 @@ export const PROJECTS: ProjectItem[] = [
     year: '2025',
     role: 'Embedded & Systems Builder',
     overview:
-      'Microcontroller-based smart parking detection prototype using Arduino and ultrasonic distance sensors to monitor bay occupancy and report real-time slot status.',
+      'EZPark is an Arduino-based project designed to manage parking systems more efficiently by utilizing sensors and automation. The system works by detecting vehicles entering and exiting the parking area using infrared (IR) sensors, then displays the number of available parking spaces in real-time on the LCD screen. If the parking lot is full, the system will automatically close the entrance using a servo motor and alert the driver.',
     problem:
-      'Drivers spend avoidable time searching multi-bay parking areas when occupancy is tracked manually rather than detected directly at the bay level.',
+      'Manual parking management forces drivers to circle full lots unnecessarily and creates entrance congestion when available space counts are neither measured automatically nor shown at the gate.',
     contribution:
-      'Wired the Arduino Uno and ultrasonic sensor circuit, calibrated distance thresholds for occupancy state transitions, and verified live local status readouts on the bench.',
-    technologies: ['Arduino', 'C / C++', 'Ultrasonic Sensors', 'Embedded Systems', 'IoT Telemetry'],
+      'Assembled and programmed the Arduino Uno circuit with dual infrared (IR) entry/exit sensors, a real-time 16x2 LCD capacity display, and an automated servo motor gate that closes and alerts drivers when capacity reaches zero.',
+    technologies: [
+      'Arduino Uno',
+      'C / C++',
+      'Infrared (IR) Sensors',
+      '16x2 LCD Display',
+      'Servo Motor Automation',
+    ],
     media: PORTFOLIO_MEDIA.projects.ezpark,
+    gallery: PROJECT_GALLERIES.ezpark,
     repositoryUrl: 'https://github.com/aquilapanggabean',
   },
   {
@@ -332,7 +369,7 @@ export const ACHIEVEMENTS: AchievementItem[] = [
     year: '2025',
     category: 'Competition',
     summary:
-      'Secured 3rd Place in the internal hackathon organized by Mobile Innovation Laboratory by delivering SuperPlus with React and TypeScript.',
+      'Secured 3rd Place with Team 12 in the internal hackathon organized by Mobile Innovation Laboratory by delivering SuperPlus, a household waste marketplace with SmartBid and DirectChat.',
   },
   {
     id: 'pkm-kc-faculty',
@@ -347,8 +384,25 @@ export const ACHIEVEMENTS: AchievementItem[] = [
 
 export const CERTIFICATES: CertificateItem[] = [
   {
-    id: 'ecct-2026',
+    id: 'huawei-ai-2026',
     index: '01',
+    code: 'HUAWEI AI',
+    title: 'Artificial Intelligence - Huawei (Digital Talent Academy)',
+    issuer: 'Digital Talent Scholarship · KOMDIGI & Huawei',
+    issuedDate: 'November 06, 2026',
+    scoreLabel: 'Completed · 3 Hours',
+    levelLabel: 'Digital Talent Scholarship 2026',
+    certificateNumber: 'No. 21213394840-3756/DTA/BLSDM.Komdigi/2026',
+    breakdown: [
+      { label: 'Program', score: 'Huawei AI for Everyone' },
+      { label: 'Academy', score: 'Digital Talent Academy' },
+      { label: 'Organizer', score: 'BLSDM KOMDIGI' },
+    ],
+    media: PORTFOLIO_MEDIA.certificates.huaweiAi,
+  },
+  {
+    id: 'ecct-2026',
+    index: '02',
     code: 'ECCT',
     title: 'English Communicative Competence Test (ECCT)',
     issuer: 'Telkom University Language Center',
@@ -370,7 +424,7 @@ export const CERTIFICATES: CertificateItem[] = [
   },
   {
     id: 'eprt-2025',
-    index: '02',
+    index: '03',
     code: 'EPrT®',
     title: 'English Proficiency Test (EPrT®)',
     issuer: 'Telkom University Language Center',
@@ -386,6 +440,22 @@ export const CERTIFICATES: CertificateItem[] = [
     ],
     media: PORTFOLIO_MEDIA.certificates.eprt,
     pdfUrl: '/assets/aistudio/eprt_43eb766c.pdf',
+  },
+  {
+    id: 'ibl-allstar-2026',
+    index: '04',
+    code: 'IBL 2026',
+    title: 'IBL All-Star 2026 Certificate of Appreciation',
+    issuer: 'Indonesian Basketball League (IBL)',
+    issuedDate: 'April 2026',
+    scoreLabel: 'Appreciation Award',
+    levelLabel: 'Usher Tribune Volunteer',
+    breakdown: [
+      { label: 'Event', score: 'IBL All-Star 2026' },
+      { label: 'Venue', score: 'Bandung Arena' },
+      { label: 'Signed By', score: 'Junas Miradiarsyah (CEO)' },
+    ],
+    media: PORTFOLIO_MEDIA.certificates.iblAllStar,
   },
 ];
 
@@ -465,6 +535,7 @@ export const EXPERIENCE_PHOTOS: ExperiencePhotoItem[] = [
       'Public relations media partnerships, social campaign production, and on-court team liaison coordination.',
     slotPath: 'public/images/experience/itsf.jpg',
     media: EXPERIENCE_MEDIA.itsf,
+    gallery: EXPERIENCE_GALLERIES.itsf,
   },
   {
     id: 'exp-photo-megabit',
@@ -478,6 +549,7 @@ export const EXPERIENCE_PHOTOS: ExperiencePhotoItem[] = [
       'Hosting hundreds of incoming Information Technology freshmen and coordinating live orientation rundowns.',
     slotPath: 'public/images/experience/megabit.jpg',
     media: EXPERIENCE_MEDIA.megabit,
+    gallery: EXPERIENCE_GALLERIES.megabit,
   },
   {
     id: 'exp-photo-ibl',
@@ -491,6 +563,7 @@ export const EXPERIENCE_PHOTOS: ExperiencePhotoItem[] = [
       'Grandstand crowd flow, seating coordination, and real-time spectator hospitality at the 2026 IBL All-Star Game.',
     slotPath: 'public/images/experience/ibl.jpg',
     media: EXPERIENCE_MEDIA.ibl,
+    gallery: EXPERIENCE_GALLERIES.ibl,
   },
   {
     id: 'exp-photo-jne',
@@ -504,6 +577,7 @@ export const EXPERIENCE_PHOTOS: ExperiencePhotoItem[] = [
       'JavaScript & React Native front-end development, back-end troubleshooting, and logistics IT operations.',
     slotPath: 'public/images/experience/jne.jpg',
     media: EXPERIENCE_MEDIA.jne,
+    gallery: EXPERIENCE_GALLERIES.jne,
   },
 ];
 

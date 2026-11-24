@@ -72,6 +72,12 @@ export function ExperienceSection({ bundle }: ExperienceSectionProps) {
   } = bundle;
   const [chapterIndex, chapterLabel] = ui.experienceTag.split(' / ');
   const [activePhoto, setActivePhoto] = useState<ExperiencePhotoItem | null>(null);
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+
+  const openPhotoLightbox = (item: ExperiencePhotoItem) => {
+    setActivePhotoIndex(0);
+    setActivePhoto(item);
+  };
 
   useEffect(() => {
     if (!activePhoto) {
@@ -161,7 +167,7 @@ export function ExperienceSection({ bundle }: ExperienceSectionProps) {
                   {item.media ? (
                     <button
                       type="button"
-                      onClick={() => setActivePhoto(item)}
+                      onClick={() => openPhotoLightbox(item)}
                       aria-label={`${ui.experienceInspectPhoto}: ${item.title}`}
                       data-cursor="project"
                       className="group relative block w-full text-left bg-[#F7F8FA] p-2 border-b border-[#E8EDF3]"
@@ -230,6 +236,9 @@ export function ExperienceSection({ bundle }: ExperienceSectionProps) {
                       </h4>
                       <span className="font-mono text-[11px] tabular-nums text-[#64748B]">
                         {item.period}
+                        {item.gallery && item.gallery.length > 1
+                          ? ` · ${ui.experiencePhotoCount(item.gallery.length)}`
+                          : ''}
                       </span>
                     </div>
                     <p className="mt-1 font-mono text-[11px] tracking-[0.05em] uppercase text-[#2457D6]">
@@ -260,49 +269,83 @@ export function ExperienceSection({ bundle }: ExperienceSectionProps) {
         </div>
       </div>
 
-      {/* Lightbox when user adds real Experience photos and clicks to inspect */}
-      {activePhoto && activePhoto.media && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="exp-photo-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1220]/75 backdrop-blur-[2px] p-4 sm:p-6"
-          onClick={() => setActivePhoto(null)}
-        >
+      {/* Lightbox when user clicks an Experience photo card */}
+      {activePhoto && activePhoto.media && (() => {
+        const gallery =
+          activePhoto.gallery && activePhoto.gallery.length > 0
+            ? activePhoto.gallery
+            : [activePhoto.media];
+        const currentAsset = gallery[activePhotoIndex] ?? activePhoto.media;
+        return (
           <div
-            className="w-full max-w-4xl max-h-[92vh] overflow-y-auto bg-white border border-[#E8EDF3] rounded-[4px] shadow-2xl"
-            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="exp-photo-modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1220]/75 backdrop-blur-[2px] p-4 sm:p-6"
+            onClick={() => setActivePhoto(null)}
           >
-            <div className="flex items-start justify-between gap-4 px-6 py-4 border-b border-[#E8EDF3]">
-              <div>
-                <p className="font-mono text-[11px] tracking-[0.06em] uppercase text-[#2457D6] font-medium">
-                  {activePhoto.index} · {activePhoto.period}
-                </p>
-                <h3
-                  id="exp-photo-modal-title"
-                  className="mt-1 text-lg sm:text-xl font-bold tracking-[-0.02em] text-[#0B1220]"
+            <div
+              className="w-full max-w-4xl max-h-[92vh] overflow-y-auto bg-white border border-[#E8EDF3] rounded-[4px] shadow-2xl"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="flex items-start justify-between gap-4 px-6 py-4 border-b border-[#E8EDF3]">
+                <div>
+                  <p className="font-mono text-[11px] tracking-[0.06em] uppercase text-[#2457D6] font-medium">
+                    {activePhoto.index} · {activePhoto.period}
+                  </p>
+                  <h3
+                    id="exp-photo-modal-title"
+                    className="mt-1 text-lg sm:text-xl font-bold tracking-[-0.02em] text-[#0B1220]"
+                  >
+                    {activePhoto.title} · {activePhoto.role}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActivePhoto(null)}
+                  aria-label={ui.modal.closeButton}
+                  className="min-w-[40px] min-h-[40px] inline-flex items-center justify-center rounded-[4px] border border-[#E8EDF3] text-[#475569] hover:text-[#0B1220] hover:border-[#0B1220] transition-colors shrink-0"
                 >
-                  {activePhoto.title} — {activePhoto.role}
-                </h3>
+                  <X className="w-4 h-4" aria-hidden="true" />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setActivePhoto(null)}
-                aria-label={ui.modal.closeButton}
-                className="min-w-[40px] min-h-[40px] inline-flex items-center justify-center rounded-[4px] border border-[#E8EDF3] text-[#475569] hover:text-[#0B1220] hover:border-[#0B1220] transition-colors shrink-0"
-              >
-                <X className="w-4 h-4" aria-hidden="true" />
-              </button>
+              <div className="p-4 sm:p-6 bg-[#F7F8FA]">
+                <EditorialImage asset={currentAsset} priority />
+              </div>
+              <div className="px-6 py-4 border-t border-[#E8EDF3] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <p className="text-sm text-[#475569]">{currentAsset.caption}</p>
+                {gallery.length > 1 && (
+                  <div
+                    role="tablist"
+                    aria-label={`${activePhoto.title} photos`}
+                    className="flex items-center gap-2 shrink-0"
+                  >
+                    {gallery.map((photo, idx) => {
+                      const isSelected = idx === activePhotoIndex;
+                      return (
+                        <button
+                          key={photo.src}
+                          type="button"
+                          role="tab"
+                          aria-selected={isSelected}
+                          onClick={() => setActivePhotoIndex(idx)}
+                          className={`min-h-[34px] px-3 py-1 font-mono text-[11px] tracking-[0.06em] uppercase tabular-nums rounded-[4px] border transition-colors ${
+                            isSelected
+                              ? 'bg-[#0B1220] border-[#0B1220] text-white'
+                              : 'bg-white border-[#D8E0EA] text-[#475569] hover:border-[#2457D6] hover:text-[#2457D6]'
+                          }`}
+                        >
+                          0{idx + 1}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="p-4 sm:p-6 bg-[#F7F8FA]">
-              <EditorialImage asset={activePhoto.media} priority />
-            </div>
-            <p className="px-6 py-4 border-t border-[#E8EDF3] text-sm text-[#475569]">
-              {activePhoto.caption}
-            </p>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </section>
   );
 }

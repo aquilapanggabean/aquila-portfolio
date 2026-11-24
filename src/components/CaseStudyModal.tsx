@@ -3,10 +3,6 @@ import { ArrowUpRight, X } from 'lucide-react';
 import type { UiDictionary } from '../data/i18n';
 import type { ProjectItem } from '../data/portfolio';
 import { EditorialImage } from './EditorialImage';
-import {
-  SuperPlusBlueprintPlate,
-  hasCustomVisualPlate,
-} from './ProjectVisualPlate';
 
 interface CaseStudyModalProps {
   project: ProjectItem | null;
@@ -17,9 +13,11 @@ interface CaseStudyModalProps {
 export function CaseStudyModal({ project, ui, onClose }: CaseStudyModalProps) {
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const [activeEscrowIndex, setActiveEscrowIndex] = useState(0);
+  const [activeMediaIndex, setActiveMediaIndex] = useState(0);
 
   useEffect(() => {
     setActiveEscrowIndex(0);
+    setActiveMediaIndex(0);
   }, [project?.id]);
 
   useEffect(() => {
@@ -50,6 +48,11 @@ export function CaseStudyModal({ project, ui, onClose }: CaseStudyModalProps) {
 
   const escrowSteps = project.escrowStateMachine;
   const activeStep = escrowSteps?.[activeEscrowIndex];
+  const mediaItems =
+    project.gallery && project.gallery.length > 0
+      ? project.gallery
+      : [project.media];
+  const activeMedia = mediaItems[activeMediaIndex] ?? project.media;
 
   return (
     <div
@@ -101,15 +104,40 @@ export function CaseStudyModal({ project, ui, onClose }: CaseStudyModalProps) {
         <div className="flex-1 overflow-y-auto px-6 sm:px-8 py-7 space-y-8">
           <figure>
             <div className="aspect-[16/9] w-full rounded-[4px] border border-[#E8EDF3] overflow-hidden bg-[#F7F8FA]">
-              {hasCustomVisualPlate(project.id) ? (
-                <SuperPlusBlueprintPlate copy={ui.superPlusPlate} />
-              ) : (
-                <EditorialImage asset={project.media} className="w-full h-full" />
+              <EditorialImage asset={activeMedia} priority className="w-full h-full" />
+            </div>
+            <div className="mt-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <figcaption className="font-mono text-xs text-[#64748B]">
+                {activeMedia.caption}
+              </figcaption>
+              {mediaItems.length > 1 && (
+                <div
+                  role="tablist"
+                  aria-label={`${project.title} screenshots`}
+                  className="flex items-center gap-2 shrink-0"
+                >
+                  {mediaItems.map((item, idx) => {
+                    const isSelected = idx === activeMediaIndex;
+                    return (
+                      <button
+                        key={item.src}
+                        type="button"
+                        role="tab"
+                        aria-selected={isSelected}
+                        onClick={() => setActiveMediaIndex(idx)}
+                        className={`min-h-[34px] px-3 py-1 font-mono text-[11px] tracking-[0.06em] uppercase tabular-nums rounded-[4px] border transition-colors ${
+                          isSelected
+                            ? 'bg-[#0B1220] border-[#0B1220] text-white'
+                            : 'bg-white border-[#D8E0EA] text-[#475569] hover:border-[#2457D6] hover:text-[#2457D6]'
+                        }`}
+                      >
+                        0{idx + 1}
+                      </button>
+                    );
+                  })}
+                </div>
               )}
             </div>
-            <figcaption className="mt-2.5 font-mono text-xs text-[#64748B]">
-              {project.media.caption}
-            </figcaption>
           </figure>
 
           {/* Problem & Contribution 2-column framing */}
@@ -254,6 +282,17 @@ export function CaseStudyModal({ project, ui, onClose }: CaseStudyModalProps) {
                   className="min-h-[44px] inline-flex items-center gap-1.5 px-4 py-2.5 font-mono text-xs tracking-[0.06em] uppercase font-medium text-[#0B1220] border border-[#CBD5E1] hover:border-[#2457D6] hover:text-[#2457D6] rounded-[4px] transition-colors"
                 >
                   <span>{ui.projectsOpenDemo}</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+                </a>
+              )}
+              {project.pitchDeckUrl && (
+                <a
+                  href={project.pitchDeckUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="min-h-[44px] inline-flex items-center gap-1.5 px-4.5 py-2.5 font-mono text-xs tracking-[0.08em] uppercase font-medium text-white bg-[#2457D6] hover:bg-[#315FC8] rounded-[4px] transition-colors"
+                >
+                  <span>{ui.projectsViewPitchDeck}</span>
                   <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
                 </a>
               )}
