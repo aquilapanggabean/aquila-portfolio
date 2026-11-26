@@ -745,8 +745,20 @@ const ID_CERTIFICATES: readonly CertificateItem[] = [
 
 const ID_EXPERIENCE_LEDGER: readonly ExperienceItem[] = [
   {
-    id: 'itsf-pr',
+    id: 'aws-sbg-event-ops',
     period: 'Nov 2026 - Sekarang',
+    role: 'Staf Operasional Acara (Event Operations Staff)',
+    organization:
+      'AWS Student Builder Group Telkom University Bandung · Bandung, Indonesia',
+    kind: 'Event & Leadership',
+    highlights: [
+      'Merencanakan lokakarya cloud dan AI, seminar teknis, serta sesi jejaring bagi anggota AWS SBG Telkom University.',
+      'Menyusun konsep acara, rundown terperinci, dan rencana operasional untuk memastikan kelancaran pelaksanaan acara tatap muka.',
+    ],
+  },
+  {
+    id: 'itsf-pr',
+    period: 'November 2026',
     role: 'Staf Hubungan Masyarakat (Public Relations)',
     organization: 'ITSF Championship · Bandung, Indonesia',
     kind: 'Event & Leadership',
@@ -811,7 +823,7 @@ const ID_EXPERIENCE_PHOTOS: readonly ExperiencePhotoItem[] = [
     ...EXPERIENCE_PHOTOS[0],
     role: 'Staf Public Relations & Team LO',
     organization: 'Departemen Teknologi Informasi',
-    period: 'Nov 2026 - Sekarang',
+    period: 'November 2026',
     caption:
       'Kemitraan media publikasi, produksi kampanye sosial, dan koordinasi liaison officer tim peserta turnamen.',
   },

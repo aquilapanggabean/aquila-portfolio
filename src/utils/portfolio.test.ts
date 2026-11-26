@@ -176,8 +176,22 @@ test('EN and ID bundles match CV, use ADIKARA 2026: Entrepreneurship, include EC
   assert.equal(enBundle.experiencePhotos[1].gallery?.length, 2);
   assert.equal(enBundle.experiencePhotos[3].gallery?.length, 2);
 
-  // Verify CV Work (5), Organisational (2), and Education (2) ledgers + consistent Megabit org naming
+  // Verify CV Work/Event (6, with AWS SBG newest and ITSF dated November 2026), Organisational (2), and Education (2) ledgers
   const expectedMegabitOrg = 'PKKMB x Megabit 9.0 (HMIT Telkom University) · Bandung, Indonesia';
+  assert.equal(enBundle.experienceLedger[0].id, 'aws-sbg-event-ops');
+  assert.equal(idBundle.experienceLedger[0].id, 'aws-sbg-event-ops');
+  assert.equal(enBundle.experienceLedger[0].period, 'Nov 2026 - Present');
+  assert.equal(idBundle.experienceLedger[0].period, 'Nov 2026 - Sekarang');
+  assert.equal(
+    enBundle.experienceLedger.find((e) => e.id === 'itsf-pr')?.period,
+    'November 2026'
+  );
+  assert.equal(
+    idBundle.experienceLedger.find((e) => e.id === 'itsf-pr')?.period,
+    'November 2026'
+  );
+  assert.equal(enBundle.experiencePhotos[0].period, 'November 2026');
+  assert.equal(idBundle.experiencePhotos[0].period, 'November 2026');
   assert.equal(
     enBundle.experienceLedger.find((e) => e.id === 'megabit-mc')?.organization,
     expectedMegabitOrg
@@ -186,7 +200,7 @@ test('EN and ID bundles match CV, use ADIKARA 2026: Entrepreneurship, include EC
     idBundle.experienceLedger.find((e) => e.id === 'megabit-mc')?.organization,
     expectedMegabitOrg
   );
-  assert.equal(enBundle.experienceLedger.length, 5);
+  assert.equal(enBundle.experienceLedger.length, 6);
   assert.equal(enBundle.experienceLedger.length, idBundle.experienceLedger.length);
   assert.equal(enBundle.organisationalLedger.length, 2);
   assert.equal(enBundle.organisationalLedger.length, idBundle.organisationalLedger.length);

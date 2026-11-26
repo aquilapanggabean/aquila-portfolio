@@ -461,8 +461,20 @@ export const CERTIFICATES: CertificateItem[] = [
 
 export const EXPERIENCE_LEDGER: ExperienceItem[] = [
   {
-    id: 'itsf-pr',
+    id: 'aws-sbg-event-ops',
     period: 'Nov 2026 - Present',
+    role: 'Event Operations Staff',
+    organization:
+      'AWS Student Builder Group Telkom University Bandung · Bandung, Indonesia',
+    kind: 'Event & Leadership',
+    highlights: [
+      'Planning cloud and AI workshops, technical seminars, and networking sessions for AWS SBG Telkom University members.',
+      'Developing event concepts, detailed run-downs, and operational plans to ensure the smooth execution of on-site events.',
+    ],
+  },
+  {
+    id: 'itsf-pr',
+    period: 'November 2026',
     role: 'Staff of Public Relation',
     organization: 'ITSF Championship · Bandung, Indonesia',
     kind: 'Event & Leadership',
@@ -529,7 +541,7 @@ export const EXPERIENCE_PHOTOS: ExperiencePhotoItem[] = [
     title: 'ITSF Championship',
     role: 'Staff of Public Relation & Team LO',
     organization: 'Information Technology Department',
-    period: 'Nov 2026 - Present',
+    period: 'November 2026',
     location: 'Bandung, Indonesia',
     caption:
       'Public relations media partnerships, social campaign production, and on-court team liaison coordination.',
