@@ -14,7 +14,6 @@ import {
   EDUCATION_LEDGER,
   EXPERIENCE_LEDGER,
   EXPERIENCE_PHOTOS,
-  ORGANISATIONAL_LEDGER,
   PROJECTS,
   SITE_PROFILE,
 } from '../data/portfolio';
@@ -176,7 +175,7 @@ test('EN and ID bundles match CV, use ADIKARA 2026: Entrepreneurship, include EC
   assert.equal(enBundle.experiencePhotos[1].gallery?.length, 2);
   assert.equal(enBundle.experiencePhotos[3].gallery?.length, 2);
 
-  // Verify CV Work/Event (6, with AWS SBG newest and ITSF dated November 2026), Organisational (2), and Education (2) ledgers
+  // Verify merged Experience ledger (8 items: work, event & organisational above photos) and Education (2)
   const expectedMegabitOrg = 'PKKMB x Megabit 9.0 (HMIT Telkom University) · Bandung, Indonesia';
   assert.equal(enBundle.experienceLedger[0].id, 'aws-sbg-event-ops');
   assert.equal(idBundle.experienceLedger[0].id, 'aws-sbg-event-ops');
@@ -200,10 +199,18 @@ test('EN and ID bundles match CV, use ADIKARA 2026: Entrepreneurship, include EC
     idBundle.experienceLedger.find((e) => e.id === 'megabit-mc')?.organization,
     expectedMegabitOrg
   );
-  assert.equal(enBundle.experienceLedger.length, 6);
+  assert.equal(enBundle.experienceLedger.length, 8);
   assert.equal(enBundle.experienceLedger.length, idBundle.experienceLedger.length);
-  assert.equal(enBundle.organisationalLedger.length, 2);
-  assert.equal(enBundle.organisationalLedger.length, idBundle.organisationalLedger.length);
+  assert.ok(
+    enBundle.experienceLedger.some(
+      (e) => e.id === 'mobile-innovation-lab' && e.kind === 'Organization'
+    )
+  );
+  assert.ok(
+    enBundle.experienceLedger.some(
+      (e) => e.id === 'sdh-student-council' && e.kind === 'Organization'
+    )
+  );
   assert.equal(enBundle.educationLedger.length, 2);
   assert.equal(enBundle.educationLedger.length, idBundle.educationLedger.length);
   assert.equal(enBundle.capabilityGroups.length, idBundle.capabilityGroups.length);
@@ -266,12 +273,6 @@ test('EN and ID bundles match CV, use ADIKARA 2026: Entrepreneurship, include EC
         item.period,
         item.caption,
       ]),
-      ...bundle.organisationalLedger.flatMap((item) => [
-        item.period,
-        item.role,
-        item.organization,
-        ...item.highlights,
-      ]),
       ...bundle.educationLedger.flatMap((item) => [
         item.period,
         item.role,
@@ -316,7 +317,6 @@ test('EN and ID bundles match CV, use ADIKARA 2026: Entrepreneurship, include EC
   assert.equal(CERTIFICATES.length, enBundle.certificates.length);
   assert.equal(EXPERIENCE_LEDGER.length, enBundle.experienceLedger.length);
   assert.equal(EXPERIENCE_PHOTOS.length, enBundle.experiencePhotos.length);
-  assert.equal(ORGANISATIONAL_LEDGER.length, enBundle.organisationalLedger.length);
   assert.equal(EDUCATION_LEDGER.length, enBundle.educationLedger.length);
   assert.equal(CAPABILITY_GROUPS.length, enBundle.capabilityGroups.length);
 });

@@ -66,7 +66,6 @@ export function ExperienceSection({ bundle }: ExperienceSectionProps) {
     lang,
     experienceLedger,
     experiencePhotos,
-    organisationalLedger,
     educationLedger,
     ui,
   } = bundle;
@@ -253,13 +252,6 @@ export function ExperienceSection({ bundle }: ExperienceSectionProps) {
             </div>
           </div>
         )}
-
-        <div className="mt-16 reveal-block">
-          <h3 className="font-mono text-[11px] sm:text-xs tracking-[0.06em] uppercase text-[#64748B] mb-5">
-            {ui.experienceSubOrganisational}
-          </h3>
-          <LedgerRows items={organisationalLedger} lang={lang} />
-        </div>
 
         <div className="mt-16 reveal-block">
           <h3 className="font-mono text-[11px] sm:text-xs tracking-[0.06em] uppercase text-[#64748B] mb-5">

@@ -6,7 +6,6 @@ import {
   EXPERIENCE_LEDGER,
   EXPERIENCE_PHOTOS,
   NAV_ITEMS,
-  ORGANISATIONAL_LEDGER,
   PROJECTS,
   SITE_PROFILE,
   type AchievementCategory,
@@ -131,7 +130,6 @@ export interface UiDictionary {
   experiencePhotoSlotLabel: string;
   experienceInspectPhoto: string;
   experiencePhotoCount: (count: number) => string;
-  experienceSubOrganisational: string;
   experienceSubEducation: string;
   capabilitiesTag: string;
   capabilitiesMetaRight: string;
@@ -180,7 +178,6 @@ export interface LocalizedPortfolioBundle {
   certificates: readonly CertificateItem[];
   experienceLedger: readonly ExperienceItem[];
   experiencePhotos: readonly ExperiencePhotoItem[];
-  organisationalLedger: readonly ExperienceItem[];
   educationLedger: readonly ExperienceItem[];
   capabilityGroups: readonly CapabilityGroup[];
   ui: UiDictionary;
@@ -292,13 +289,12 @@ const EN_UI: UiDictionary = {
   experienceHeading: 'Experience & Education',
   experienceLead:
     'A complete chronological ledger of IT internships, campus and basketball event operations, visual field documentation, organizational leadership, and academic milestones.',
-  experienceSubWork: 'WORK, INTERNSHIP & EVENT EXPERIENCE',
+  experienceSubWork: 'WORK, INTERNSHIP, EVENT & ORGANISATIONAL EXPERIENCE',
   experienceSubPhotos: 'FIELD & EVENT PHOTOGRAPHY',
   experiencePhotosNote: '4:3 DOCUMENTATION ARCHIVE',
   experiencePhotoSlotLabel: '4:3 Photo Frame Ready',
   experienceInspectPhoto: 'Inspect photo',
   experiencePhotoCount: (count) => `${count} Photos`,
-  experienceSubOrganisational: 'ORGANISATIONAL EXPERIENCE',
   experienceSubEducation: 'EDUCATION LEVEL',
   capabilitiesTag: '05 / CAPABILITIES',
   capabilitiesMetaRight: 'HARD SKILLS · SOFT SKILLS · LANGUAGES',
@@ -447,13 +443,12 @@ const ID_UI: UiDictionary = {
   experienceHeading: 'Pengalaman & Pendidikan',
   experienceLead:
     'Catatan kronologis lengkap magang departemen TI, operasional acara kampus dan bola basket, dokumentasi foto lapangan, pengalaman organisasi, serta riwayat pendidikan.',
-  experienceSubWork: 'PENGALAMAN KERJA, MAGANG & ACARA',
+  experienceSubWork: 'PENGALAMAN KERJA, MAGANG, ACARA & ORGANISASI',
   experienceSubPhotos: 'DOKUMENTASI FOTO PENGALAMAN',
   experiencePhotosNote: 'ARSIP DOKUMENTASI 4:3',
   experiencePhotoSlotLabel: 'Slot Foto 4:3 Siap Diisi',
   experienceInspectPhoto: 'Perbesar foto',
   experiencePhotoCount: (count) => `${count} Foto`,
-  experienceSubOrganisational: 'PENGALAMAN ORGANISASI',
   experienceSubEducation: 'RIWAYAT PENDIDIKAN',
   capabilitiesTag: '05 / KAPABILITAS',
   capabilitiesMetaRight: 'HARD SKILLS · SOFT SKILLS · BAHASA',
@@ -793,6 +788,18 @@ const ID_EXPERIENCE_LEDGER: readonly ExperienceItem[] = [
     ],
   },
   {
+    id: 'mobile-innovation-lab',
+    period: 'Okt 2025 - Sep 2026',
+    role: 'Magang Digital Business / Project Manager',
+    organization: 'Mobile Innovation Laboratory, Telkom University · Bandung, Indonesia',
+    kind: 'Organization',
+    highlights: [
+      'Terlibat dalam riset solusi berbasis teknologi mobile untuk masalah sosial pada Divisi Digital Business di Fakultas Informatika Telkom University.',
+      'Mengikuti kelompok studi terstruktur untuk memperdalam konsep bisnis digital dan manajemen proyek.',
+      'Mengevaluasi dampak nyata konsep inovasi mobile serta prototipe terapan di lingkungan laboratorium.',
+    ],
+  },
+  {
     id: 'ibl-allstars-2026',
     period: 'Apr 2026',
     role: 'Relawan Usher Tribune - IBL All Stars 2026',
@@ -814,6 +821,18 @@ const ID_EXPERIENCE_LEDGER: readonly ExperienceItem[] = [
       'Mengembangkan aplikasi web dan mobile serta merancang antarmuka frontend menggunakan JavaScript dan React Native.',
       'Menangani pemecahan masalah backend untuk menjaga fungsi sistem serta membantu pemeliharaan dan optimasi sistem internal logistik.',
       'Melakukan troubleshooting perangkat keras komputer untuk operasional harian sekaligus memperoleh pengalaman praktis TI di industri logistik.',
+    ],
+  },
+  {
+    id: 'sdh-student-council',
+    period: 'Sep 2023 - Nov 2024',
+    role: 'Kepala Divisi Hubungan Masyarakat (Public Relations)',
+    organization: 'OSIS Sekolah Dian Harapan Jambi · Jambi, Indonesia',
+    kind: 'Organization',
+    highlights: [
+      'Memimpin divisi Hubungan Masyarakat dalam membangun citra organisasi dan komunikasi eksternal.',
+      'Mengelola strategi konten media sosial untuk meningkatkan keterlibatan siswa dan komunitas sekolah.',
+      'Mengoordinasikan kampanye serta publikasi lintas divisi sembari mengembangkan kepemimpinan, kerja tim, dan kemampuan berbicara di depan umum.',
     ],
   },
 ];
@@ -847,33 +866,6 @@ const ID_EXPERIENCE_PHOTOS: readonly ExperiencePhotoItem[] = [
     period: 'Mei 2025',
     caption:
       'Pengembangan antarmuka JavaScript & React Native, troubleshooting backend, dan dukungan sistem TI logistik.',
-  },
-];
-
-const ID_ORGANISATIONAL_LEDGER: readonly ExperienceItem[] = [
-  {
-    id: 'mobile-innovation-lab',
-    period: 'Okt 2025 - Sep 2026',
-    role: 'Magang Digital Business / Project Manager',
-    organization: 'Mobile Innovation Laboratory, Telkom University · Bandung, Indonesia',
-    kind: 'Organization',
-    highlights: [
-      'Terlibat dalam riset solusi berbasis teknologi mobile untuk masalah sosial pada Divisi Digital Business di Fakultas Informatika Telkom University.',
-      'Mengikuti kelompok studi terstruktur untuk memperdalam konsep bisnis digital dan manajemen proyek.',
-      'Mengevaluasi dampak nyata konsep inovasi mobile serta prototipe terapan di lingkungan laboratorium.',
-    ],
-  },
-  {
-    id: 'sdh-student-council',
-    period: 'Sep 2023 - Nov 2024',
-    role: 'Kepala Divisi Hubungan Masyarakat (Public Relations)',
-    organization: 'OSIS Sekolah Dian Harapan Jambi · Jambi, Indonesia',
-    kind: 'Organization',
-    highlights: [
-      'Memimpin divisi Hubungan Masyarakat dalam membangun citra organisasi dan komunikasi eksternal.',
-      'Mengelola strategi konten media sosial untuk meningkatkan keterlibatan siswa dan komunitas sekolah.',
-      'Mengoordinasikan kampanye serta publikasi lintas divisi sembari mengembangkan kepemimpinan, kerja tim, dan kemampuan berbicara di depan umum.',
-    ],
   },
 ];
 
@@ -995,7 +987,6 @@ export function getPortfolioBundle(lang: Language): LocalizedPortfolioBundle {
       certificates: ID_CERTIFICATES,
       experienceLedger: ID_EXPERIENCE_LEDGER,
       experiencePhotos: ID_EXPERIENCE_PHOTOS,
-      organisationalLedger: ID_ORGANISATIONAL_LEDGER,
       educationLedger: ID_EDUCATION_LEDGER,
       capabilityGroups: ID_CAPABILITY_GROUPS,
       ui: ID_UI,
@@ -1011,7 +1002,6 @@ export function getPortfolioBundle(lang: Language): LocalizedPortfolioBundle {
     certificates: CERTIFICATES,
     experienceLedger: EXPERIENCE_LEDGER,
     experiencePhotos: EXPERIENCE_PHOTOS,
-    organisationalLedger: ORGANISATIONAL_LEDGER,
     educationLedger: EDUCATION_LEDGER,
     capabilityGroups: CAPABILITY_GROUPS,
     ui: EN_UI,

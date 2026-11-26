@@ -509,6 +509,18 @@ export const EXPERIENCE_LEDGER: ExperienceItem[] = [
     ],
   },
   {
+    id: 'mobile-innovation-lab',
+    period: 'Oct 2025 - Sep 2026',
+    role: 'Digital Business / Project Manager Internship',
+    organization: 'Mobile Innovation Laboratory, Telkom University · Bandung, Indonesia',
+    kind: 'Organization',
+    highlights: [
+      'Engaged in research on mobile-based solutions to social problems under the Digital Business Division at Telkom University Faculty of Informatics.',
+      'Participated in structured study groups to deepen digital business concepts and project management practices.',
+      'Evaluated the real-world impact of mobile innovation concepts and applied student prototypes.',
+    ],
+  },
+  {
     id: 'ibl-allstars-2026',
     period: 'Apr 2026',
     role: 'IBL All Stars 2026 - Usher Tribune Volunteer',
@@ -530,6 +542,18 @@ export const EXPERIENCE_LEDGER: ExperienceItem[] = [
       'Developed web and mobile applications and designed front-end interfaces using JavaScript and React Native.',
       'Troubleshot back-end issues to support system functionality and assisted in maintaining and optimizing internal logistics systems.',
       'Handled day-to-day computer hardware troubleshooting while gaining practical IT experience in real-world logistics operations.',
+    ],
+  },
+  {
+    id: 'sdh-student-council',
+    period: 'Sep 2023 - Nov 2024',
+    role: 'Head of Public Relations Division',
+    organization: 'Sekolah Dian Harapan Jambi Student Council · Jambi, Indonesia',
+    kind: 'Organization',
+    highlights: [
+      'Led the Public Relations division to strengthen organizational branding and external communications.',
+      'Managed social media content strategy to increase student and wider community engagement.',
+      'Coordinated cross-division campaigns and publicizing activities while developing leadership, teamwork, and public speaking skills.',
     ],
   },
 ];
@@ -590,33 +614,6 @@ export const EXPERIENCE_PHOTOS: ExperiencePhotoItem[] = [
     slotPath: 'public/images/experience/jne.jpg',
     media: EXPERIENCE_MEDIA.jne,
     gallery: EXPERIENCE_GALLERIES.jne,
-  },
-];
-
-export const ORGANISATIONAL_LEDGER: ExperienceItem[] = [
-  {
-    id: 'mobile-innovation-lab',
-    period: 'Oct 2025 - Sep 2026',
-    role: 'Digital Business / Project Manager Internship',
-    organization: 'Mobile Innovation Laboratory, Telkom University · Bandung, Indonesia',
-    kind: 'Organization',
-    highlights: [
-      'Engaged in research on mobile-based solutions to social problems under the Digital Business Division at Telkom University Faculty of Informatics.',
-      'Participated in structured study groups to deepen digital business concepts and project management practices.',
-      'Evaluated the real-world impact of mobile innovation concepts and applied student prototypes.',
-    ],
-  },
-  {
-    id: 'sdh-student-council',
-    period: 'Sep 2023 - Nov 2024',
-    role: 'Head of Public Relations Division',
-    organization: 'Sekolah Dian Harapan Jambi Student Council · Jambi, Indonesia',
-    kind: 'Organization',
-    highlights: [
-      'Led the Public Relations division to strengthen organizational branding and external communications.',
-      'Managed social media content strategy to increase student and wider community engagement.',
-      'Coordinated cross-division campaigns and publicizing activities while developing leadership, teamwork, and public speaking skills.',
-    ],
   },
 ];
 

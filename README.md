@@ -185,8 +185,7 @@ Hapus objek proyek tersebut dari array `PROJECTS` (`src/data/portfolio.ts`) **da
 
 ## 6. Menambah atau Menghapus Pengalaman & Pendidikan (`04 / Experience & Education`)
 
-- **Pengalaman Kerja, Magang & Acara:** edit array `EXPERIENCE_LEDGER` di `src/data/portfolio.ts` dan `ID_EXPERIENCE_LEDGER` di `src/data/i18n.ts`.
-- **Pengalaman Organisasi:** edit array `ORGANISATIONAL_LEDGER` di `src/data/portfolio.ts` dan `ID_ORGANISATIONAL_LEDGER` di `src/data/i18n.ts`.
+- **Pengalaman Kerja, Magang, Acara & Organisasi:** edit array `EXPERIENCE_LEDGER` di `src/data/portfolio.ts` dan `ID_EXPERIENCE_LEDGER` di `src/data/i18n.ts` (gunakan `kind: 'Organization'` untuk pengalaman organisasi).
 - **Pendidikan:** edit array `EDUCATION_LEDGER` di `src/data/portfolio.ts` dan `ID_EDUCATION_LEDGER` di `src/data/i18n.ts`.
 
 Contoh format 1 entri:
